@@ -5,7 +5,50 @@ sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
 
-## Reading the equations
+## How we implement a run
+
+`effluent_v1` version 1.4.0 takes a scenario and returns one result per day for 30, 90 or 180 days. It is an illustrative heuristic: its treatment rules are our implementation assumptions, without supplied site calibration or equation-level study validation.
+
+<Steps>
+<Step>
+### Resolve the scenario inputs
+
+Read assumed influent flow and concentrations, plant capacity, demand change and equipment availability. A supplied demand percentage overrides the low/normal/high setting. The [parameter register](/docs/science/parameters) lists defaults and their source status.
+</Step>
+<Step>
+### Build daily flow and maintenance schedules
+
+Apply a fixed 6% weekly flow wave and scale incoming concentrations with the square root of the demand multiplier:
+
+$$
+Q_i=Q_0 m\left(1+0.06\sin\frac{2\pi i}{7}\right),
+\qquad X_{\mathrm{in},i}=X_0\sqrt m.
+$$
+
+Here $Q_0$ and $Q_i$ are baseline/daily flow in MLD, $m$ is the dimensionless demand multiplier, $i$ starts at day zero, and $X_0$ is the baseline concentration in the constituent's input unit. These scaling rules are heuristic choices. Maintenance reduces the relevant unit's availability over an end-exclusive date window. Weather and rainfall are retained as context only.
+</Step>
+<Step>
+### Update the concentration states
+
+Start from the unscaled assumed influent and carry state between days. Each day repeats the ordered update sequence four times: exchange with incoming concentrations, carbon decay, organic-nitrogen transfer, nitrification and denitrification. Aeration and flow relative to capacity modify those rules. Clarifier availability adjusts the final TSS output.
+</Step>
+<Step>
+### Summarize the outputs
+
+Return daily concentrations, flow, availability, threshold exceedances and [GHG estimates](/docs/science/carbon-accounting). The combined threshold screen counts days with any checked exceedance; it excludes pH. Capacity is clipped to 0–200% before averaging for the summary KPI. Configured/fallback thresholds are screening inputs, not an independent permit assessment.
+</Step>
+</Steps>
+
+## What supports this implementation?
+
+The code is the source for the sequence above. The [parameter register](/docs/science/parameters) identifies unsupported coefficients, and the expandable detail below maps the actual mathematics to pseudocode. We do not attribute these constants to ASM1 or to a paper that did not establish them.
+
+For comparison, [IWA's benchmarking framework](https://iwa-mia.org/benchmarking/) specifies a plant layout, model, influent, test procedure and evaluation criteria. It explains what a reference benchmark entails; this implementation has not been established as that benchmark model. See the [validation pathway](/docs/science/validation) for the evidence still needed.
+
+<Accordions>
+<Accordion title="Full implementation equations and matching pseudocode">
+
+<h2 id="reading-the-equations">Reading the equations</h2>
 
 These equations describe `effluent_v1` version 1.4.0 exactly as implemented. They explain a deterministic heuristic; mathematical notation does not establish calibration or predictive validity. Read the [parameter register](/docs/science/parameters) alongside the equations for coefficient provenance.
 
@@ -22,7 +65,7 @@ These equations describe `effluent_v1` version 1.4.0 exactly as implemented. The
 
 Define $\operatorname{clip}(x,l,u)=\min(\max(x,l),u)$. Numerical constants below are implementation coefficients; they are not independently established physical kinetic parameters. The code blocks are matching pseudocode, not separate scientific models.
 
-## Time and input resolution
+<h2 id="time-and-input-resolution">Time and input resolution</h2>
 
 Horizons are 30, 90 or 180 days, starting at the requested UTC date. Demand percentage takes precedence when supplied: `m = max(0, 1 + demand_change_pct/100)`. Otherwise the model uses a custom truthy multiplier or low/normal/high values 0.85/1/1.25.
 
@@ -52,13 +95,13 @@ utilization(i) = flow(i) / max(hydraulic_capacity(i), 10⁻⁶)
 
 Maintenance applies on `start_date ≤ day < start_date + duration_days` and lowers the unit's availability to the minimum active event/baseline value. Weather and rainfall are stored but do not drive these equations.
 
-## Four bounded surrogate updates
+<h2 id="four-bounded-surrogate-updates">Four bounded surrogate updates</h2>
 
 Initial concentrations use the **unscaled** assumed influent: nonnegative BOD, COD, TSS and ammonia; organic nitrogen is `max(TKN − ammonia, 0)`. Nitrate starts at zero and nitrification activity `A` at one. Daily incoming concentrations are multiplied by `sqrt(m)`.
 
 For each day, `a` and `c` are aeration and clarifier availability fractions. Let `h = max(utilization, 0)`, `o = 1/(1 + max(h − 1, 0))`, `e = min(h, 4)` and `dt = 0.25`. Apply the following sequence four times per day; each expression uses the state updated by preceding lines.
 
-### Initialization and hydraulic modifiers
+<h3 id="initialization-and-hydraulic-modifiers">Initialization and hydraulic modifiers</h3>
 
 $$
 \begin{aligned}
@@ -71,7 +114,7 @@ $$
 
 The first maximum is componentwise. States begin at the unscaled baseline and carry forward between days. $e_i$ controls exchange with incoming concentrations; $o_i$ reduces the subsequent transformations above capacity. Neither is a hydraulic residence time.
 
-### Ordered substep equations
+<h3 id="ordered-substep-equations">Ordered substep equations</h3>
 
 The arrows below are assignments: **each line uses the values left by all previous lines**. Repeat the sequence four times for each day. For $X\in\{B,C,S,H,O\}$, first update activity, exchange and carbon decay:
 
@@ -131,7 +174,7 @@ BOD = max(BOD − 0.25 × denitrified, 0)
 
 After each substep, clamp every concentration and activity to at least zero, and cap activity at one. The daily overload term used below is `clip(utilization − 1, 0, 1)`. BOD, COD, ammonia and nitrate outputs are the final states; TSS receives the clarifier adjustment below.
 
-## Derived outputs and screens
+<h2 id="derived-outputs-and-screens">Derived outputs and screens</h2>
 
 Let $v_i=\operatorname{clip}(u_i-1,0,1)$ be the daily overload fraction. At the end of the fourth substep:
 
@@ -155,7 +198,7 @@ pH = 7.2 − 0.30 × (1 − aeration_fraction)
 
 Daily exceedance is output greater than its configured/fallback limit. The combined screen counts days where any checked metric exceeds its limit; pH is skipped in that KPI loop. Fallback values are BOD 50, COD 200, TSS 100 mg/L. The combined percentage is `100 × (1 − mean(daily_any_exceedance))`. For capacity utilization, clip **each daily ratio** to [0, 2] before taking the mean, multiply by 100 and round to one decimal. This screen does not represent an uncapped physical capacity measurement.
 
-### Screening and capacity summaries
+<h3 id="screening-and-capacity-summaries">Screening and capacity summaries</h3>
 
 For configured checked metrics $\mathcal M$ (excluding pH in the combined KPI), define the daily indicator $z_i$ using the strict greater-than comparison:
 
@@ -174,5 +217,9 @@ $$
 $Y_{ij}$ is output metric $j$ on day $i$; $L_j$ is its configured or fallback threshold in the same unit. Equality to a threshold is not an exceedance. The combined percentage counts days passing every checked threshold, rather than averaging individual metric percentages. Capacity is clipped **before averaging**; daily capacity-series values can still exceed 200%. Both percentage KPIs are rounded to one decimal in the returned result. A screening pass is not evidence of permit compliance.
 
 <Callout type="warn" title="These are implementation equations, not validated process laws">The states are concentration surrogates, not ASM1 stoichiometric states or a reactor mass balance. MLD capacity is not reactor volume/HRT. The coefficients, weekly waveform and derived formulas have no supplied site calibration or independent validation; do not assign physical rate units/transferability without supporting evidence.</Callout>
+
+
+</Accordion>
+</Accordions>
 
 <SourceLinks paths={["packages/simulation/wwtp_sim/models/effluent_v1.py", "packages/simulation/wwtp_sim/domain.py", "docs/science/SIMULATION_EVIDENCE_AUDIT.md"]} />
