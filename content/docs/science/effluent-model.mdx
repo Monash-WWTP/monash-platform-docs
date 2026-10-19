@@ -5,9 +5,42 @@ sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
 
+## Reading the equations
+
+These equations describe `effluent_v1` version 1.4.0 exactly as implemented. They explain a deterministic heuristic; mathematical notation does not establish calibration or predictive validity. Read the [parameter register](/docs/science/parameters) alongside the equations for coefficient provenance.
+
+| Symbol | Meaning | Unit / interpretation |
+|---|---|---|
+| $i$, $n$ | Day index (starting at zero), horizon length | $n$ is 30, 90 or 180 days |
+| $m$, $w_i$ | Demand multiplier, weekly modulation | Dimensionless |
+| $Q_0$, $Q_i$, $K$ | Assumed baseline flow, daily flow, configured capacity | MLD (million litres/day) |
+| $a_i$, $p_i$, $c_i$ | Aeration, pump, clarifier availability | Fractions from 0 to 1 |
+| $B$, $C$, $S$ | BOD₅, COD, TSS surrogate states | mg/L |
+| $H$, $O$, $R$ | Ammonia, organic nitrogen, nitrate surrogate states | Nitrogen concentration convention of the input/output; mg N/L |
+| $A$ | Nitrification activity | Dimensionless, bounded to [0, 1] |
+| $\Delta t$ | Numerical substep | 0.25 of a day; four updates per day |
+
+Define $\operatorname{clip}(x,l,u)=\min(\max(x,l),u)$. Numerical constants below are implementation coefficients; they are not independently established physical kinetic parameters. The code blocks are matching pseudocode, not separate scientific models.
+
 ## Time and input resolution
 
 Horizons are 30, 90 or 180 days, starting at the requested UTC date. Demand percentage takes precedence when supplied: `m = max(0, 1 + demand_change_pct/100)`. Otherwise the model uses a custom truthy multiplier or low/normal/high values 0.85/1/1.25.
+
+The requested demand change $d$ is a percentage. When present it takes precedence over other demand settings:
+
+$$
+m=\max\left(0,1+\frac{d}{100}\right),\qquad
+w_i=1+0.06\sin\left(\frac{2\pi i}{7}\right).
+$$
+
+$$
+\begin{aligned}
+Q_i &= Q_0 m w_i, & X_{\mathrm{in},i}&=X_0\sqrt m,\\
+K_i &= Kp_i, & u_i&=\frac{Q_i}{\max(K_i,10^{-6})}.
+\end{aligned}
+$$
+
+Here $X_0$ is the assumed baseline concentration for each incoming constituent. The weekly wave affects flow only; the square root affects concentrations. The small denominator floor prevents division by zero and does not imply usable capacity when pumps are unavailable.
 
 ```text
 weekly(i) = 1 + 0.06 × sin(2πi/7)
@@ -24,6 +57,59 @@ Maintenance applies on `start_date ≤ day < start_date + duration_days` and low
 Initial concentrations use the **unscaled** assumed influent: nonnegative BOD, COD, TSS and ammonia; organic nitrogen is `max(TKN − ammonia, 0)`. Nitrate starts at zero and nitrification activity `A` at one. Daily incoming concentrations are multiplied by `sqrt(m)`.
 
 For each day, `a` and `c` are aeration and clarifier availability fractions. Let `h = max(utilization, 0)`, `o = 1/(1 + max(h − 1, 0))`, `e = min(h, 4)` and `dt = 0.25`. Apply the following sequence four times per day; each expression uses the state updated by preceding lines.
+
+### Initialization and hydraulic modifiers
+
+$$
+\begin{aligned}
+(B,C,S,H)_0 &= \max\bigl((B,C,S,H)_{\mathrm{assumed}},0\bigr),\\
+O_0 &= \max(\mathrm{TKN}_0-H_0,0), & R_0&=0, & A_0&=1,\\
+h_i&=\max(u_i,0), & e_i&=\min(h_i,4),\\
+o_i&=\frac{1}{1+\max(h_i-1,0)}.
+\end{aligned}
+$$
+
+The first maximum is componentwise. States begin at the unscaled baseline and carry forward between days. $e_i$ controls exchange with incoming concentrations; $o_i$ reduces the subsequent transformations above capacity. Neither is a hydraulic residence time.
+
+### Ordered substep equations
+
+The arrows below are assignments: **each line uses the values left by all previous lines**. Repeat the sequence four times for each day. For $X\in\{B,C,S,H,O\}$, first update activity, exchange and carbon decay:
+
+$$
+\begin{aligned}
+A &\leftarrow A+0.45\Delta t(a_i-A),\\
+X &\leftarrow X+\Delta t\,e_i(X_{\mathrm{in},i}-X),\\
+R &\leftarrow R-\Delta t\,e_iR,\\
+B &\leftarrow B\exp[-\Delta t(7a_i+0.2)o_i],\\
+C &\leftarrow C\exp[-\Delta t(4a_i+0.2)o_i].
+\end{aligned}
+$$
+
+Next transfer organic nitrogen into ammonia, then ammonia into the nitrate surrogate. $M$ and $J$ are temporary transferred amounts, not extra persistent states:
+
+$$
+\begin{aligned}
+M &= O\bigl(1-\exp[-0.3\Delta t\,o_i]\bigr),\\
+O &\leftarrow O-M, & H&\leftarrow H+M,\\
+J &= H\bigl(1-\exp[-2.5\Delta t\,A o_i]\bigr),\\
+H &\leftarrow H-J, & R&\leftarrow R+0.85J.
+\end{aligned}
+$$
+
+Finally calculate the bounded denitrification surrogate $D$ using the updated BOD and nitrate:
+
+$$
+f_B=\min\left(\frac{B}{\max(B_{\mathrm{in},i},1)},1\right),
+$$
+
+$$
+\begin{aligned}
+D &= \min\left(R,\Delta t\,0.8(1-0.4a_i)o_iR f_B\right),\\
+R &\leftarrow R-D, & B&\leftarrow\max(B-0.25D,0).
+\end{aligned}
+$$
+
+Afterward, replace each concentration with its maximum with zero and clip $A$ to [0, 1]. The nitrate yield 0.85 and BOD consumption 0.25 are heuristic choices; these updates do not establish nitrogen or carbon mass conservation.
 
 ```text
 A += dt × 0.45 × (a − A)
@@ -47,6 +133,19 @@ After each substep, clamp every concentration and activity to at least zero, and
 
 ## Derived outputs and screens
 
+Let $v_i=\operatorname{clip}(u_i-1,0,1)$ be the daily overload fraction. At the end of the fourth substep:
+
+$$
+\begin{aligned}
+S_{\mathrm{out},i}&=S_i(1-0.95c_i),\\
+P_{\mathrm{out},i}&=\max\bigl(4.5(1-0.75c_i)+0.8+1.5v_i,0.3\bigr),\\
+T_i&=\max(0.55S_{\mathrm{out},i}+1,0.5),\\
+\mathrm{pH}_i&=7.2-0.30(1-a_i).
+\end{aligned}
+$$
+
+TSS and phosphorus outputs use mg/L, turbidity $T_i$ is reported in NTU, and pH is dimensionless. These are algebraic output mappings with implicit coefficient units, not independently validated conversion laws. The remaining reported concentrations are their final surrogate states.
+
 ```text
 TSS_out = TSS_state × (1 − 0.95 × clarifier_fraction)
 P_out = max(4.5 × (1 − 0.75 × clarifier_fraction) + 0.8 + 1.5 × overload, 0.3)
@@ -55,6 +154,24 @@ pH = 7.2 − 0.30 × (1 − aeration_fraction)
 ```
 
 Daily exceedance is output greater than its configured/fallback limit. The combined screen counts days where any checked metric exceeds its limit; pH is skipped in that KPI loop. Fallback values are BOD 50, COD 200, TSS 100 mg/L. The combined percentage is `100 × (1 − mean(daily_any_exceedance))`. For capacity utilization, clip **each daily ratio** to [0, 2] before taking the mean, multiply by 100 and round to one decimal. This screen does not represent an uncapped physical capacity measurement.
+
+### Screening and capacity summaries
+
+For configured checked metrics $\mathcal M$ (excluding pH in the combined KPI), define the daily indicator $z_i$ using the strict greater-than comparison:
+
+$$
+z_i=\mathbf{1}\!\left[\exists j\in\mathcal M:\ Y_{ij}>L_j\right].
+$$
+
+$$
+\begin{aligned}
+N_{\mathrm{exceed}}&=\sum_{i=0}^{n-1}z_i,\\
+S_{\mathrm{screen}}&=100\left(1-\frac{1}{n}\sum_{i=0}^{n-1}z_i\right),\\
+U_{\mathrm{summary}}&=\frac{100}{n}\sum_{i=0}^{n-1}\operatorname{clip}(u_i,0,2).
+\end{aligned}
+$$
+
+$Y_{ij}$ is output metric $j$ on day $i$; $L_j$ is its configured or fallback threshold in the same unit. Equality to a threshold is not an exceedance. The combined percentage counts days passing every checked threshold, rather than averaging individual metric percentages. Capacity is clipped **before averaging**; daily capacity-series values can still exceed 200%. Both percentage KPIs are rounded to one decimal in the returned result. A screening pass is not evidence of permit compliance.
 
 <Callout type="warn" title="These are implementation equations, not validated process laws">The states are concentration surrogates, not ASM1 stoichiometric states or a reactor mass balance. MLD capacity is not reactor volume/HRT. The coefficients, weekly waveform and derived formulas have no supplied site calibration or independent validation; do not assign physical rate units/transferability without supporting evidence.</Callout>
 
