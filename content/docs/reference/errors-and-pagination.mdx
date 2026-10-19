@@ -35,6 +35,6 @@ curl --fail 'http://127.0.0.1:8181/api/v1/monitoring/stations?offset=0&limit=100
 
 ## Retry boundaries
 
-Report submission uses an owner-scoped `Idempotency-Key` of8–128 characters and identical content for a retry. Reusing it with changed content returns409. A model replay creates a new historical run; it is not the same kind of idempotent write. Read retries do not authorize repeating private/privileged mutations.
+Report submission uses an owner-scoped `Idempotency-Key` of8–128 characters and identical content for a retry. Reusing it with changed content returns 409. A model replay creates a new historical run; it is not the same kind of idempotent write. Read retries do not authorize repeating private/privileged mutations.
 
 <SourceLinks paths={["services/api/app/http/errors.py", "services/api/app/http/limits.py", "services/api/app/routers/monitoring.py", "services/api/app/routers/reports.py"]} />

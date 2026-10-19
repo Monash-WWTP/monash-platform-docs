@@ -30,3 +30,9 @@ The preview uses HTTP: clipboard writes require a secure context and were not ac
 Generated examples are illustrative, not observed outputs; only the three reviewed report/moderation payloads have domain-validator acceptance. Synthetic IDs do not establish valid database references. Untyped upstream responses remain untyped.
 
 First GitHub run caught ESLint traversing the temporary evidence checkout. CI now removes that disposable checkout after verification and ESLint explicitly excludes it.
+
+## Follow-up integration audit — 2026-10-19
+
+The source baseline still matches platform origin/main e6437c4 at audit start. Corrected carbon-accounting unit/prose spacing and strengthened citation validation tests (7 now pass). Added a reciprocal Platform navigation link to the verified public landing page. The native troubleshooting Accordion was opened and its actual content/expanded state confirmed in the browser.
+
+User approved a separate Vercel docs deployment. A newly created `monash-platform-docs` project was discovered and reused; no second docs project is created. Node is pinned to 22.x to match CI. The earlier no-hosting scope is superseded by this explicit approval. Platform entry-point changes and README reconciliation are tracked separately in the platform repository.

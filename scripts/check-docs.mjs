@@ -1,7 +1,7 @@
 import { readFile,readdir } from 'node:fs/promises';
 import { join,relative } from 'node:path';
 import { parse } from 'yaml';
-import { parseDocument,validateLinks } from './links.mjs';
+import { parseDocument,validateLinks,validateSourceLinks } from './links.mjs';
 import { validateCoverage } from './content-contract.mjs';
 export async function filesIn(dir){const out=[];for(const entry of await readdir(dir,{withFileTypes:true})){const path=join(dir,entry.name);if(entry.isDirectory())out.push(...await filesIn(path));else out.push(path);}return out;}
 const root='content/docs',files=await filesIn(root),pages=new Map(),errors=[];
@@ -20,7 +20,7 @@ for(const file of files.filter(f=>f.endsWith('.mdx'))){
 for(const [slug,doc]of [...pages])if(slug.endsWith('/index'))pages.set(slug.slice(0,-6),doc);
 errors.push(...validateLinks(pages));
 const coverage=JSON.parse(await readFile('content/coverage.json','utf8'));
-for(const [slug,doc]of pages){const evidence=coverage.find(entry=>(entry.page===slug||entry.page===`${slug}/index`))?.evidence??[];for(const path of doc.sourcePaths){if(!platform.files[path])errors.push(`${slug}: unknown source path ${path}`);if(!evidence.includes(path))errors.push(`${slug}: source path absent from coverage ${path}`);}}
+errors.push(...validateSourceLinks(pages,coverage,platform.files));
 errors.push(...validateCoverage(coverage,new Set(pages.keys()),new Set(Object.keys(platform.files))));
 for(const file of files.filter(f=>f.endsWith('meta.json'))){
  const meta=JSON.parse(await readFile(file,'utf8'));
