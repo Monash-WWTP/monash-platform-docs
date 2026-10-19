@@ -7,6 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Monash-WWTP/monash-platform
+          ref: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+          path: .platform-source
+      - uses: astral-sh/setup-uv@v6
+      - run: python3 scripts/check-source.py --source .platform-source
+      - run: PYTHONPATH=services/api uv run --locked python "$GITHUB_WORKSPACE/scripts/check-examples.py"
+        working-directory: .platform-source
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

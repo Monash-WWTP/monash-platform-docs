@@ -1,0 +1,35 @@
+{
+  "ReportInput": {
+    "category": "rainfall",
+    "reading_value": 12.5,
+    "reading_unit": "mm",
+    "condition": null,
+    "note": "Synthetic documentation example",
+    "latitude": 3.1,
+    "longitude": 101.6,
+    "location_accuracy_m": 5,
+    "station_code": null,
+    "media_id": null,
+    "observed_at": "2025-01-01T00:00:00Z"
+  },
+  "ReportView": {
+    "category": "rainfall",
+    "reading_value": 12.5,
+    "reading_unit": "mm",
+    "condition": null,
+    "note": "Synthetic documentation example",
+    "latitude": 3.1,
+    "longitude": 101.6,
+    "location_accuracy_m": 5,
+    "station_code": null,
+    "media_id": null,
+    "observed_at": "2025-01-01T00:00:00Z",
+    "id": "synthetic-report-001",
+    "moderation_status": "pending",
+    "created_at": "2025-01-01T00:00:01Z"
+  },
+  "ModerationInput": {
+    "status": "approved",
+    "reason": "Synthetic review example"
+  }
+}

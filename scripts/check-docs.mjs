@@ -20,6 +20,7 @@ for(const file of files.filter(f=>f.endsWith('.mdx'))){
 for(const [slug,doc]of [...pages])if(slug.endsWith('/index'))pages.set(slug.slice(0,-6),doc);
 errors.push(...validateLinks(pages));
 const coverage=JSON.parse(await readFile('content/coverage.json','utf8'));
+for(const [slug,doc]of pages){const evidence=coverage.find(entry=>(entry.page===slug||entry.page===`${slug}/index`))?.evidence??[];for(const path of doc.sourcePaths){if(!platform.files[path])errors.push(`${slug}: unknown source path ${path}`);if(!evidence.includes(path))errors.push(`${slug}: source path absent from coverage ${path}`);}}
 errors.push(...validateCoverage(coverage,new Set(pages.keys()),new Set(Object.keys(platform.files))));
 for(const file of files.filter(f=>f.endsWith('meta.json'))){
  const meta=JSON.parse(await readFile(file,'utf8'));

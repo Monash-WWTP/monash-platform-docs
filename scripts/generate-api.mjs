@@ -1,3 +1,4 @@
+import { documentedSchema } from '../lib/documented-schema.mjs';
 import { createOpenAPI } from 'fumadocs-openapi/server';
 import { generateFilesOnly } from 'fumadocs-openapi';
 import { readFile, writeFile, mkdir, readdir, rm } from 'node:fs/promises';
@@ -5,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { schemaDigest, operations } from './api-contract.mjs';
 const schema=JSON.parse(await readFile('reference/openapi.json','utf8'));
 const platform=JSON.parse(await readFile('reference/platform.json','utf8'));
-const api=createOpenAPI({input:{platform:{...schema,servers:[{url:'http://127.0.0.1:8181',description:'Synthetic local development only'}]}}});
+const api=createOpenAPI({input:{platform:documentedSchema(schema)}});
 const files=await generateFilesOnly({input:api,per:'operation',groupBy:'tag',includeDescription:true,addGeneratedComment:true,
  frontmatter:(title,description)=>({title,description:description??'Request, response and schema reference.',sourceRevision:platform.revision,lastVerified:platform.verifiedDate,full:true}),
 });

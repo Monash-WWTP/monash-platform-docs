@@ -13,3 +13,8 @@ test('code examples are not mistaken for navigation and repeated heading IDs rem
  assert.deepEqual([...doc.anchors],['retry','retry-1']);
  assert.deepEqual(validateLinks(new Map([['index',doc]])),[]);
 });
+
+test('rendered SourceLinks evidence is part of validation, not only literal anchors',()=>{
+ const doc=parseDocument('<SourceLinks paths={["does/not/exist.py"]} />');
+ assert.deepEqual(doc.sourcePaths,['does/not/exist.py']);
+});

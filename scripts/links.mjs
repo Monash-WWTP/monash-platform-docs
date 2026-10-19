@@ -5,14 +5,15 @@ import { visit } from 'unist-util-visit';
 import GithubSlugger from 'github-slugger';
 export function parseDocument(body) {
  const tree=unified().use(remarkParse).use(remarkMdx).parse(body);
- const links=[],anchors=new Set(),slugger=new GithubSlugger();
+ const sourcePaths=[],links=[],anchors=new Set(),slugger=new GithubSlugger();
  const text=node=>node.value??node.children?.map(text).join('')??'';
  visit(tree,node=>{
+  if(node.name==='SourceLinks'){const attr=node.attributes?.find(a=>a.name==='paths');const paths=JSON.parse(attr?.value?.value??'null');if(!Array.isArray(paths)||paths.some(p=>typeof p!=='string'))throw Error('SourceLinks requires a literal string array');sourcePaths.push(...paths);}
   if(node.type==='heading')anchors.add(slugger.slug(text(node)));
   if(node.type==='link'||node.type==='image')links.push(node.url);
   if(node.type==='mdxJsxFlowElement'||node.type==='mdxJsxTextElement')for(const attr of node.attributes??[])if(['href','src'].includes(attr.name)&&typeof attr.value==='string')links.push(attr.value);
  });
- return {links,anchors};
+ return {links,anchors,sourcePaths};
 }
 export function validateLinks(pages){
  const errors=[];

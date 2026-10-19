@@ -21,9 +21,9 @@ lastVerified: 2026-10-19
 
 Do not swap a wastewater condition for a numerical measurement. Notes are optional and limited to 2,000 characters.
 </Step><Step>
-### Confirm location and observation time
+### Allow automatic location capture
 
-Allow location access, inspect the location and accuracy, and confirm what you actually observed. The API bounds latitude/longitude and requires a timezone; observation times more than five minutes into the future are rejected. Permission denial or unavailable GPS must be resolved before a valid submission.
+Allow location access. The form captures location automatically and offers Retry if capture fails; it does not show editable coordinates, accuracy or observation time. It timestamps the report when you submit, so this form does not support entering a retrospective observation time. Resolve permission denial or unavailable GPS before submission. The API separately bounds coordinates, requires a timezone and rejects times more than five minutes into the future.
 </Step><Step>
 ### Attach a photo if appropriate
 

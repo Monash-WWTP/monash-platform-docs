@@ -7,7 +7,7 @@ lastVerified: 2026-10-19
 
 ## Time and input resolution
 
-Horizons are30,90 or180 days, starting at the requested UTC date. Demand percentage takes precedence when supplied: `m = max(0, 1 + demand_change_pct/100)`. Otherwise the model uses a custom truthy multiplier or low/normal/high values0.85/1/1.25.
+Horizons are 30, 90 or 180 days, starting at the requested UTC date. Demand percentage takes precedence when supplied: `m = max(0, 1 + demand_change_pct/100)`. Otherwise the model uses a custom truthy multiplier or low/normal/high values 0.85/1/1.25.
 
 ```text
 weekly(i) = 1 + 0.06 × sin(2πi/7)
@@ -21,9 +21,29 @@ Maintenance applies on `start_date ≤ day < start_date + duration_days` and low
 
 ## Four bounded surrogate updates
 
-For each day, let `a` be aeration fraction, `h` the nonnegative hydraulic ratio, `o = 1/(1+max(h−1,0))`, `e=min(h,4)` and `dt=0.25` day. Four updates move BOD/COD/TSS/ammonia/organic nitrogen toward their assumed influent with `state += dt × e × (incoming−state)`. Nitrate is exchanged toward zero. Nitrification activity relaxes toward aeration using coefficient0.45.
+Initial concentrations use the **unscaled** assumed influent: nonnegative BOD, COD, TSS and ammonia; organic nitrogen is `max(TKN − ammonia, 0)`. Nitrate starts at zero and nitrification activity `A` at one. Daily incoming concentrations are multiplied by `sqrt(m)`.
 
-BOD decays by `exp(−dt × (7a+0.2) × o)`; COD uses `(4a+0.2)`. Organic nitrogen mineralization uses0.3. Ammonia nitrification uses2.5 times activity and overload factor, with0.85 nitrate yield. Denitrification is bounded by available nitrate and a carbon-dependent expression using0.8/0.4; BOD decreases by0.25 times the denitrified amount. States are nonnegative and activity is capped at1.
+For each day, `a` and `c` are aeration and clarifier availability fractions. Let `h = max(utilization, 0)`, `o = 1/(1 + max(h − 1, 0))`, `e = min(h, 4)` and `dt = 0.25`. Apply the following sequence four times per day; each expression uses the state updated by preceding lines.
+
+```text
+A += dt × 0.45 × (a − A)
+X += dt × e × (X_in − X)    # each of BOD, COD, TSS, ammonia, organic N
+nitrate += dt × e × (−nitrate)
+BOD *= exp(−dt × (7a + 0.2) × o)
+COD *= exp(−dt × (4a + 0.2) × o)
+mineralized = organic_N × (1 − exp(−dt × 0.3 × o))
+organic_N -= mineralized
+ammonia += mineralized
+nitrified = ammonia × (1 − exp(−dt × 2.5 × A × o))
+ammonia -= nitrified
+nitrate += 0.85 × nitrified
+denitrified = min(nitrate,
+  dt × 0.8 × (1 − 0.4a) × o × nitrate × min(BOD / max(BOD_in, 1), 1))
+nitrate -= denitrified
+BOD = max(BOD − 0.25 × denitrified, 0)
+```
+
+After each substep, clamp every concentration and activity to at least zero, and cap activity at one. The daily overload term used below is `clip(utilization − 1, 0, 1)`. BOD, COD, ammonia and nitrate outputs are the final states; TSS receives the clarifier adjustment below.
 
 ## Derived outputs and screens
 
@@ -34,7 +54,7 @@ turbidity = max(0.55 × TSS_out + 1, 0.5)
 pH = 7.2 − 0.30 × (1 − aeration_fraction)
 ```
 
-Daily exceedance is output greater than its configured/fallback limit. The combined screen counts days where any checked metric exceeds its limit; pH is skipped in that KPI loop. Fallback values are BOD50, COD200, TSS100mg/L. Mean capacity utilization is capped at200% in its KPI, so the KPI is not an uncapped physical capacity measurement.
+Daily exceedance is output greater than its configured/fallback limit. The combined screen counts days where any checked metric exceeds its limit; pH is skipped in that KPI loop. Fallback values are BOD 50, COD 200, TSS 100 mg/L. The combined percentage is `100 × (1 − mean(daily_any_exceedance))`. For capacity utilization, clip **each daily ratio** to [0, 2] before taking the mean, multiply by 100 and round to one decimal. This screen does not represent an uncapped physical capacity measurement.
 
 <Callout type="warn" title="These are implementation equations, not validated process laws">The states are concentration surrogates, not ASM1 stoichiometric states or a reactor mass balance. MLD capacity is not reactor volume/HRT. The coefficients, weekly waveform and derived formulas have no supplied site calibration or independent validation; do not assign physical rate units/transferability without supporting evidence.</Callout>
 
