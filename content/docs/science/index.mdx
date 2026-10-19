@@ -1,0 +1,18 @@
+---
+title: "Scientific methods and limits"
+description: "Read the model as an inspectable research heuristic, not a validated plant twin."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+<Callout type="warn" title="Decision use is prohibited">effluent_v1 version1.4.0 is illustrative and unvalidated. Do not use its outputs for plant control, permit compliance, regulatory reporting or certified emissions inventories. The unsupported3D twin has been removed.</Callout>
+
+<Cards><Card title="Effluent logic" href="/docs/science/effluent-model">Daily/substep equations and implemented assumptions.</Card><Card title="Carbon accounting" href="/docs/science/carbon-accounting">BOD₅/TKN factors, recovery, units and GWP convention.</Card><Card title="Parameter register" href="/docs/science/parameters">Defaults, coefficients, source status and boundaries.</Card><Card title="Validation pathway" href="/docs/science/validation">What evidence would be needed for scientific acceptance.</Card></Cards>
+
+## What rigor means here
+
+Rigor means exposing the actual algorithm and unresolved evidence, not adding citations to make unsupported predictions appear authoritative. Generic accounting factors have traceable guideline entries; empirical effluent coefficients lack equation-level provenance and site calibration. The existing source audit is a claim-by-claim fact check, not a systematic review or independent model approval.
+
+Every synthetic example in this manual describes arithmetic/software behavior. A successful regression test establishes that behavior, not the validity of its environmental interpretation.
+
+<SourceLinks paths={["docs/science/VALIDATION.md", "docs/science/SIMULATION_EVIDENCE_AUDIT.md"]} />

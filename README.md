@@ -1,47 +1,61 @@
-# monash-platform-docs
+# Monash Water documentation
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+A separate Fumadocs manual for CitizenFlood, monitoring, research scenarios, the shared API and release operations. The documentation describes platform source revision **e6437c4**, while distinguishing published legacy clients and pending production/scientific acceptance.
 
-It is a Next.js app with [Static Export](https://nextjs.org/docs/app/guides/static-exports) configured.
+## Read locally
 
-Run development server:
+Requires Node22/npm. Python3 is needed only for the optional static preview and source-verification helper.
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-pnpm dev
-# or
-yarn dev
 ```
 
-Open http://localhost:3000 with your browser to see the result.
+Open the URL printed by Next.js. To inspect the actual static output:
 
-## Explore
+```sh
+npm run build
+npm start
+```
 
-In the project, you can see:
+The static preview is http://127.0.0.1:3030. Host `out/` with directory-index support. This site needs no platform API, identity service or secrets. No hosting target is automatically configured.
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `lib/layout.shared.tsx`: Shared options for layouts, optional but preferred to keep.
+## What is documented
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
+- Role-specific citizen, operator, Android and local-development setup.
+- Monitoring/BDL, community observations, reporting/photos, moderation, scenarios, explicit-reference comparisons and publishing.
+- Architecture, identity/capabilities/CSRF, private media lifecycle, migrations and run provenance.
+- Actual model equations, input/coefficient register, GHG arithmetic/source ambiguities and scientific-validation requirements.
+- All34 checked-in OpenAPI operations, generated through native Fumadocs OpenAPI components with live execution disabled.
+- Configuration, deployment boundaries, readiness, backup/restore, incidents, release/rollback and open acceptance gates.
 
-### Fumadocs MDX
+The landing/manual use native Fumadocs HomeLayout, DocsLayout, Cards, Steps, Tabs, Callouts, Accordions, file trees, code blocks, search and table of contents.
 
-Collections are defined with the [Macro API](https://fumadocs.dev/docs/mdx/macro) in `lib/source.ts`.
+## Verify and update
 
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
+```sh
+npm test
+npm run check:docs
+npm run typecheck
+npm run lint
+npm run build
+npm audit --audit-level=high
+```
 
-## Learn More
+`content/coverage.json` maps workflows to pages and evidence. `reference/platform.json` pins source file identities; `reference/openapi.json` is byte-identical to that platform revision. Pages carry source revision/review date and source evidence. Generated API files must not be edited by hand.
 
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
+To update the baseline deliberately:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.dev) - learn about Fumadocs
+```sh
+python3 scripts/sync-platform.py --source /path/to/platform --revision FULL_REVIEWED_SHA --date YYYY-MM-DD
+# Review changed behavior, prose, evidence and frontmatter before proceeding.
+npm run generate:api
+npm run check:docs
+python3 scripts/check-source.py --source /path/to/platform
+```
+
+The platform checkout is read-only to these helpers. No restricted export, secret or production credential is copied. See `project/VERIFICATION.md` for actual checks and limitations and `project/PLAN.md` for implementation scope.
+
+## Origins and rights
+
+Scaffolded with official `create-fumadocs-app`16.2.22 (`+next+fuma-docs-mdx+static`). The upstream UI package aliases `@fumadocs/base-ui`; it is not a separately invented component system. See `NOTICE.md` and the font's OFL notice. No institutional endorsement or blanket software/data distribution permission is inferred.

@@ -1,0 +1,40 @@
+---
+title: "Errors, pagination and retries"
+description: "Read structured responses without losing ownership and idempotency semantics."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+## Error envelope
+
+Most API errors use a code, message, request ID and optional details:
+
+```json
+{"error":{"code":"incompatible_runs","message":"Choose distinct runs for comparison.","request_id":"synthetic-example","details":null}}
+```
+
+| Status | Typical interpretation | Next action |
+|---|---|---|
+| 401 | Missing/invalid/expired/revoked session | Sign in through the approved flow |
+| 403 | Capability/MFA/CSRF/origin failure | Resolve approved access/configuration; do not bypass checks |
+| 404 | Missing or undisclosed resource | Check owned ID/environment; do not infer another user's resource |
+| 409 | Idempotency conflict, already reviewed or unavailable historical inputs | Reconcile saved state before changing content/retrying |
+| 413 | Request/photo too large | Use supported size; body and photo limits differ |
+| 422 | Validation or incompatible comparison | Correct inputs or choose compatible runs |
+| 503 | Dependency unavailable | Retry appropriately after service/configuration recovery |
+
+Some historical/low-level failure paths have narrower envelopes; the request-size limiter does not populate the full request-ID envelope. Corrupted stored simulation containers can currently return a generic500. Treat the schema plus runtime error handling as evidence, not a promise every exceptional path is identical.
+
+## Paginated reads
+
+Monitoring/report/community pages use `items`, `total`, `offset`, `limit`. Defaults are usually100 and accepted limit is1–500; check the endpoint reference. Continue by offset until returned items cover total or the page is empty. Plants/scenarios/runs use their own response shapes; do not impose a page envelope on every route.
+
+```sh
+curl --fail 'http://127.0.0.1:8181/api/v1/monitoring/stations?offset=0&limit=100'
+```
+
+## Retry boundaries
+
+Report submission uses an owner-scoped `Idempotency-Key` of8–128 characters and identical content for a retry. Reusing it with changed content returns409. A model replay creates a new historical run; it is not the same kind of idempotent write. Read retries do not authorize repeating private/privileged mutations.
+
+<SourceLinks paths={["services/api/app/http/errors.py", "services/api/app/http/limits.py", "services/api/app/routers/monitoring.py", "services/api/app/routers/reports.py"]} />

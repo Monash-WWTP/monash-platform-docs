@@ -1,0 +1,26 @@
+---
+title: "Current state and availability"
+description: "Separate implemented source, published artifacts and verified environment behavior."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+This manual documents source **e6437c4**, reviewed on **19 October 2026**. Hosting can change after that date. No table entry is a live uptime guarantee.
+
+| Surface | What exists | What is still pending |
+|---|---|---|
+| Web source | Monitoring-first UI, public routes, research sandbox and versioned API client | Intended production API routing and full integration acceptance |
+| Published CitizenFlood 1.0.0 | Signed legacy-backend APK, versionCode 2 | New shared-API signed release and physical-device upgrade acceptance |
+| Native source | OIDC/PKCE, shared API reporting and secure credential storage | Public shared identity, integrated photo/retry and signed-device qualification |
+| Shared backend | API-owned PostgreSQL, identity, media, moderation, monitoring, runs | Production infrastructure, recovery and cutover acceptance |
+| Scientific model | effluent_v1 1.4.0, deterministic illustrative outputs | Calibration, independent validation and uncertainty assessment |
+
+<Callout type="warn" title="Do not treat account entry as an available public service">The public account pages disclose shared-account availability rather than collecting credentials. An operator needs an environment with configured identity, an invitation/capability and MFA.</Callout>
+
+## Verification scope
+
+The merged implementation passed 34 frontend tests and 111 Python tests locally, with one legacy-source-checkout verification skipped. GitHub also passed API, dashboard, Android and inventory checks. These establish software checks, not successful production login, storage recovery or scientific validity.
+
+The last recorded staging inspection found private storage unavailable because its configuration mount referred to a former worktree. Current recovery ownership/targets, production routing and integrated acceptance remain open. See [release gates](/docs/operations/release-gates).
+
+<SourceLinks paths={["docs/operations/staging-acceptance-2026-10-18.md", "docs/operations/android-release-1.0.0.json", "docs/science/VALIDATION.md"]} />

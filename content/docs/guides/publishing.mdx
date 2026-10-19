@@ -1,0 +1,32 @@
+---
+title: "Publish downloads and approved research"
+description: "Understand the repository-controlled public content workflows."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** authorized editorial/release ownership, reviewed content/artifacts and confirmed hosting/distribution rights. The public research collection remains empty until approved content is supplied.
+
+<Tabs items={['Android download','Research article','Reference resource']}><Tab value="Android download">
+Use the existing signing identity and qualify the exact APK before updating the derived release manifest. Required metadata includes versionName, increasing versionCode, minimum Android, publication date, byte size, lowercase SHA-256, public artifact URL and release notes. The download component validates metadata, but does not prove the file is public, correctly signed or physically installable. Follow [release qualification](/docs/operations/android-release).
+</Tab><Tab value="Research article">
+Only approved entries may enter `src/research/articles.ts`. Provide a unique stable slug, title, authors, date, publication type, approval reference, HTTPS sources, paragraphs, limitations and correction history. Corrections need a valid date and description. Keep unpublished drafts out of public imports. Withdrawal currently requires an editorial code change; there is no claimed CMS or automated withdrawal service.
+</Tab><Tab value="Reference resource">
+Maintain citation/DOI, edition, relevance and rights caveat in the reference listing. The supplied guideline PDF remains byte-identical. Its stated noncommercial/no-derivatives terms and third-party rights caveat require owner review before distribution. A hosted reference does not validate the simulator.
+</Tab></Tabs>
+
+<Steps><Step>
+### Review evidence and rights
+
+Confirm publication approval, artifact identity and permission to host the exact material.
+</Step><Step>
+### Update and verify
+
+Review changes in Git, build the public portal, check all relevant links on narrow/desktop screens and verify anonymous download/checksum against the actual artifact.
+</Step><Step>
+### Record the release
+
+Record source revision, approval owner, exact artifact, verification evidence and correction/rollback path. Do not overwrite an immutable signed artifact to reuse its URL/version.
+</Step></Steps>
+
+<SourceLinks paths={["apps/dashboard/README.md", "apps/dashboard/src/research/articles.ts", "apps/dashboard/src/releases/current.json"]} />

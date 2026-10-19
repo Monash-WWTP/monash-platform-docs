@@ -1,0 +1,32 @@
+---
+title: "Signed Android release"
+description: "Use the original signing identity and qualify the exact artifact."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+The public CitizenFlood1.0.0 artifact is immutable and uses its legacy backend. A shared-API release requires separate endpoint/identity acceptance, the durable signing identity and a strictly greater versionCode. Debug signing is never a production fallback.
+
+<Steps><Step>
+### Prepare configuration and custody
+
+Use approved public HTTPS API/issuer/discovery origins and the mobile client ID. Release validation rejects local staging, example/loopback origins and private/non-allowlisted configuration fields. Keep signing credentials outside Git and the APK's public client configuration.
+</Step><Step>
+### Build and verify the exact APK
+
+Inspect `scripts/build_android_release.py --help` and the direct-release runbook for the current flags and signing inputs. Use the authorized signing owner rather than generating a new key. Record package ID, version/code, signing certificate, byte size and SHA-256.
+</Step><Step>
+### Qualify real-device behavior
+
+Test fresh install and upgrade from the existing signed version, external-browser OIDC callback, account expiry/revocation, location/camera/gallery permissions, large/unsupported photos, interrupted upload/report retry and own history. Emulator build/install success alone is insufficient.
+</Step><Step>
+### Publish metadata and observe
+
+Make the exact signed artifact anonymously reachable over approved HTTPS, verify its checksum independently, then update the public release manifest. Retain prior immutable artifacts and a client-compatible rollback plan.
+</Step></Steps>
+
+## Current limits
+
+CI compiles a debug staging artifact and checks it exists; it does not produce a qualified public APK. iOS source scaffolding is absent. A physical device/upgrade, endpoint cutover and signing custody acceptance remain release gates.
+
+<SourceLinks paths={["scripts/build_android_release.py", "docs/operations/android-direct-release.md", "docs/operations/android-release-1.0.0.json"]} />

@@ -1,0 +1,34 @@
+---
+title: "Report and media lifecycle"
+description: "Ownership, idempotency, moderation and public privacy projections."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+<Steps><Step>
+### Validate and own the submission
+
+The server validates category/value/unit, timestamp and location. It associates the report with the authenticated citizen account; clients cannot choose an arbitrary owner. Idempotency is scoped to owner and key with a hash of canonical report content. The same content/key returns the existing result; conflicting content returns409.
+</Step><Step>
+### Store an optional private photo
+
+The upload endpoint accepts nonempty JPEG/PNG/WebP up to10MiB and25 megapixels, verifies image content, stores a private object and records SHA-256, size and MIME. A separate HTTP-body limit is11MiB, including multipart overhead. The original bytes are retained; there is no claimed EXIF-stripping pipeline. Treat photos as potentially sensitive.
+</Step><Step>
+### Review a pending report
+
+A reviewer with MFA transitions pending to approved/rejected under a row lock and records an audit reason. Repeating a decision returns409. An owner sees their own history regardless of whether the report is public.
+</Step><Step>
+### Publish only an allowlisted view
+
+Approved community output rounds coordinates to0.001 degree and excludes owner identity, private notes, precise original location and media paths. The public projection is a deliberate response contract, not a serialization of the private database record.
+</Step></Steps>
+
+## Media access and integrity
+
+Owners can retrieve their own photo. Authorized MFA reviewers can access media attached to a reviewable report; unrelated users get404. Download verifies byte size and SHA-256 before returning content with no-store headers. Storage failures return503 rather than falsely confirming a photo. Object and database persistence are coordinated with cleanup on database failure, but operational reconciliation remains necessary after exceptional failures.
+
+## Limits that remain operational decisions
+
+Retention/deletion policy, photo volume, concurrent upload controls, incident access and real-device interruption behavior need acceptance. The implemented byte/pixel limits are not proof of adequate rate limiting or storage capacity.
+
+<SourceLinks paths={["services/api/app/routers/reports.py", "services/api/app/reporting/schemas.py", "services/api/app/http/limits.py", "services/api/tests/test_media.py"]} />

@@ -1,0 +1,26 @@
+---
+title: "Contribute to the platform"
+description: "Work against the correct repository and preserve independent release boundaries."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+The platform code lives in `Monash-WWTP/monash-platform`. This manual lives in a separate documentation repository. Documentation source links are pinned to platform revision e6437c4; updating the manual does not deploy or modify the platform.
+
+## Platform changes
+
+Use a feature branch and isolated checkout, read CONTRIBUTING.md and keep app/API boundaries intact. Client changes require the migration roadmap; model/data changes require scientific validation guidance. Install locked dependencies and run the checks appropriate to the changed product.
+
+| Change | Additional evidence |
+|---|---|
+| API contract | Handler/schema tests, regenerated OpenAPI and client compatibility |
+| Model/data semantics | Units, input provenance, source/assumption register and scientific review |
+| Identity/privacy | Server authorization and private/public projection tests |
+| Android release | Existing signing identity and physical install/upgrade evidence |
+| Documentation | Source evidence, current workflow coverage, links, generation drift and browser behavior |
+
+Preserve pinned legacy sources and public dataset/PDF bytes. Restricted private exports, tokens, credentials and signing keys do not belong in either repository. Software licensing/publication rights require the relevant owner decision; dependency licenses do not grant institutional endorsement.
+
+Continue with [documentation authoring](/docs/contributing/documentation) or [verification commands](/docs/contributing/verification).
+
+<SourceLinks paths={["CONTRIBUTING.md", "docs/migration/ROADMAP.md"]} />

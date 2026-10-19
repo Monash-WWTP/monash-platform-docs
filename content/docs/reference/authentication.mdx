@@ -1,0 +1,22 @@
+---
+title: "API authentication and permissions"
+description: "Choose the authentication flow supported by your actual client."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+Public monitoring/community endpoints can be read without a session in the current contract. Owner reports/media and scenario/reviewer operations require authentication and server-owned permission. Do not infer that every endpoint is public from a successful monitoring request.
+
+| Client | Proof | Protected write requirement |
+|---|---|---|
+| Browser | HttpOnly `monash_session` | Matching `X-CSRF-Token` and exact configured Origin |
+| Mobile/native API client | Validated OIDC bearer token | Correct issuer/audience/time/signature and server-owned capability |
+| Operator/reviewer | Browser or bearer identity | Appropriate capability plus MFA |
+
+Use `/api/v1/auth/login` in a configured browser environment, including the operator sign-in path when needed. The API validates state/nonce/PKCE callback and establishes the session. `/api/v1/auth/me` reports current account/capabilities; it does not let a client self-grant them.
+
+A confidential browser-client secret never belongs in a mobile build or this docs repository. Local synthetic examples do not include a real token. Use a disposable environment for authenticated contract testing.
+
+See [identity logic](/docs/how-it-works/identity) for revocation and administrative capability replacement. The public `/login` and `/register` web pages currently explain availability; they are not proof of a publicly accepted identity service.
+
+<SourceLinks paths={["services/api/app/routers/auth.py", "services/api/app/identity/dependencies.py", "apps/dashboard/src/api/transport.ts"]} />

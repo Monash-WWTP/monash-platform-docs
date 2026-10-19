@@ -1,0 +1,23 @@
+---
+title: "What the platform does"
+description: "Three independently released products sharing a domain and versioned API."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+The public website explains CitizenFlood, distributes its signed Android release and hosts approved research/reference resources. The operator dashboard presents historical laboratory monitoring, approved community observations and an explicitly unvalidated research sandbox. CitizenFlood collects citizen observations. FastAPI owns the successor application database, authorization and workflow contracts.
+
+| Component | Main job | Release boundary |
+|---|---|---|
+| Public portal + dashboard | Information, downloads, monitoring and research workspace | React/Vite web build |
+| CitizenFlood | Mobile observations, location/photo capture and report history | Flutter Android APK |
+| Platform API | Identity mapping, reports/media, monitoring and simulation runs | FastAPI + application PostgreSQL |
+| Identity + storage | OIDC identity and private object storage | Separately operated dependencies |
+
+## What makes the separation useful
+
+A citizen observation is not a laboratory measurement. A lab sample is not a simulated result. Keeping these contracts separate prevents reported conditions or assumed inputs from being presented as instrumented plant facts. Independent releases also allow a web update without silently changing a signed installed app.
+
+Start with [roles and availability](/docs/overview/status), then choose a [getting-started path](/docs/get-started).
+
+<SourceLinks paths={["PRODUCT.md", "docs/architecture/README.md", "services/api/app/main.py"]} />

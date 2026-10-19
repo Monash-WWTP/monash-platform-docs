@@ -1,0 +1,10 @@
+{
+  "title": "How It Works",
+  "pages": [
+    "architecture",
+    "identity",
+    "report-lifecycle",
+    "data-and-migrations",
+    "run-provenance"
+  ]
+}

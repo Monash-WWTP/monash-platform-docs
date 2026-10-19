@@ -1,0 +1,46 @@
+---
+title: "Backup and restore"
+description: "Recovery needs custody, an owner, a target and measured evidence."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** authorized access to the intended staging resources, original configuration/key custody, encrypted off-server storage, a named restore owner and agreed RPO/RTO. Do not replace lost secrets or reset a volume as a shortcut to recovery.
+
+The platform includes `scripts/staging_backup.py` with `backup` and `rehearse` actions. It covers application/identity database dumps and table manifests, private objects with checksums, and required configuration inside an authenticated encrypted envelope. It is staging-oriented, not a universal production backup service.
+
+<Steps><Step>
+### Inspect before executing
+
+Read the script and verify the actual source environment, storage permissions, encryption-key custody and off-server destination. The last documented staging storage check failed; recover its original Garage configuration and stale bind mount first.
+</Step><Step>
+### Back up with private custody
+
+From the platform checkout, after owner approval of the target:
+
+```sh
+uv run --locked python scripts/staging_backup.py backup \
+  --file /secure/offserver/monash-staging.backup \
+  --key /secure/custody/staging-backup.key
+```
+
+The example paths must be replaced with approved secure locations; they are not supplied files. Keep the key independently recoverable, with access limited to the recovery owner.
+</Step><Step>
+### Rehearse an isolated restoration
+
+```sh
+uv run --locked python scripts/staging_backup.py rehearse \
+  --file /secure/offserver/monash-staging.backup \
+  --key /secure/custody/staging-backup.key
+```
+
+The rehearsal uses temporary database containers and a separate temporary object bucket, reconciles table manifests/media hashes and cleans those temporary resources. It must not overwrite source keys or a valuable database.
+</Step><Step>
+### Record the result
+
+Record artifact digest, source/target version, achieved data reconciliation, issuer/subject authorization checks, actual elapsed downtime/data loss, reviewer and remaining gaps. An empty-bucket local rehearsal is not proof of off-server production recovery.
+</Step></Steps>
+
+<Callout type="warn" title="No recovery guarantee is claimed">No production RPO/RTO or accountable owner has been confirmed. These command forms were checked against source; an actual fresh restore was not executed while storage was unavailable.</Callout>
+
+<SourceLinks paths={["scripts/staging_backup.py", "docs/operations/staging-acceptance-2026-10-18.md"]} />

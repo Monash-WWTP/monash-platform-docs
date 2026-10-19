@@ -1,0 +1,28 @@
+---
+title: "Get started as an operator"
+description: "Monitoring first; privileged research and moderation require separate capabilities."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** an approved environment URL. Read-only monitoring contracts are public in the current API. Scenario operations and report review require the appropriate server-owned capability, a native identity and MFA; a browser login alone is not enough.
+
+<Steps><Step>
+### Start in monitoring
+
+Open `/dashboard`. Search by plant name/code or use its named map marker. The plant list remains available if the map fails. Inspect the laboratory record, observation dates, sources and coverage before considering research tools.
+</Step><Step>
+### Confirm privileged access
+
+For research, use the operator sign-in action in a configured environment. An administrator must grant `scenario:operate`; report review uses `report:review`. MFA is enforced by the API. If access is unavailable, contact the environment owner rather than changing client code.
+</Step><Step>
+### Choose a secondary task
+
+Open a linked plant's Research sandbox for [scenarios](/docs/guides/scenarios), or `/dashboard/moderation` for [report review](/docs/guides/moderation). These are separate from measured laboratory records.
+</Step></Steps>
+
+## Expected outcome and errors
+
+A selected sampling location shows its dated lab records or an explicit unavailable/empty state. An unmatched location does not offer another plant's research. A denied scenario request must remain denied even if a client control is visible. Retry an unavailable service; request an invitation/MFA check for authorization failures.
+
+<SourceLinks paths={["apps/dashboard/src/pages/MapPage.tsx", "apps/dashboard/src/components/auth/OperatorAccess.tsx", "services/api/app/operator_auth.py", "services/api/app/identity/administration.py"]} />

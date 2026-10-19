@@ -1,0 +1,10 @@
+{
+  "title": "Get Started",
+  "pages": [
+    "index",
+    "citizens",
+    "operators",
+    "local-development",
+    "android-development"
+  ]
+}

@@ -1,3 +1,5 @@
+import { openapi } from '@/lib/openapi';
+import { APIPage } from '@/components/api-page';
 import { source } from '@/lib/source';
 import {
   DocsBody,
@@ -11,7 +13,7 @@ import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { getPageImageUrl, getPageMarkdownUrl, gitConfig } from '@/lib/shared';
+import { getPageMarkdownUrl, gitConfig } from '@/lib/shared';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -35,6 +37,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       <DocsBody>
         <MDX
           components={getMDXComponents({
+            OpenAPIPage: async (props) => <APIPage {...await openapi.preloadOpenAPIPage(page)} {...props} />,
             // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
@@ -57,7 +60,7 @@ export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): P
     title: page.data.title,
     description: page.data.description,
     openGraph: {
-      images: getPageImageUrl(page).url,
+
     },
   };
 }

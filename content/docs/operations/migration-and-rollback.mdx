@@ -1,0 +1,32 @@
+---
+title: "Migration and rollback"
+description: "Preserve identity, media, authorization and post-cutover writes."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+A schema migration is not a complete data/client cutover. `services/api/alembic` is the active successor chain. Private imports require an authorized source export; public data does not authorize private ownership recovery.
+
+<Steps><Step>
+### Establish a reviewed source and target
+
+Record schema/source revisions, row counts, stable IDs, issuer/subject mapping, media inventory/checksums, retention and access-control expectations. Keep restricted exports and private manifests outside this public docs repository.
+</Step><Step>
+### Reconcile in isolation
+
+Use the migration/import scripts against an approved disposable or staging target. Check counts, duplicates, foreign references, media bytes and owner/reviewer/public projections. Email equality is insufficient to claim anonymous legacy reports.
+</Step><Step>
+### Coordinate writes and clients
+
+Define write-freeze or incremental-reconciliation behavior. Qualify browser proxy/cookie/CSRF and Android API/OIDC callbacks. Record the exact installed signed app and web/API versions; do not assume all users upgraded.
+</Step><Step>
+### Prepare rollback before release
+
+Define failure triggers, acceptance window, decision owner and compatible previous artifacts. Explicitly preserve/reconcile writes created after cutover; blindly restoring an old snapshot would lose them.
+</Step></Steps>
+
+## Acceptance evidence
+
+A rollback rehearsal needs restored authorization, issuer/subject mappings, row/media integrity and client compatibility, not only a database process that starts. The documented release gates remain open until the environment owner signs off evidence.
+
+<SourceLinks paths={["scripts/migrate_platform.py", "scripts/import_private_reports.py", "services/api/app/migration/private.py", "docs/migration/ROADMAP.md"]} />

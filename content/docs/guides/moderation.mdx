@@ -1,0 +1,30 @@
+---
+title: "Review citizen reports"
+description: "Approve or reject pending submissions with an audit reason."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** a verified account with `report:review` and an accepted MFA session. A scenario operator is not automatically a report reviewer.
+
+<Steps><Step>
+### Open the queue
+
+Visit `/dashboard/moderation`. The server lists pending reports; empty means no pending records returned, while a failure offers Retry. Source/API pagination must be qualified against the intended deployment before release.
+</Step><Step>
+### Review privately
+
+Read category, observation time, location, note and available media within authorized access. Treat citizen content as a report, not a validated measurement. Do not copy private details into public explanations.
+</Step><Step>
+### Record a decision
+
+Choose approved or rejected and provide a nonblank review reason (maximum2,000 characters). The API locks the report, allows transition only from pending, and records actor, before/after state and reason in an audit event.
+</Step></Steps>
+
+## Expected outcome
+
+A successful decision removes the item from the pending queue. Approval permits only the allowlisted, privacy-reduced community projection. A second decision on an already-reviewed report returns409; reload the queue rather than assuming your original decision was lost. Missing/unauthorized resources are not disclosed through owner endpoints.
+
+<Callout title="No automatic scientific endorsement">Moderation is a publication-control workflow. It does not establish laboratory accuracy, pollutant causation or plant-control advice.</Callout>
+
+<SourceLinks paths={["apps/dashboard/src/pages/ModerationPage.tsx", "services/api/app/routers/reports.py", "services/api/app/identity/dependencies.py"]} />

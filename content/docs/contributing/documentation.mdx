@@ -1,0 +1,50 @@
+---
+title: "Maintain this manual"
+description: "Update evidence and native components together with the behavior they explain."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** Node22/npm, a reviewed platform revision and access to this separate docs repository. The docs build requires no production credentials.
+
+<Steps><Step>
+### Run the manual locally
+
+From this documentation repository:
+
+```sh
+npm ci
+npm run dev
+```
+
+Use the development URL printed by Next.js. Build static output with `npm run build`, then `npm start` (Python3 static preview on port3030). Hosted output is the `out` directory with directory indexes.
+</Step><Step>
+### Author a complete page
+
+Add MDX under `content/docs`, with title, description, sourceRevision and lastVerified. Add its navigation entry and coverage/evidence mapping in `content/coverage.json`. Keep essential prerequisites and scientific limits visible.
+
+Use Fumadocs Steps/Step for procedures, Tabs/Tab for real alternatives, Callouts for prerequisites/limits, Cards for destinations, Accordions for secondary troubleshooting, Files/Folder/File for structure, and native code blocks/tables. Components are registered in `components/mdx.tsx`. Do not hide an entire core procedure behind an accordion.
+</Step><Step>
+### Synchronize a platform revision deliberately
+
+Review the platform diff and update `reference/platform.json` and the schema snapshot through `scripts/sync-platform.py --source /path/to/platform --revision FULL_SHA --date YYYY-MM-DD`. It copies only the public checked-in OpenAPI contract and records source blob identities; it never imports private data or secrets. Review content for changed behavior before advancing the baseline.
+</Step><Step>
+### Regenerate and verify
+
+```sh
+npm run generate:api
+npm test
+npm run check:docs
+npm run typecheck
+npm run lint
+npm run build
+```
+
+Generated endpoint pages must not be edited by hand. The check command detects schema/content drift. Use implementation evidence links to the exact source revision, not a moving branch as a substitute for review.
+</Step></Steps>
+
+## Review policy
+
+Procedures include role/prerequisites, steps, expected outcomes and troubleshooting. Scientific pages state boundaries, units, assumptions, source status and validation gaps. Record an actually executed check separately from a source-only command review. Never invent a deployed environment, private measurement, study endorsement or successful recovery.
+
+<SourceLinks paths={["CONTRIBUTING.md", "docs/science/VALIDATION.md"]} />

@@ -1,0 +1,31 @@
+---
+title: "System architecture"
+description: "Independent clients, one successor application contract and explicit data boundaries."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+## Component and data flow
+
+```text
+Public browser ──► React/Vite portal + monitoring
+Operator browser ─► cookie session + CSRF ─┐
+CitizenFlood source ► OIDC/PKCE + bearer ──┼► FastAPI /api/v1 ► application PostgreSQL
+Identity provider ─► issuer/subject ───────┘        │
+                                                  ├► private S3-compatible media
+                                                  └► wwtp_sim ► immutable research run
+Approved reports ► allowlisted rounded public projection
+Lab import ► dated samples (separate from reports and runs)
+```
+
+The published legacy APK follows a different backend path; this diagram describes successor source. Deployment routing must be checked against the intended environment.
+
+<Files><Folder name="monash-platform" defaultOpen><Folder name="apps" defaultOpen><File name="dashboard — React/Vite public + operator UI"/><File name="citizenflood — Flutter Android source"/></Folder><Folder name="services/api" defaultOpen><File name="routers — versioned HTTP contracts"/><File name="db — application data and identity mapping"/><File name="services — simulation orchestration"/></Folder><Folder name="packages/simulation" defaultOpen><File name="wwtp_sim — deterministic model and accounting"/></Folder><File name="infra — disposable local and isolated staging"/><File name="legacy — historical inactive source"/></Folder></Files>
+
+## Why these boundaries exist
+
+The API owns authorization and projections; a visible client control cannot grant access. Private photos are objects referenced by database-owned IDs, not public object paths. Laboratory observations retain censoring and provenance. Runs snapshot resolved assumptions so editing a scenario cannot silently change an old result.
+
+The monorepo separates web, Android and API releases. This manual is a separate static repository with a pinned source inventory, rather than another deploy-time dependency of the platform.
+
+<SourceLinks paths={["docs/architecture/README.md", "services/api/app/main.py", "services/api/app/db/platform.py"]} />

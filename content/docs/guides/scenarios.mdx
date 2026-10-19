@@ -1,0 +1,32 @@
+---
+title: "Configure, run and inspect scenarios"
+description: "Use the research sandbox without confusing its assumptions with measurements."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** a linked treatment plant, `scenario:operate` capability, accepted MFA and a configured environment. Simulations remain `illustrative_unvalidated` and `decision_use_permitted=false`.
+
+<Steps><Step>
+### Open research from monitoring
+
+Select a plant's lab record and use **Research sandbox**. Read Methods and sources before running. Return to monitoring with the plant-specific return link; the selected sampling-location panel is restored.
+</Step><Step>
+### Configure explicit assumptions
+
+Name the scenario, choose a UTC start date and30/90/180-day horizon, and review assumed influent/demand, equipment availability, maintenance windows and recovered-gas inputs. Units appear beside fields. Defaults are illustrative; monitoring data does not automatically calibrate or populate a plant model. Rainfall/weather is context only.
+</Step><Step>
+### Run and inspect the saved result
+
+Choose Run Simulation. The API saves resolved inputs, scenario/plant metadata, model version and source artifact before executing. Inspect run ID/status, simulated period, saved inputs and screening/GHG results. Editing the form afterward does not alter that run's snapshot or chart maintenance annotations.
+</Step><Step>
+### Handle a failure
+
+A failed run has no fabricated KPI cards. Retry saved inputs creates another run using the recorded inputs and available model version. A late retry cannot replace a newer active selection. A chart-only failure keeps saved KPIs visible and offers Retry chart data.
+</Step></Steps>
+
+## Interpret carefully
+
+Days within screening thresholds is a heuristic screening result, not legal compliance. Maintenance overlap labels are not proven causes. Fixed-factor GHG accounting does not quantify aeration-induced emissions benefits. Use [comparison](/docs/guides/comparison) to inspect compatible assumptions; never use this tool for plant control or certified reporting.
+
+<SourceLinks paths={["apps/dashboard/src/pages/WorkspacePage.tsx", "apps/dashboard/src/components/scenario/ScenarioPanel.tsx", "apps/dashboard/src/components/results/ResultsPanel.tsx", "services/api/app/services/simulation.py"]} />

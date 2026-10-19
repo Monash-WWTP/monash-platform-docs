@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+@import 'fumadocs-openapi/css/preset.css';
 
 html {
   scrollbar-gutter: stable;
@@ -10,3 +11,22 @@ html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
 }
+
+:root { --color-fd-primary:#146346; --color-fd-primary-foreground:#fff; --color-fd-background:#fff; --color-fd-foreground:#202724; --color-fd-muted:#f2f6f3; --color-fd-muted-foreground:#58635d; --color-fd-border:#dbe2dd; }
+.dark { --color-fd-primary:#7dd5ab; --color-fd-primary-foreground:#12271c; --color-fd-background:#121b16; --color-fd-foreground:#e8efea; --color-fd-muted:#1e2c23; --color-fd-muted-foreground:#b0c1b5; --color-fd-border:#35453b; }
+.home-manual { width:min(1120px,100%); margin-inline:auto; padding:64px 28px 28px; }
+.home-intro { max-width:780px; margin-bottom:40px; }
+.home-intro h1 { font-size:clamp(2.3rem,5vw,3.6rem); letter-spacing:-.035em; line-height:1.12; font-weight:700; text-wrap:balance; }
+.home-intro p { max-width:65ch; margin:24px 0; color:var(--color-fd-muted-foreground); font-size:1.1rem; line-height:1.75; }
+.home-start { display:inline-flex; align-items:center; gap:12px; background:var(--color-fd-primary); color:var(--color-fd-primary-foreground); border-radius:8px; padding:12px 18px; font-weight:600; }
+.home-manual section { margin-top:48px; }
+.home-manual h2 { font-size:1.55rem; font-weight:650; letter-spacing:-.025em; margin-bottom:20px; }
+.home-read-map { display:grid; grid-template-columns:1fr 1fr; gap:64px; border-top:1px solid var(--color-fd-border); padding-top:40px; }
+.home-read-map p { line-height:1.8; color:var(--color-fd-muted-foreground); margin-block:12px; }
+.home-read-map a, .home-manual footer a { color:var(--color-fd-primary); text-decoration:underline; text-underline-offset:3px; }
+.home-read-map h3 { font-weight:650; }
+.home-manual footer { border-top:1px solid var(--color-fd-border); margin-top:48px; padding-top:24px; color:var(--color-fd-muted-foreground); font-size:.8rem; line-height:1.8; }
+.source-evidence { border-top:1px solid var(--color-fd-border); margin-top:36px; padding-top:20px; font-size:.8rem; overflow-wrap:anywhere; }
+.source-evidence summary { cursor:pointer; font-weight:600; }
+:focus-visible { outline:3px solid var(--color-fd-primary); outline-offset:3px; }
+@media(max-width:640px) { .home-manual {padding:36px 20px 24px;} .home-read-map {grid-template-columns:1fr;gap:24px;} }

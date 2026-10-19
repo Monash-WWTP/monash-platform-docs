@@ -1,0 +1,25 @@
+---
+title: "Terms and data boundaries"
+description: "Use the same words for the same things."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+| Term | Meaning in this platform |
+|---|---|
+| Plant | Treatment facility configured with capacity, units, factors and screening limits |
+| Station | Sampling location with a station code; it is not automatically a complete plant model |
+| Laboratory sample | Dated effluent observation retaining source year, sampling point and censoring flags |
+| BDL | Below detection limit; the reported threshold is not a quantified measurement |
+| Community observation | A citizen report approved for the public, privacy-reduced projection |
+| Scenario | Editable set of assumptions such as influent, demand and equipment availability |
+| Run | Persisted execution with immutable input snapshots, model/version, source artifact, status and results |
+| Reference/baseline | Explicitly selected compatible run used to calculate comparison differences |
+| Screening threshold | Configured/fallback numerical screen, not a legal permit determination |
+| MLD | Million litres/day; 1 MLD = 1,000 m³/day |
+| TKN | Total Kjeldahl nitrogen; ammonia alone and effluent concentrations cannot replace required influent TKN |
+| RPO / RTO | Acceptable data loss / acceptable downtime for recovery planning |
+
+Dataset-reported “Comply” is a source label. “Operational” metadata is not proof of current plant health. An illustrative output must never be relabelled as a measured observation.
+
+<SourceLinks paths={["services/api/app/db/models.py", "services/api/app/http/contracts.py", "packages/simulation/wwtp_sim/domain.py"]} />

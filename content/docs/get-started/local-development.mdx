@@ -1,0 +1,65 @@
+---
+title: "Run the platform locally"
+description: "Start a synthetic database, API and dashboard with matching ports."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** Git, Python 3.12+, uv, Docker Compose and Node 22/npm. Commands below run in the **platform repository**, not this documentation repository. Use the exact disposable database; tests may reverse and reapply its schema.
+
+<Steps><Step>
+### Obtain the documented platform revision
+
+```sh
+ git clone https://github.com/Monash-WWTP/monash-platform.git
+ cd monash-platform
+ git checkout e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+```
+
+Use an isolated checkout when investigating newer source; this manual pins behavior to that revision.
+</Step><Step>
+### Start and migrate the disposable database
+
+```sh
+docker compose -f infra/local/compose.test.yaml up -d --wait db
+export DATABASE_URL='postgresql+psycopg://monash_test:monash_test@127.0.0.1:5433/monash_test'
+export TEST_DATABASE_URL="$DATABASE_URL"
+export APP_ENV=development
+uv sync --locked
+uv run --locked alembic -c services/api/alembic.ini upgrade head
+uv run --locked python -m app.devdata
+```
+
+The seed is synthetic and rejects production. It does not fetch private production data.
+</Step><Step>
+### Start the API on the dashboard's proxy target
+
+```sh
+uv run --locked uvicorn app.main:app --host 127.0.0.1 --port 8181
+```
+
+Check `http://127.0.0.1:8181/api/v1/health`, then `/api/v1/ready`. Swagger is `/docs` on that API server. A missing database migration makes readiness fail.
+</Step><Step>
+### Open the dashboard in another terminal
+
+```sh
+npm --prefix apps/dashboard ci
+npm --prefix apps/dashboard run dev
+```
+
+Visit `http://127.0.0.1:8180/dashboard`. Vite proxies `/api` to port **8181**. Its strict port fails instead of silently choosing a different one.
+</Step></Steps>
+
+## Expected outcome
+
+The synthetic demonstration plant is available. Laboratory history may be empty until an authorized monitoring import. Privileged scenarios still require configured OIDC/capabilities/MFA: seeding demo plants is not an authentication bypass. See [identity](/docs/how-it-works/identity) and [configuration](/docs/operations/configuration).
+
+<Accordions><Accordion title="The page loads but API calls fail">
+Check both processes and ports. The source frontend uses `/api/v1`; an old `/api/*` service is incompatible. Check the browser response and API readiness before changing CORS or disabling security.
+</Accordion><Accordion title="The configured port is already in use">
+Stop only your own previous development process, or deliberately change both the API listener and Vite proxy. An uncoordinated port change produces misleading frontend failures.
+</Accordion></Accordions>
+
+Stop the disposable database with `docker compose -f infra/local/compose.test.yaml down`. This retains the named volume; deleting it is a separate destructive action.
+
+<SourceLinks paths={["docs/operations/local-development.md", "apps/dashboard/vite.config.ts", "services/api/app/devdata.py"]} />

@@ -1,0 +1,42 @@
+---
+title: "Parameter and source register"
+description: "Defaults depend on the layer; record resolved run inputs rather than assuming one universal baseline."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+## Input defaults
+
+| Field | Simulation dataclass default | Empty dashboard draft | Unit / status |
+|---|---:|---:|---|
+| Flow |40|6|MLD; assumed |
+| BOD₅ (`bod`) |220|250|mg/L; assumed influent |
+| COD |480|520|mg/L; assumed |
+| TSS |240|300|mg/L; assumed |
+| Ammonia |35|30|mg/L; assumed |
+| TKN |40|40|mgN/L; assumed Kjeldahl |
+| Capacity |60|Resolved from plant unless supplied|MLD; not reactor volume |
+| Aeration/pump/clarifier |100|100|Availability percent, not measured efficiency |
+| Recovered CH₄/N₂O |0|0|kg gas/m³; must be evidenced |
+| Methane/N₂O factors |.0121/.0093|Persisted plant factors|kgCH₄/kgBOD₅ and kgN₂O-N/kgN |
+
+API schema defaults and stored scenarios may resolve values differently from a newly constructed simulation dataclass. The immutable `input_snapshot` is the authority for what an actual run used. Do not copy a default table into a claimed plant measurement.
+
+## Empirical coefficient register
+
+| Mechanism | Current numbers | Provenance / applicability |
+|---|---|---|
+| Weekly flow modulation |.06 amplitude,7-day period|Unvalidated heuristic; no site hydrology |
+| Demand concentration response |square root|Unvalidated assumed scaling |
+| Substeps and exchange cap |4 ×.25; cap4|Numerical/surrogate behavior, not HRT |
+| Carbon decay |7,4,.2|No equation-level study calibration supplied |
+| Activity/mineralization/nitrification |.45,.3,2.5|No site kinetic validation |
+| Nitrate yield/denitrification |.85,.8,.4,.25|Surrogate coefficients, not established conservation stoichiometry |
+| Settling/derived P/turbidity/pH |.95;4.5/.75/.8/1.5/.3;.55/1/.5;7.2/.30|Algebraic assumptions; no independent predictive validation |
+| GWP and conversion |28,265;44/28;10⁻³|Guideline convention and dimensional conversions; inventory boundary still limited |
+
+## Maintenance and comparison provenance
+
+Record event unit, start date, duration and availability percentage; dates are end-exclusive. Compare only compatible model/artifact/date outputs. A changed factor, threshold, capacity or influent assumption is a methodological/input change to disclose, not an experimentally demonstrated process benefit.
+
+<SourceLinks paths={["packages/simulation/wwtp_sim/domain.py", "packages/simulation/wwtp_sim/models/effluent_v1.py", "apps/dashboard/src/stores/scenarioStore.ts", "services/api/app/services/simulation.py"]} />

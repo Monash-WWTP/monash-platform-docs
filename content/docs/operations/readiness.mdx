@@ -1,0 +1,31 @@
+---
+title: "Liveness and readiness"
+description: "Understand what health endpoints prove and what they do not."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+| Endpoint | Meaning | Success/failure |
+|---|---|---|
+| `/api/v1/health` | Process liveness | A live process does not establish usable dependencies |
+| `/api/v1/ready` | Current migrated database and configured dependencies | `{"status":"ready"}` or structured503 `not_ready` |
+
+Readiness checks the Alembic revision against the release head and a basic plants query. When storage is configured it performs a bucket-head request; when JWKS is configured it retrieves signing keys and rejects an empty key set. Production settings require the integrations, whereas a minimal development configuration can omit them.
+
+## Bounded waits
+
+Database acquisition/connect/statement and external probe waits are bounded in source; storage readiness retries are disabled. This is not a hard end-to-end deadline. Bucket-head access must be allowed by the configured role. A private diagnostic must not leak through the generic public503 response.
+
+<Steps><Step>
+### Establish the failure scope
+
+Check liveness, readiness, expected release/schema revision and internal redacted logs. Separate database migration, storage, identity networking and missing-key problems.
+</Step><Step>
+### Verify the workflow itself
+
+After probes pass, test real login, authorized writes and upload/download in staging. Signing-key availability does not establish registration/email/recovery or correct permissions.
+</Step></Steps>
+
+The old staging image was previously observed returning ready while storage was down. Source readiness was hardened afterward; confirm the intended image is actually deployed before relying on that behavior.
+
+<SourceLinks paths={["services/api/app/routers/readiness.py", "services/api/app/db/session.py", "services/api/tests/test_readiness.py"]} />

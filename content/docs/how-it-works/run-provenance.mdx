@@ -1,0 +1,27 @@
+---
+title: "Run provenance and reproducibility"
+description: "Immutable inputs are the basis for interpretation and comparison."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+A scenario is editable. A run is a historical execution. The orchestration service resolves the scenario and plant settings into a simulation input, persists a **running** record, then records completed results or a failed state.
+
+## What is recorded
+
+- Scenario snapshot, plant metadata and resolved input snapshot, including dates, influent, maintenance, operating parameters, factors, screening limits and seed.
+- Model ID/version, validation status and parent run for replay.
+- SHA-256 source artifact identity built from API Python and simulation source files.
+- Status, failure code and results; failed runs retain inputs without invented outputs.
+
+The source digest is not a complete environment/container/dependency identity. Reproduction also needs the recorded revision, dependency lockfiles and supported runtime. A `seed` field does not mean this deterministic model estimates probabilistic uncertainty.
+
+## Replay and comparison
+
+Replay loads recorded inputs, requires an available model version and creates a new run linked to its parent. It executes the currently available code artifact; verify artifact identity before claiming bit-identical historical reproduction. Editing or archiving the scenario does not change the stored input snapshot.
+
+Comparison requires same plant/model/version/known artifact and actual dates; it validates series lengths/metrics and finite values. Frontend overlays join by run ID. A source deployment can change the artifact digest even when the named model version has not changed, deliberately making such runs incompatible.
+
+Legacy runs without recorded inputs cannot be replayed. Unknown artifacts cannot establish compatibility; regenerate traceable runs rather than equating two “unknown” tokens.
+
+<SourceLinks paths={["services/api/app/services/simulation.py", "services/api/app/services/comparison.py", "services/api/tests/test_run_provenance.py"]} />

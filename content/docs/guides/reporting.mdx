@@ -1,0 +1,43 @@
+---
+title: "Submit and retry reports"
+description: "Current shared-API source workflow for category, location and optional photos."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+<Callout type="warn" title="Environment boundary">This is the current source/shared-API flow. The published 1.0.0 APK uses its legacy backend. Test the shared flow only in an accepted environment with verified identity and private storage.</Callout>
+
+**Prerequisites:** verified citizen session with `report:own`, supported device permissions and a reachable API. A report requires a timezone-aware observation time, location and category-appropriate content.
+
+<Steps><Step>
+### Choose a category
+
+| Category | Required value | Unit |
+|---|---|---|
+| Rainfall | Nonnegative numeric reading | mm |
+| Water level | Nonnegative numeric reading | m |
+| Temperature | Finite numeric reading | °C |
+| Wastewater | Normal, warning or critical condition | No numeric reading/unit |
+
+Do not swap a wastewater condition for a numerical measurement. Notes are optional and limited to 2,000 characters.
+</Step><Step>
+### Confirm location and observation time
+
+Allow location access, inspect the location and accuracy, and confirm what you actually observed. The API bounds latitude/longitude and requires a timezone; observation times more than five minutes into the future are rejected. Permission denial or unavailable GPS must be resolved before a valid submission.
+</Step><Step>
+### Attach a photo if appropriate
+
+Use camera/gallery as supported by the form. Uploads are private and owned by the reporting account; the report references the resulting media ID. A missing or another user's media ID is rejected. Avoid including unnecessary identifying information in photos or notes.
+</Step><Step>
+### Submit and inspect history
+
+The source client uses an idempotency key for retries. A lost response can be retried with the same key and identical payload; changing content while reusing the key returns409. Confirm the report appears in your own history. It starts pending moderation, not public.
+</Step></Steps>
+
+## Recovery
+
+For session expiry, sign in through the configured identity flow. For interrupted upload/submission, retry the same operation and confirm history before creating a new report. The server's idempotency contract does not establish unlimited offline queuing or automatic recovery after every app restart; real-device interruption acceptance remains open.
+
+Read [report lifecycle](/docs/how-it-works/report-lifecycle) for privacy and ownership details.
+
+<SourceLinks paths={["apps/citizenflood/lib/screens/report_form_screen.dart", "apps/citizenflood/lib/services/report_repository.dart", "services/api/app/reporting/schemas.py", "services/api/app/routers/reports.py"]} />

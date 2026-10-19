@@ -1,0 +1,9 @@
+{
+  "title": "Reference",
+  "pages": [
+    "index",
+    "authentication",
+    "errors-and-pagination",
+    "api"
+  ]
+}

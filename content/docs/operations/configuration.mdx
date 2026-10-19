@@ -1,0 +1,32 @@
+---
+title: "Configuration reference"
+description: "Public client configuration, private server settings and environment boundaries."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+Configuration is read by the platform service/client, not this static documentation site. Use ignored environment files or the approved secret store. Never paste real secrets into MDX, Git, screenshots or browser-delivered configuration.
+
+| Setting group | Important keys | Handling |
+|---|---|---|
+| API/database | `DATABASE_URL`, `APP_ENV` | Private database URL; development/test/staging/production |
+| Browser origin | `WEB_ORIGIN`, `CORS_ORIGINS`, `SESSION_SECURE` | Exact approved origins; production secure cookies and no wildcard CORS |
+| Identity | `OIDC_ISSUER`, `OIDC_DISCOVERY_URL`, `OIDC_JWKS_URL` | Validated origins/issuer; do not silently substitute a different issuer |
+| Client identities | `OIDC_CLIENT_ID`, `OIDC_OPERATOR_CLIENT_ID`, `OIDC_MOBILE_CLIENT_ID` | Approved audiences/client IDs |
+| Browser callback | `OIDC_CALLBACK_URL`, `OIDC_CLIENT_SECRET` | Callback exactness; confidential secret stays server-side |
+| Identity events | `IDENTITY_EVENT_SECRET`, `OIDC_BACKCHANNEL_ORIGIN` | Private event proof and environment-specific internal routing |
+| Private storage | `STORAGE_ENDPOINT`, `STORAGE_BUCKET`, `STORAGE_REGION`, `STORAGE_ACCESS_KEY`, `STORAGE_SECRET_KEY` | Private least-privilege object access; readiness needs bucket-head permission |
+| Web source | `VITE_API_BASE` | Optional public API origin override; same-origin `/api/v1` is default |
+| Android source | `API_BASE_URL`, `OIDC_ISSUER`, `OIDC_DISCOVERY_URL`, `OIDC_CLIENT_ID`, `LOCAL_STAGING` | Public build-time values; no client secret/service-role key |
+
+## Production constraints
+
+Production requires OIDC, secure sessions, a confidential web client secret, public HTTPS identity/web/callback URLs, explicit CORS origins and configured storage credentials. These validators reject obviously unsafe configuration; they do not prove DNS/TLS, cookie, callback, privacy or backup acceptance.
+
+The API retains legacy Supabase settings for migration/claim compatibility. Their existence does not mean current client flows are configured through Supabase or email-only operator lists. Read actual capability checks before granting access.
+
+## Local staging versus disposable tests
+
+The disposable test database is only `monash_test` on loopback5433. Local staging uses separate app/identity databases and private storage. `scripts/staging.py` initializes missing local secret/config files without overwriting existing custody; it is not a recovery mechanism for lost keys. Do not run initialization against an existing deployment to replace missing custody.
+
+<SourceLinks paths={["services/api/app/config.py", "infra/staging/.env.example", "scripts/staging.py", "apps/citizenflood/lib/config/env.dart"]} />

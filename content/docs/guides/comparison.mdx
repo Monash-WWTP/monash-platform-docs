@@ -1,0 +1,36 @@
+---
+title: "Compare completed runs"
+description: "Choose a reference, verify compatibility and inspect immutable changes."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** two to four distinct completed runs from the same plant using the same model ID/version and known source artifact, identical ordered dates and compatible result metrics. Run scenarios with the same explicit start date and horizon.
+
+<Steps><Step>
+### Select completed runs
+
+Open Compare scenarios. The current UI lists each scenario's latest run; failed/in-progress runs are not selectable. Select2–4. If a previously selected run is no longer listed, clear the selection and choose current runs.
+</Step><Step>
+### Choose an explicit reference
+
+Use Baseline for result differences. A scenario's baseline label does not automatically authorize comparison. Removing the reference selection clears it; changing plants resets comparison and reference state.
+</Step><Step>
+### Check identity and inputs first
+
+Read run IDs, model versions, source artifact and dates. Compare saved input snapshots, including emission factors and screening thresholds. Changed accounting factors/thresholds mean output differences cannot be attributed solely to process inputs.
+</Step><Step>
+### Read differences and overlays
+
+Values are paired to time series by run ID, not array order. Absolute differences are candidate minus reference. Relative percentage is difference divided by the absolute reference; zero/missing references have no relative percentage. Screening percentages use percentage-point differences.
+</Step></Steps>
+
+## Worked synthetic differences
+
+A reference GHG estimate of0.20 and candidate0.25 kg CO₂-eq/m³ give +0.05 kg CO₂-eq/m³ and +25%. Screening values of50% and70% differ by20 percentage points, not a claimed20% process improvement. If the reference is zero, report only the absolute change.
+
+## Incompatibility and limits
+
+The API rejects duplicate, unfinished, cross-plant, model/artifact/date/series-incompatible requests. Old runs with unknown artifact identity require a new traceable run. Retry a transient failure; select genuinely compatible runs for a compatibility error. There is no automatic best-scenario ranking and no validated causal inference.
+
+<SourceLinks paths={["services/api/app/services/comparison.py", "apps/dashboard/src/components/comparison/ComparisonView.tsx", "apps/dashboard/src/components/comparison/comparisonModel.ts"]} />

@@ -1,0 +1,33 @@
+---
+title: "What remains before full launch"
+description: "Use explicit acceptance evidence rather than treating a merged PR as a launch."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+## Implemented and checked in source
+
+Monitoring-first navigation, missing/BDL handling, public availability copy, accessible mobile panels, removed3D twin, guarded comparisons, immutable provenance, retry/partial-outage behavior and configured-dependency readiness are implemented. The recorded local verification is34 frontend and111 Python passes with one original-legacy-checkout skip; GitHub also passed repository workflows.
+
+## Open acceptance gates
+
+| Priority | Gate | Required evidence |
+|---|---|---|
+| 1 | Storage recovery | Original Garage config/key custody restored; obsolete mount repaired; bucket permissions/upload/download verified |
+| 2 | Hosting and identity | Approved API/account origins, TLS/proxy/cookie/CSRF/callback checks; registration/email/recovery and invited operator MFA/revocation |
+| 3 | Recovery | Named owner, acceptable loss/downtime and encrypted off-server app/identity/object restore rehearsal |
+| 4 | Integration and migration | Real report/photo/retry/moderation/privacy, source export reconciliation and both clients against intended environment |
+| 5 | Capacity and operations | Peak concurrency/photo volume, measured limits, redacted alerts, notification owner and incident exercise |
+| 6 | Android | Original signing identity, increased code and physical install/upgrade/OIDC/offline/photo acceptance |
+| 7 | Scientific scope | Research-only policy retained; separate calibration/validation/uncertainty and scientific authorization before decision use |
+| 8 | Exact release | Immutable artifacts, migration/write procedure, rollback preserving new writes and observed acceptance window |
+
+A separate Vercel `dashboard` project has a recorded root-directory build configuration failure. The successful `monash-water-platform` deployment does not establish backend cutover acceptance.
+
+One minor code hardening item remains: malformed persisted simulation series containers fail closed with a server error rather than a structured incompatibility response. Map/chart bundle-size and dependency-deprecation warnings are also recorded.
+
+## Evidence format
+
+For each accepted gate, record owner, environment/date, exact revision/artifact, test steps/results, limitations and rollback point. Leave unperformed checks visibly pending. This manual supplies procedures and traceability, not approval to claim a complete production release.
+
+<SourceLinks paths={["docs/operations/staging-acceptance-2026-10-18.md", "docs/product/platform-resolution-checklist.md"]} />

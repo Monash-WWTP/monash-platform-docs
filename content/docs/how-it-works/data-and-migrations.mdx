@@ -1,0 +1,27 @@
+---
+title: "Data, imports and migration"
+description: "Keep schema changes, monitoring imports and private ownership reconciliation separate."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+The successor application database is PostgreSQL and its active migration chain is `services/api/alembic`. Historical Supabase migrations under legacy paths describe the deployed legacy system; do not apply them as successor migrations.
+
+## Distinct import jobs
+
+| Job | Required evidence |
+|---|---|
+| Lab monitoring | Authorized dataset, station/sample identifiers, source year/date, units and BDL flags |
+| Private reports/media | Authorized export, owner/identity reconciliation, media byte/hash checks and privacy review |
+| Identity mapping | Reviewed issuer/subject associations; email alone never claims anonymous records |
+| Factor seed | Versioned factor source/process labels and applicability; external seed state is not inferred from a public CSV |
+
+Run imports only with reviewed input and target. Preserve count/checksum manifests, failures and rollback checkpoints. A synthetic `app.devdata` seed is a local demonstration, not a migration of real data.
+
+## Cutover is more than changing a URL
+
+Reconcile old/new identifiers, access controls, media references and counts; define write-freeze or reconciliation behavior; preserve post-cutover writes in rollback; qualify both clients and the exact release artifacts. The public installed APK remains on its original backend until a verified new release.
+
+Read [migration and rollback](/docs/operations/migration-and-rollback) before touching a deployed target. Restricted private exports must not enter this public manual repository.
+
+<SourceLinks paths={["docs/migration/ROADMAP.md", "services/api/app/migration/monitoring.py", "services/api/app/migration/private.py", "services/api/alembic.ini"]} />

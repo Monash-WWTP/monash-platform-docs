@@ -1,0 +1,34 @@
+---
+title: "Get started with CitizenFlood"
+description: "Understand the public Android release before submitting an observation."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** an Android device supported by the published artifact, access to the platform download page, and permission to install the signed APK. Do not install an unknown repackaged file.
+
+<Callout title="Published app versus source">CitizenFlood 1.0.0 uses the legacy backend. The shared-API instructions elsewhere in this manual describe current source/staging and do not change that installed APK. Availability of a public shared-account registration service is not assumed.</Callout>
+
+<Steps><Step>
+### Inspect the release
+
+Open the platform's `/download` page. Check version, release notes, minimum Android version, size and SHA-256 against the linked artifact. The page hides the active download action if its release metadata is invalid.
+</Step><Step>
+### Install and open
+
+Download from the published artifact link, allow installation from that source if Android asks, install, then open CitizenFlood. Keep the project's original signing identity for upgrades; a differently signed package is not an upgrade.
+</Step><Step>
+### Choose a reporting task
+
+Select rainfall, water level, temperature or wastewater. Follow [reporting](/docs/guides/reporting) for category semantics and the source client's retry behavior. Never submit test observations to a live public environment.
+</Step></Steps>
+
+## Expected outcome
+
+You can identify the release you installed and choose the correct reporting category. Download metadata alone does not prove the artifact is reachable or correctly signed. The recorded first release was exercised on an emulator; supported physical-device and cross-version upgrade acceptance remains a release responsibility.
+
+<Accordions><Accordion title="Installation is rejected">
+Check Android compatibility and available storage. An existing app with a different signing certificate cannot be upgraded in place. Do not bypass signing checks or discard report data merely to force an installation; ask the release owner for the supported path.
+</Accordion></Accordions>
+
+<SourceLinks paths={["docs/operations/android-release-1.0.0.json", "docs/operations/android-direct-release.md", "apps/dashboard/src/pages/public/DownloadPage.tsx"]} />

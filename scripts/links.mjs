@@ -1,0 +1,29 @@
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkMdx from 'remark-mdx';
+import { visit } from 'unist-util-visit';
+import GithubSlugger from 'github-slugger';
+export function parseDocument(body) {
+ const tree=unified().use(remarkParse).use(remarkMdx).parse(body);
+ const links=[],anchors=new Set(),slugger=new GithubSlugger();
+ const text=node=>node.value??node.children?.map(text).join('')??'';
+ visit(tree,node=>{
+  if(node.type==='heading')anchors.add(slugger.slug(text(node)));
+  if(node.type==='link'||node.type==='image')links.push(node.url);
+  if(node.type==='mdxJsxFlowElement'||node.type==='mdxJsxTextElement')for(const attr of node.attributes??[])if(['href','src'].includes(attr.name)&&typeof attr.value==='string')links.push(attr.value);
+ });
+ return {links,anchors};
+}
+export function validateLinks(pages){
+ const errors=[];
+ for(const [page,data]of pages)for(const href of data.links){
+  if(/^(https?:|mailto:)/.test(href)||href==='/')continue;
+  if(!href.startsWith('/docs')&&!href.startsWith('#')){errors.push(`${page}: unsupported relative/local link ${href}`);continue;}
+  const [url,fragment]=href.split('#');
+  const target=url?url.replace(/^\/docs\/?/,'').replace(/\/$/,'')||'index':page;
+  const doc=pages.get(target);
+  if(!doc)errors.push(`${page}: missing link target ${href}`);
+  else if(fragment&&!doc.anchors.has(decodeURIComponent(fragment)))errors.push(`${page}: missing anchor ${href}`);
+ }
+ return errors;
+}

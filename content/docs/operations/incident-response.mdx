@@ -1,0 +1,39 @@
+---
+title: "Incident response and capacity"
+description: "Assign real owners and measure the small-user deployment."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+The initial audience estimate is20–50 people. That is a planning input, not a measured request rate or concurrency target. Peak simultaneous users, photo count/size, model runs and retention still need confirmation.
+
+## Prepare before release
+
+| Area | Evidence to record |
+|---|---|
+| Accountable responders | Person with access to hosting, identity, database, storage and backup keys |
+| Recovery | RPO/RTO, off-server encrypted backup and measured isolated restoration |
+| Capacity | Concurrent reads/uploads/simulations, latency/error/resource measurements and limits |
+| Abuse controls | Request/concurrency/rate policies appropriate to exposed endpoints |
+| Observability | Redacted structured logs, request IDs, latency/errors/storage/identity alerts and recipient |
+| Privacy | Who may access raw reports/media and how incidents/retention are handled |
+
+## Respond to a failure
+
+<Steps><Step>
+### Scope and preserve evidence
+
+Record timestamp, environment, request ID, exact release and failed workflow. Check liveness/readiness and internal redacted logs; avoid copying tokens, private reports or media URLs into public issues.
+</Step><Step>
+### Stabilize through the agreed owner
+
+Use the release/incident procedure to limit writes or roll back compatible artifacts. Preserve post-cutover writes and original custody. Do not regenerate storage credentials, delete volumes or disable authorization merely to make a probe green.
+</Step><Step>
+### Recover and verify
+
+Reconcile application/identity data, media integrity and permissions, then test real client workflows. Record achieved recovery and limitations, update the runbook and communicate through the approved owner.
+</Step></Steps>
+
+Source request/photo size bounds are not a complete rate-control or denial-of-service qualification. Named owners, alert recipients and the actual response rehearsal are not supplied by a code build.
+
+<SourceLinks paths={["services/api/app/http/request_id.py", "services/api/app/http/limits.py", "docs/operations/staging-acceptance-2026-10-18.md"]} />

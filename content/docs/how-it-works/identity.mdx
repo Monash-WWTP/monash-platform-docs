@@ -1,0 +1,33 @@
+---
+title: "Identity, sessions and capabilities"
+description: "Authorization is enforced in the API, not inferred from email or UI state."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+## Identity mapping
+
+Native accounts are mapped by unique OIDC **issuer and subject**. Email is an attribute, not a safe ownership key. Legacy reports must not be claimed merely because an email matches. Token issuer, audience, signature and time checks are part of authentication; revocation boundaries reject old sessions/tokens.
+
+<Tabs items={['Browser','Android source']}><Tab value="Browser">
+The API initiates authorization-code/PKCE login with state, nonce and a short-lived attempt bound to a browser cookie. Callback validation establishes a database-held session. The browser holds an HttpOnly `monash_session` cookie; protected mutating cookie requests need the matching `X-CSRF-Token` and exact configured Origin. Browser clients do not construct bearer tokens from a bundled secret.
+</Tab><Tab value="Android source">
+The app opens the external browser for OIDC/PKCE and stores refresh credentials in Android secure storage. API calls use bearer authentication. Public client configuration contains origins/client ID, never a confidential client secret. Verified identity is required before app-owned report access.
+</Tab></Tabs>
+
+## Capability boundaries
+
+| Capability | Intended operation | Additional check |
+|---|---|---|
+| `report:own` | Submit/read own reports and upload own media | Verified native account |
+| `report:review` | Review reports and access reviewable private media | MFA |
+| `scenario:operate` | Change scenarios, run/replay and compare | MFA |
+| `monitor:read` | Available capability in administration | Do not infer a gate on public monitoring reads |
+
+An administrator uses `scripts/administer_account.py` with a registered native account UUID, explicit capability list, administrator identity and reason. This changes server-owned capabilities, revokes browser sessions and records an audit event. It is not a public self-assignment endpoint. The supplied list replaces the account's capability set; preserve any other approved capabilities deliberately.
+
+## Failure behavior
+
+Missing identity configuration/unavailable keys returns503. Invalid/expired/revoked sessions return401. Missing capability, MFA or CSRF proof returns403. Do not “fix” these by disabling validation. Shared account production registration/email/recovery and cross-client revocation still require integrated acceptance.
+
+<SourceLinks paths={["services/api/app/routers/auth.py", "services/api/app/identity/dependencies.py", "services/api/app/identity/tokens.py", "services/api/app/identity/administration.py", "scripts/administer_account.py"]} />

@@ -1,0 +1,45 @@
+---
+title: "Build the Android source"
+description: "Compile a synthetic shared-API acceptance build without publishing it."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+**Prerequisites:** Flutter **3.44.7**, Android SDK, JDK **17** and the platform source checkout. No iOS scaffolding is supplied in the pinned import.
+
+<Steps><Step>
+### Check and compile
+
+From the platform repository:
+
+```sh
+cd apps/citizenflood
+flutter pub get
+flutter analyze
+flutter test
+flutter build apk --debug --dart-define-from-file=staging-config.example.json
+test -s build/app/outputs/flutter-apk/app-debug.apk
+```
+
+This creates a debug verification artifact, not a public release.
+</Step><Step>
+### Understand configuration
+
+The source requires `API_BASE_URL`, `OIDC_ISSUER`, `OIDC_DISCOVERY_URL` and a public `OIDC_CLIENT_ID`. HTTPS is required, except explicit `LOCAL_STAGING=true` with loopback HTTP. The redirect is `au.edu.monash.citizenflood:/oauthredirect`.
+</Step><Step>
+### Connect an accepted environment
+
+The sample points to localhost API8181/identity9100. On a physical device, localhost means the device itself; a sample build does not prove network or callback connectivity. Prepare the approved device/network and OIDC client configuration before an operational test. Do not bundle a client secret, service-role key or private signing material.
+</Step></Steps>
+
+<Tabs items={['Verification build','Public release']}><Tab value="Verification build">
+Debug staging builds use synthetic configuration for compile/tests. They must not replace the published app or be presented as production-ready.
+</Tab><Tab value="Public release">
+Use the existing project signing identity, a larger versionCode, approved HTTPS endpoints and physical-device fresh-install/upgrade testing. Follow [Android release](/docs/operations/android-release).
+</Tab></Tabs>
+
+## Expected outcome
+
+Analysis/tests pass and a nonempty debug APK exists. The current source uses API/OIDC; old README instructions mentioning Supabase keys or legacy RLS are historical and do not configure this source client.
+
+<SourceLinks paths={["apps/citizenflood/lib/config/env.dart", "apps/citizenflood/staging-config.example.json", ".github/workflows/citizenflood.yml"]} />

@@ -1,0 +1,36 @@
+---
+title: "Verification and evidence"
+description: "Repeat software checks safely and record their limits."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+## Documentation checks
+
+In this docs repository, `npm test` exercises coverage/link/drift validators, `npm run check:docs` validates MDX/navigation/evidence and generated API material, `npm run typecheck` checks the app, `npm run lint` checks authored code and `npm run build` produces static output. CI repeats these from a lockfile install.
+
+Browser acceptance covers landing role links, search, keyboard/mobile navigation, TOC, Steps/Tabs/Accordion interaction, code-copy, API schemas and404 behavior. A static build alone does not establish that these interactions work.
+
+## Platform checks
+
+Run these only in the **platform checkout**, with the exact disposable local database. Tests may reverse/reapply schema; never point them at valuable data.
+
+```sh
+export DATABASE_URL='postgresql+psycopg://monash_test:monash_test@127.0.0.1:5433/monash_test'
+export TEST_DATABASE_URL="$DATABASE_URL"
+export APP_ENV=test
+uv run --locked pytest -q services/api/tests packages/simulation/wwtp_sim/tests tests
+uv run --locked python scripts/check_repository.py
+uv run --locked python scripts/check_import_inventory.py --verify-targets
+npm --prefix apps/dashboard test
+npm --prefix apps/dashboard run lint
+npm --prefix apps/dashboard run build
+```
+
+Original-legacy-checkout verification may be skipped when those source checkouts are absent; report it explicitly. Android CI analysis/tests/debug APK are additional software evidence, not signing/device or live identity/media acceptance.
+
+## What to record
+
+For a claim of verification, state exact source/artifact, date/environment, command or workflow, result, reviewer and limitations. Separate source-tested, synthetic-browser, real-device, live-integration, recovery and scientific evidence. Passing any one class does not authorize claims from another class.
+
+<SourceLinks paths={["docs/operations/local-development.md", ".github/workflows/api.yml", ".github/workflows/dashboard.yml"]} />

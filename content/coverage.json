@@ -1,0 +1,444 @@
+[
+  {
+    "id": "index",
+    "page": "index",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "PRODUCT.md",
+      "docs/migration/ROADMAP.md"
+    ]
+  },
+  {
+    "id": "overview/index",
+    "page": "overview/index",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "PRODUCT.md",
+      "docs/architecture/README.md",
+      "services/api/app/main.py"
+    ]
+  },
+  {
+    "id": "overview/status",
+    "page": "overview/status",
+    "audience": "all",
+    "status": "verified-environment",
+    "evidence": [
+      "docs/operations/staging-acceptance-2026-10-18.md",
+      "docs/operations/android-release-1.0.0.json",
+      "docs/science/VALIDATION.md"
+    ]
+  },
+  {
+    "id": "overview/glossary",
+    "page": "overview/glossary",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/db/models.py",
+      "services/api/app/http/contracts.py",
+      "packages/simulation/wwtp_sim/domain.py"
+    ]
+  },
+  {
+    "id": "get-started/index",
+    "page": "get-started/index",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "PRODUCT.md",
+      "docs/migration/ROADMAP.md"
+    ]
+  },
+  {
+    "id": "citizen-start",
+    "page": "get-started/citizens",
+    "audience": "citizen",
+    "status": "released",
+    "evidence": [
+      "docs/operations/android-release-1.0.0.json",
+      "docs/operations/android-direct-release.md",
+      "apps/dashboard/src/pages/public/DownloadPage.tsx"
+    ]
+  },
+  {
+    "id": "operator-start",
+    "page": "get-started/operators",
+    "audience": "operator",
+    "status": "source",
+    "evidence": [
+      "apps/dashboard/src/pages/MapPage.tsx",
+      "apps/dashboard/src/components/auth/OperatorAccess.tsx",
+      "services/api/app/operator_auth.py",
+      "services/api/app/identity/administration.py"
+    ]
+  },
+  {
+    "id": "local-start",
+    "page": "get-started/local-development",
+    "audience": "developer",
+    "status": "source",
+    "evidence": [
+      "docs/operations/local-development.md",
+      "apps/dashboard/vite.config.ts",
+      "services/api/app/devdata.py"
+    ]
+  },
+  {
+    "id": "android-build",
+    "page": "get-started/android-development",
+    "audience": "developer",
+    "status": "source",
+    "evidence": [
+      "apps/citizenflood/lib/config/env.dart",
+      "apps/citizenflood/staging-config.example.json",
+      ".github/workflows/citizenflood.yml"
+    ]
+  },
+  {
+    "id": "monitoring",
+    "page": "guides/monitoring",
+    "audience": "operator",
+    "status": "source",
+    "evidence": [
+      "apps/dashboard/src/components/monitoring/StationDashboard.tsx",
+      "apps/dashboard/src/components/monitoring/sampleSummary.ts",
+      "services/api/app/routers/monitoring.py"
+    ]
+  },
+  {
+    "id": "community",
+    "page": "guides/community-observations",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/routers/reports.py",
+      "apps/dashboard/src/pages/MapPage.tsx"
+    ]
+  },
+  {
+    "id": "report-submit",
+    "page": "guides/reporting",
+    "audience": "citizen",
+    "status": "source",
+    "evidence": [
+      "apps/citizenflood/lib/screens/report_form_screen.dart",
+      "apps/citizenflood/lib/services/report_repository.dart",
+      "services/api/app/reporting/schemas.py",
+      "services/api/app/routers/reports.py"
+    ]
+  },
+  {
+    "id": "moderation",
+    "page": "guides/moderation",
+    "audience": "operator",
+    "status": "source",
+    "evidence": [
+      "apps/dashboard/src/pages/ModerationPage.tsx",
+      "services/api/app/routers/reports.py",
+      "services/api/app/identity/dependencies.py"
+    ]
+  },
+  {
+    "id": "scenario-run",
+    "page": "guides/scenarios",
+    "audience": "operator",
+    "status": "source",
+    "evidence": [
+      "apps/dashboard/src/pages/WorkspacePage.tsx",
+      "apps/dashboard/src/components/scenario/ScenarioPanel.tsx",
+      "apps/dashboard/src/components/results/ResultsPanel.tsx",
+      "services/api/app/services/simulation.py"
+    ]
+  },
+  {
+    "id": "compare",
+    "page": "guides/comparison",
+    "audience": "operator",
+    "status": "source",
+    "evidence": [
+      "services/api/app/services/comparison.py",
+      "apps/dashboard/src/components/comparison/ComparisonView.tsx",
+      "apps/dashboard/src/components/comparison/comparisonModel.ts"
+    ]
+  },
+  {
+    "id": "publish",
+    "page": "guides/publishing",
+    "audience": "maintainer",
+    "status": "source",
+    "evidence": [
+      "apps/dashboard/README.md",
+      "apps/dashboard/src/research/articles.ts",
+      "apps/dashboard/src/releases/current.json"
+    ]
+  },
+  {
+    "id": "how-it-works/architecture",
+    "page": "how-it-works/architecture",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "docs/architecture/README.md",
+      "services/api/app/main.py",
+      "services/api/app/db/platform.py"
+    ]
+  },
+  {
+    "id": "identity",
+    "page": "how-it-works/identity",
+    "audience": "developer",
+    "status": "source",
+    "evidence": [
+      "services/api/app/routers/auth.py",
+      "services/api/app/identity/dependencies.py",
+      "services/api/app/identity/tokens.py",
+      "services/api/app/identity/administration.py",
+      "scripts/administer_account.py"
+    ]
+  },
+  {
+    "id": "report-lifecycle",
+    "page": "how-it-works/report-lifecycle",
+    "audience": "developer",
+    "status": "source",
+    "evidence": [
+      "services/api/app/routers/reports.py",
+      "services/api/app/reporting/schemas.py",
+      "services/api/app/http/limits.py",
+      "services/api/tests/test_media.py"
+    ]
+  },
+  {
+    "id": "how-it-works/data-and-migrations",
+    "page": "how-it-works/data-and-migrations",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "docs/migration/ROADMAP.md",
+      "services/api/app/migration/monitoring.py",
+      "services/api/app/migration/private.py",
+      "services/api/alembic.ini"
+    ]
+  },
+  {
+    "id": "run-provenance",
+    "page": "how-it-works/run-provenance",
+    "audience": "researcher",
+    "status": "source",
+    "evidence": [
+      "services/api/app/services/simulation.py",
+      "services/api/app/services/comparison.py",
+      "services/api/tests/test_run_provenance.py"
+    ]
+  },
+  {
+    "id": "science/index",
+    "page": "science/index",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "docs/science/VALIDATION.md",
+      "docs/science/SIMULATION_EVIDENCE_AUDIT.md"
+    ]
+  },
+  {
+    "id": "effluent-model",
+    "page": "science/effluent-model",
+    "audience": "researcher",
+    "status": "source",
+    "evidence": [
+      "packages/simulation/wwtp_sim/models/effluent_v1.py",
+      "packages/simulation/wwtp_sim/domain.py",
+      "docs/science/SIMULATION_EVIDENCE_AUDIT.md"
+    ]
+  },
+  {
+    "id": "carbon-accounting",
+    "page": "science/carbon-accounting",
+    "audience": "researcher",
+    "status": "source",
+    "evidence": [
+      "packages/simulation/wwtp_sim/carbon_accounting.py",
+      "packages/simulation/wwtp_sim/models/effluent_v1.py",
+      "docs/science/SIMULATION_EVIDENCE_AUDIT.md"
+    ]
+  },
+  {
+    "id": "science/parameters",
+    "page": "science/parameters",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "packages/simulation/wwtp_sim/domain.py",
+      "packages/simulation/wwtp_sim/models/effluent_v1.py",
+      "apps/dashboard/src/stores/scenarioStore.ts",
+      "services/api/app/services/simulation.py"
+    ]
+  },
+  {
+    "id": "validation",
+    "page": "science/validation",
+    "audience": "researcher",
+    "status": "source",
+    "evidence": [
+      "docs/science/VALIDATION.md",
+      "docs/science/SIMULATION_EVIDENCE_AUDIT.md",
+      "services/api/tests/test_run_provenance.py"
+    ]
+  },
+  {
+    "id": "operations/configuration",
+    "page": "operations/configuration",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/config.py",
+      "infra/staging/.env.example",
+      "scripts/staging.py",
+      "apps/citizenflood/lib/config/env.dart"
+    ]
+  },
+  {
+    "id": "operations/deployment",
+    "page": "operations/deployment",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "docs/operations/deployment.md",
+      "apps/dashboard/vercel.json",
+      "docs/operations/staging-acceptance-2026-10-18.md"
+    ]
+  },
+  {
+    "id": "operations/readiness",
+    "page": "operations/readiness",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/routers/readiness.py",
+      "services/api/app/db/session.py",
+      "services/api/tests/test_readiness.py"
+    ]
+  },
+  {
+    "id": "recovery",
+    "page": "operations/backup-and-restore",
+    "audience": "maintainer",
+    "status": "pending",
+    "evidence": [
+      "scripts/staging_backup.py",
+      "docs/operations/staging-acceptance-2026-10-18.md"
+    ]
+  },
+  {
+    "id": "operations/migration-and-rollback",
+    "page": "operations/migration-and-rollback",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "scripts/migrate_platform.py",
+      "scripts/import_private_reports.py",
+      "services/api/app/migration/private.py",
+      "docs/migration/ROADMAP.md"
+    ]
+  },
+  {
+    "id": "release",
+    "page": "operations/android-release",
+    "audience": "maintainer",
+    "status": "pending",
+    "evidence": [
+      "scripts/build_android_release.py",
+      "docs/operations/android-direct-release.md",
+      "docs/operations/android-release-1.0.0.json"
+    ]
+  },
+  {
+    "id": "operations/incident-response",
+    "page": "operations/incident-response",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/http/request_id.py",
+      "services/api/app/http/limits.py",
+      "docs/operations/staging-acceptance-2026-10-18.md"
+    ]
+  },
+  {
+    "id": "operations/release-gates",
+    "page": "operations/release-gates",
+    "audience": "all",
+    "status": "pending",
+    "evidence": [
+      "docs/operations/staging-acceptance-2026-10-18.md",
+      "docs/product/platform-resolution-checklist.md"
+    ]
+  },
+  {
+    "id": "api-reference",
+    "page": "reference/index",
+    "audience": "developer",
+    "status": "source",
+    "evidence": [
+      "services/api/openapi.json",
+      "services/api/app/main.py"
+    ]
+  },
+  {
+    "id": "reference/authentication",
+    "page": "reference/authentication",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/routers/auth.py",
+      "services/api/app/identity/dependencies.py",
+      "apps/dashboard/src/api/transport.ts"
+    ]
+  },
+  {
+    "id": "reference/errors-and-pagination",
+    "page": "reference/errors-and-pagination",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "services/api/app/http/errors.py",
+      "services/api/app/http/limits.py",
+      "services/api/app/routers/monitoring.py",
+      "services/api/app/routers/reports.py"
+    ]
+  },
+  {
+    "id": "contributing/index",
+    "page": "contributing/index",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "CONTRIBUTING.md",
+      "docs/migration/ROADMAP.md"
+    ]
+  },
+  {
+    "id": "contributing/documentation",
+    "page": "contributing/documentation",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "CONTRIBUTING.md",
+      "docs/science/VALIDATION.md"
+    ]
+  },
+  {
+    "id": "contributing/verification",
+    "page": "contributing/verification",
+    "audience": "all",
+    "status": "source",
+    "evidence": [
+      "docs/operations/local-development.md",
+      ".github/workflows/api.yml",
+      ".github/workflows/dashboard.yml"
+    ]
+  }
+]

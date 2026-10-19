@@ -1,0 +1,14 @@
+{
+  "title": "Manual",
+  "pages": [
+    "index",
+    "overview",
+    "get-started",
+    "guides",
+    "how-it-works",
+    "science",
+    "reference",
+    "operations",
+    "contributing"
+  ]
+}

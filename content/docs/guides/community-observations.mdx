@@ -1,0 +1,28 @@
+---
+title: "Interpret community observations"
+description: "Keep reported conditions separate from lab data and model outputs."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+Open `/dashboard` and use **Approved community wastewater** to show or hide the public community layer. These are citizen reports reviewed by a moderator. They are not laboratory samples or automatically ingested simulation inputs.
+
+## What the public projection includes
+
+The API allowlists category, condition/reading fields appropriate to the contract, rounded location and observation timestamps. It excludes private identity, free-text notes, exact original coordinates and media paths. Rounded map positions must not be used to identify the original reporting location.
+
+<Steps><Step>
+### Check provenance
+
+Read the reported condition and observation date. Normal/warning/critical describe the citizen's reported wastewater condition, not an automatically measured plant alert.
+</Step><Step>
+### Handle absence correctly
+
+An empty approved list means no observations are available under this contract. It does not prove no incidents occurred. On an API failure, use Retry community observations. The map/list fallback remains distinct from the lab panel.
+</Step></Steps>
+
+## What approval means
+
+Approval controls public projection. It is not a laboratory verification, proof of causation or authorization to publish the underlying private report/photo. See [moderation](/docs/guides/moderation) for the review process.
+
+<SourceLinks paths={["services/api/app/routers/reports.py", "apps/dashboard/src/pages/MapPage.tsx"]} />

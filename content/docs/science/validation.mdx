@@ -1,0 +1,38 @@
+---
+title: "Scientific validation and reproducibility"
+description: "The evidence required before moving beyond an illustrative research sandbox."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+Current policy is `illustrative_unvalidated` and `decision_use_permitted=false`. Software tests and literature links do not change it.
+
+<Steps><Step>
+### Define the scientific question and system boundary
+
+Assign the actual plant/process, intended output, operating regime, spatial/time boundary and decision use. Collect quality-controlled influent, flow, operating histories and reactor/settler geometry appropriate to a chosen process model.
+</Step><Step>
+### Establish traceable methods
+
+Create an equation/parameter/source/units/applicability register. Resolve unsupported methane-factor entries and the recovery/TN–TKN terminology issues. Choose a published process model where appropriate rather than relabelling this heuristic as ASM1.
+</Step><Step>
+### Verify before calibrating
+
+Benchmark the implementation against its reference problem, including model layout, influent, procedure and evaluation criteria. [IWA benchmarking](https://iwa-mia.org/benchmarking/) supplies a framework; it does not approve this code.
+</Step><Step>
+### Calibrate and independently validate
+
+Separate calibration from held-out validation. Report residuals, sensitivity, uncertainty, sampling/censoring provenance and operating-regime transferability. Define acceptance criteria before inspecting success and obtain independent scientific review.
+</Step><Step>
+### Authorize a versioned use
+
+Record reviewer, data/model/artifact version, permissible use and limits. Only separate scientific acceptance may permit decision use. Preserve old run validation states and never backfill them as validated merely because a later model passes.
+</Step></Steps>
+
+## What existing evidence supports
+
+The source audit checked guideline factor/equation claims and controlled synthetic behavior. It is not a systematic review, calibration study or site acceptance. [Full-scale N₂O monitoring research](https://doi.org/10.2166/wst.2023.420) supports attention to process/temporal variation; it does not establish a causal aeration benefit for this platform's fixed factors.
+
+Reproduction requires source revision, dependency lockfile/runtime, resolved inputs, model version, artifact and results. The seed alone is not an uncertainty analysis.
+
+<SourceLinks paths={["docs/science/VALIDATION.md", "docs/science/SIMULATION_EVIDENCE_AUDIT.md", "services/api/tests/test_run_provenance.py"]} />

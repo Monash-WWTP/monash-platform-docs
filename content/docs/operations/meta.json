@@ -1,0 +1,13 @@
+{
+  "title": "Operations",
+  "pages": [
+    "configuration",
+    "deployment",
+    "readiness",
+    "backup-and-restore",
+    "migration-and-rollback",
+    "android-release",
+    "incident-response",
+    "release-gates"
+  ]
+}
