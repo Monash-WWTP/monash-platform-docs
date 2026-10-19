@@ -14,9 +14,9 @@ html > body[data-scroll-locked] {
 
 :root { --color-fd-primary:#146346; --color-fd-primary-foreground:#fff; --color-fd-background:#fff; --color-fd-foreground:#202724; --color-fd-muted:#f2f6f3; --color-fd-muted-foreground:#58635d; --color-fd-border:#dbe2dd; }
 .dark { --color-fd-primary:#7dd5ab; --color-fd-primary-foreground:#12271c; --color-fd-background:#121b16; --color-fd-foreground:#e8efea; --color-fd-muted:#1e2c23; --color-fd-muted-foreground:#b0c1b5; --color-fd-border:#35453b; }
-.home-manual { width:min(1120px,100%); margin-inline:auto; padding:64px 28px 28px; }
+.home-manual { width:min(1120px,100%); margin-inline:auto; padding:48px 28px 28px; }
 .home-intro { max-width:780px; margin-bottom:40px; }
-.home-intro h1 { font-size:clamp(2.3rem,5vw,3.6rem); letter-spacing:-.035em; line-height:1.12; font-weight:700; text-wrap:balance; }
+.home-intro h1 { font-size:clamp(2.1rem,4vw,3.2rem); letter-spacing:-.035em; line-height:1.12; font-weight:700; text-wrap:balance; }
 .home-intro p { max-width:65ch; margin:24px 0; color:var(--color-fd-muted-foreground); font-size:1.1rem; line-height:1.75; }
 .home-start { display:inline-flex; align-items:center; gap:12px; background:var(--color-fd-primary); color:var(--color-fd-primary-foreground); border-radius:8px; padding:12px 18px; font-weight:600; }
 .home-manual section { margin-top:48px; }

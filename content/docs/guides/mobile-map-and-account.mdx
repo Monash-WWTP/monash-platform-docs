@@ -1,0 +1,32 @@
+---
+title: "Use the mobile map and account"
+description: "Navigate the current source client without confusing own history with public observations."
+sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+lastVerified: 2026-10-19
+---
+
+<Callout title="Current source workflow">This guide describes the shared-API source client. The signed public1.0.0 app remains on its legacy backend; verify the actual release/environment before expecting this identity behavior.</Callout>
+
+The bottom navigation has **Report**, **Map** and **Me**. The map title says “Live map”, but that label does not establish continuous measurements or a validated real-time plant feed.
+
+<Steps><Step>
+### Read your recent reports
+
+Open Map in an authenticated shared-API environment. The repository requests your own `/api/v1/reports` history, not the public approved-community endpoint. Refresh requests the list again; do not treat an old displayed result as live sensor telemetry. Initial/empty/error states depend on the API response.
+</Step><Step>
+### Inspect a report detail
+
+Choose a marker/list entry. The detail shows category, reading/condition, local display time, optional note/photo and pending-review status. Photo content is fetched through authorized media access; unavailable media displays Photo unavailable. Your own pending/private content is not evidence it is publicly visible.
+</Step><Step>
+### Manage your session
+
+Open Me. Sign in uses the configured external identity browser and shows the verified account email when available. A citizen account does not grant operator access. Sign out clears locally stored refresh/ID credentials and attempts provider end-session; broader revocation must be verified against the intended identity environment.
+</Step></Steps>
+
+## Offline and service errors
+
+Use the map refresh/retry control after a transient failure. Refresh-token provider errors preserve the stored identity rather than erasing it automatically; reconnect or sign in again as instructed. The source does not establish an unlimited offline report queue, complete tile caching or background synchronization guarantee.
+
+Public approved observations are a different API projection with rounded locations and no private note/media. See [community observations](/docs/guides/community-observations). Account recovery/email verification depend on the identity provider and remain an integrated release gate, not a native-app password-reset screen supplied by this source.
+
+<SourceLinks paths={["apps/citizenflood/lib/screens/home_shell.dart", "apps/citizenflood/lib/screens/map_screen.dart", "apps/citizenflood/lib/screens/profile_screen.dart", "apps/citizenflood/lib/services/report_repository.dart", "apps/citizenflood/lib/services/account_session.dart"]} />

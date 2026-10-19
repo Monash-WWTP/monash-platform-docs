@@ -1,4 +1,4 @@
-export const requiredWorkflows = ['citizen-start','operator-start','local-start','android-build','monitoring','community','report-submit','moderation','scenario-run','compare','publish','identity','report-lifecycle','run-provenance','effluent-model','carbon-accounting','validation','api-reference','recovery','release'];
+export const requiredWorkflows = ['citizen-start','operator-start','local-start','android-build','monitoring','community','report-submit','mobile-map-account','moderation','scenario-run','compare','publish','identity','report-lifecycle','run-provenance','effluent-model','carbon-accounting','validation','api-reference','recovery','release'];
 export function validateCoverage(entries, pages, evidence, required = requiredWorkflows) {
  const errors = [], ids = new Set();
  for (const entry of entries) {

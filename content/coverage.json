@@ -440,5 +440,18 @@
       ".github/workflows/api.yml",
       ".github/workflows/dashboard.yml"
     ]
+  },
+  {
+    "id": "mobile-map-account",
+    "page": "guides/mobile-map-and-account",
+    "audience": "citizen",
+    "status": "source",
+    "evidence": [
+      "apps/citizenflood/lib/screens/home_shell.dart",
+      "apps/citizenflood/lib/screens/map_screen.dart",
+      "apps/citizenflood/lib/screens/profile_screen.dart",
+      "apps/citizenflood/lib/services/report_repository.dart",
+      "apps/citizenflood/lib/services/account_session.dart"
+    ]
   }
 ]
