@@ -1,10 +1,11 @@
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkMdx from 'remark-mdx';
+import remarkMath from 'remark-math';
 import { visit } from 'unist-util-visit';
 import GithubSlugger from 'github-slugger';
 export function parseDocument(body) {
- const tree=unified().use(remarkParse).use(remarkMdx).parse(body);
+ const tree=unified().use(remarkParse).use(remarkMath).use(remarkMdx).parse(body);
  const sourcePaths=[],links=[],anchors=new Set(),slugger=new GithubSlugger();
  const text=node=>node.value??node.children?.map(text).join('')??'';
  visit(tree,node=>{

@@ -33,3 +33,9 @@ test('local screenshots resolve to actual public assets and missing captures fai
  assert.deepEqual(validateLinks(pages,new Set(['/images/app-preview/report.png'])),[]);
  assert.match(validateLinks(pages,new Set()).join(),/report.png/);
 });
+
+test('math with braces is parsed without hiding real documentation links',()=>{
+ const doc=parseDocument('## Equations\n\n$x_{i}$\n\n$$\nx_{i}=1\n$$\n\n[Parameters](/docs/science/parameters)');
+ assert.deepEqual(doc.links,['/docs/science/parameters']);
+ assert.deepEqual([...doc.anchors],['equations']);
+});

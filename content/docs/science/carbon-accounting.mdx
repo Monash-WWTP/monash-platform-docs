@@ -9,6 +9,43 @@ lastVerified: 2026-10-19
 
 Let B be assumed influent BOD₅ in mg/L, N be influent TKN in mg N/L, fCH4 in kg CH₄/kg BOD₅, fN2O in kg N₂O-N/kg N, and recovery terms rCH4/rN2O in kg gas/m³.
 
+### Concentration to greenhouse-gas intensity
+
+$$
+\begin{aligned}
+I_{\mathrm{CH_4}}&=\left(B f_{\mathrm{CH_4}}10^{-3}-r_{\mathrm{CH_4}}\right)28,\\
+I_{\mathrm{N_2O}}&=\left(N f_{\mathrm{N_2O}}\frac{44}{28}10^{-3}-r_{\mathrm{N_2O}}\right)265,\\
+I_{\mathrm{total}}&=I_{\mathrm{CH_4}}+I_{\mathrm{N_2O}}.
+\end{aligned}
+$$
+
+| Symbol | Meaning | Unit |
+|---|---|---|
+| $B$, $N$ | Assumed influent BOD₅ and TKN, after demand scaling | mg/L and mg N/L |
+| $f_{\mathrm{CH_4}}$ | Methane emission factor | kg CH₄/kg BOD₅ |
+| $f_{\mathrm{N_2O}}$ | Nitrous-oxide nitrogen emission factor | kg N₂O-N/kg N |
+| $r_{\mathrm{CH_4}}$, $r_{\mathrm{N_2O}}$ | Recovered gas per treated volume | kg of the respective gas/m³ |
+| $I$ | Emission intensity after recovery and GWP conversion | kg CO₂-eq/m³ |
+
+The factors 28 and 265 convert gas mass to CO₂ equivalents under the cited 100-year GWP convention. Recovery is subtracted from gas mass before GWP conversion; the N₂O recovery term is already gas mass, so the 44/28 ratio applies only to the gross nitrogen-based emission term.
+
+### Daily and horizon totals
+
+For daily flow $Q_i$ in MLD and $n$ simulated days:
+
+$$
+\begin{aligned}
+E_i&=I_{\mathrm{total},i}\,Q_i\,1000,\\
+E_{\mathrm{horizon}}&=\sum_{i=0}^{n-1}E_i,\\
+\overline E&=\frac{1}{n}\sum_{i=0}^{n-1}E_i, &
+\overline I&=\frac{1}{n}\sum_{i=0}^{n-1}I_{\mathrm{total},i}.
+\end{aligned}
+$$
+
+$E_i$ is kg CO₂-eq/day, the horizon sum is kg CO₂-eq over the simulated days, and $\overline E$ is the arithmetic daily mean. The reported mean intensity $\overline I$ is an arithmetic mean of daily intensities, not a flow-weighted horizon intensity. Multiplying mean flow by mean intensity is not generally equivalent to summing daily emissions. The implementation sums unrounded daily values before rounding the returned horizon KPI to two decimals.
+
+Matching implementation pseudocode:
+
 ```text
 I_CH4 = (B × fCH4 × 10⁻³ − rCH4) × 28
 I_N2O = (N × fN2O × (44/28) × 10⁻³ − rN2O) × 265

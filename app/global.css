@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'katex/dist/katex.min.css';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 @import 'fumadocs-openapi/css/preset.css';
@@ -39,3 +40,6 @@ html > body[data-scroll-locked] {
 ::selection { background:#d4d4d4; color:#171717; }
 .dark ::selection { background:#525252; color:#fafafa; }
 @media(max-width:800px) { .home-opening {grid-template-columns:1fr; gap:28px;} .home-landscape img {aspect-ratio:2;} }
+
+/* Keep long equations readable without widening the mobile document. */
+.katex-display { max-width:100%; overflow-x:auto; overflow-y:hidden; padding-block:.5rem; }
