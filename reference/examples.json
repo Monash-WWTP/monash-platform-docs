@@ -31,5 +31,48 @@
   "ModerationInput": {
     "status": "approved",
     "reason": "Synthetic review example"
+  },
+  "CompareRequest": {
+    "run_ids": [
+      101,
+      102
+    ]
+  },
+  "RunRequest": {
+    "start_date": "2025-01-01",
+    "model_id": "effluent_v1"
+  },
+  "ScenarioIn": {
+    "name": "Synthetic maintenance scenario",
+    "horizon": "3_months",
+    "forecast": {
+      "demand": "normal",
+      "weather": "normal",
+      "influent": {
+        "flow": 6,
+        "bod": 250,
+        "cod": 520,
+        "tss": 300,
+        "ammonia": 30,
+        "tkn": 40
+      }
+    },
+    "maintenance": [
+      {
+        "unit_type": "aeration",
+        "start_date": "2025-01-08",
+        "duration_days": 7,
+        "availability_pct": 50
+      }
+    ],
+    "operating_parameters": {
+      "capacity_mld": 10,
+      "aeration_availability": 100,
+      "pump_availability": 100,
+      "clarifier_availability": 100,
+      "ch4_recovered_kg_m3": 0,
+      "n2o_recovered_kg_m3": 0
+    },
+    "is_baseline": false
   }
 }
