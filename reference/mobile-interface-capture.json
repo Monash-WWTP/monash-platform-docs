@@ -1,0 +1,119 @@
+{
+  "capturedDate": "2026-10-19",
+  "kind": "actual Android emulator screenshots; source preview, not published APK",
+  "appSourceRevision": "dc5c82593ed5970c18083588008abaffc9300955",
+  "device": "Fresh Pixel 7 AVD, Android API 36, 1080x2400, emulator-5580",
+  "package": "au.edu.monash.citizenflood.staging",
+  "configuration": "staging-config.example.json; adb reverse localhost:8181 to GET-only synthetic fixture localhost:8190",
+  "apkSha256": "61c1a50e788780d65f20f396b17fe0a01dfa4a701797b09c448af89cc30fc8ae",
+  "identity": "Signed out; no personal accounts or private report data",
+  "map": "Map data \u00a9 OpenStreetMap contributors; two synthetic public records near Kuala Lumpur",
+  "data": [
+    {
+      "category": "rainfall",
+      "value": 12.5,
+      "unit": "mm",
+      "latitude": 3.14,
+      "longitude": 101.69
+    },
+    {
+      "category": "wastewater",
+      "condition": "normal",
+      "latitude": 3.15,
+      "longitude": 101.7
+    }
+  ],
+  "transformation": "Lossless WebP encoding only; screenshots not retouched",
+  "screens": [
+    {
+      "name": "01-report-categories",
+      "label": "Report categories",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "39951b4a7a2949eec4ab9f3d90df0be635f39bd18ae11322c2ce57f94a033605",
+      "webpSha256": "f26fb10fadf9c5148b0483ae3368fb79731b46ef304b65eb56e9788443351f62",
+      "asset": "/images/app-preview/01-report-categories.webp"
+    },
+    {
+      "name": "02-rainfall-report",
+      "label": "Rainfall report",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "e8d90bf43f2bf7180f57d9899eb39d73eccb5ee7753037017527e76a6a353d2b",
+      "webpSha256": "45e601c6ce4e60c7d9baf3f0b077f5994e1ce3e048200257e8ec143edf04eb61",
+      "asset": "/images/app-preview/02-rainfall-report.webp"
+    },
+    {
+      "name": "03-report-supporting-details",
+      "label": "Photo and note expanded",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "d6e890646636c45518655f83a3e3f7cab6a256ee4d910527a3d33852a23f7d39",
+      "webpSha256": "68fc6e78a6ef065a2a556318b5759bd798bfc3b6deaa7a5669787063678108c7",
+      "asset": "/images/app-preview/03-report-supporting-details.webp"
+    },
+    {
+      "name": "04-water-level-report",
+      "label": "Water-level report",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "defe8c2c54a4d34582d783b6c33e00d81197dfe0b479f59a54194cc8699039a7",
+      "webpSha256": "17bd483455a3ee2c77fb3393054fdb0a3dc5923e484b28cda35d67974da93efa",
+      "asset": "/images/app-preview/04-water-level-report.webp"
+    },
+    {
+      "name": "05-temperature-report",
+      "label": "Temperature report",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "2530ee826b26db52137cd760708dd9e40a8ec9de8f9a0867fc02eded00a4c847",
+      "webpSha256": "85d035acb7e90c0f96bf9896c30d63727c38126f2c61d4254e52aeda34fcdad3",
+      "asset": "/images/app-preview/05-temperature-report.webp"
+    },
+    {
+      "name": "06-wastewater-report",
+      "label": "Wastewater condition report",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "f3cacc743464be940c42e1d7b6b61627e2fb87d303512534a54b28c56b8adb9c",
+      "webpSha256": "3a97ae8d1352c408d67bd3120001f88deb840076e4493370a29385ea45ca8b15",
+      "asset": "/images/app-preview/06-wastewater-report.webp"
+    },
+    {
+      "name": "07-observation-map",
+      "label": "Observation map",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "b4e99b4d04207566b9665f62d1e2e09a0ee1a4160e4f1c63d35bcd7fdecb8eb0",
+      "webpSha256": "81aa5f8b406de0572e9ff8642c951dda781dd16318220458dc26f0e39a2bcbae",
+      "asset": "/images/app-preview/07-observation-map.webp"
+    },
+    {
+      "name": "08-map-recent-readings",
+      "label": "Recent observations expanded",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "bf07ffff8a59b7fd99f3811f70cd62153a3385a7d9c0ad1591b0daddbd7c68a2",
+      "webpSha256": "bb5f2e7b2e2bf1cff5ad9f3ea0a2187d36faaf826457fd4842c44f162eb35c59",
+      "asset": "/images/app-preview/08-map-recent-readings.webp"
+    },
+    {
+      "name": "09-observation-detail",
+      "label": "Observation detail sheet",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "9b6ea497140fed4ad99b308b0584684b6a9f0455f2734b5bc8ef233accfafb82",
+      "webpSha256": "311b0a7a1c6cec8d01c51e214661cab627df735aa3562f936f7f1d19c40e32ef",
+      "asset": "/images/app-preview/09-observation-detail.webp"
+    },
+    {
+      "name": "10-account-signed-out",
+      "label": "Account, signed out",
+      "width": 1080,
+      "height": 2400,
+      "rawPngSha256": "d2207ed19fe525aee2504ce159985e79511f34b0d7a86fdb9450987774eb38be",
+      "webpSha256": "fe370cbd6322faee6f00178f33c7edfdcb620d8813834ae43b7d451db8af3fa0",
+      "asset": "/images/app-preview/10-account-signed-out.webp"
+    }
+  ]
+}

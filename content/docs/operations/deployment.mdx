@@ -1,7 +1,7 @@
 ---
 title: "Deployment boundaries"
 description: "Build independently, route deliberately and qualify the intended environment."
-sourceRevision: 974b1b9c3024089200c5b77d57174ed1432d5fca
+sourceRevision: 200155ba9024326f8e9cf7dd56f7ba6a5205fe55
 lastVerified: 2026-10-19
 ---
 
@@ -19,7 +19,7 @@ Follow the [production server setup guide](/docs/operations/production-server) f
 
 ## Known hosting evidence
 
-At merged platform commit 8b2862b, GitHub API/dashboard/Android/inventory checks passed. The `monash-water-platform` Vercel deployment succeeded. A separate `dashboard` project failed looking for repository-root `package.json`; earlier logs showed its root was not configured as `apps/dashboard`. These are dated observations, not live status checks.
+Historical hosting incidents are recorded in platform operations evidence. The previously misconfigured duplicate `dashboard` Vercel project was corrected; its older missing-package error is not a current failure. Successful static/preview deployments still do not establish an available successor API. Check the current PR and Vercel deployment for the exact release.
 
 ## Acceptance sequence
 

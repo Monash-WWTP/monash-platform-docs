@@ -1,0 +1,59 @@
+---
+title: "Find your way around the dashboard"
+description: "Know where each task lives, what the numbers mean and how to recover from unavailable services."
+sourceRevision: 200155ba9024326f8e9cf7dd56f7ba6a5205fe55
+lastVerified: 2026-10-19
+---
+
+<Callout type="warn" title="Current public availability">The production data service is not deployed yet. The public dashboard is an interface preview; its unavailable plant records do not mean the dataset is empty. Use a configured local/staging environment for functional evaluation, then follow [production setup](/docs/operations/production-server). The published Android app still uses its separate legacy service.</Callout>
+
+## Choose the task
+
+| Task | Where to go | What it tells you |
+| --- | --- | --- |
+| Find a plant | Monitoring `/dashboard`: search, plant list or map marker | Location and configured design capacity; not current operating condition |
+| Inspect laboratory records | Select a plant, then choose Parameter | Latest dated sample in the current selection, sampling/source context and trend |
+| Refine records | Expand Filter records | Year and dataset-reported status; active choices stay in the summary |
+| Understand a measurement | Expand Understand these measurements | Plain-language abbreviations, units and BDL definitions |
+| Inspect statistics or rows | Expand the parameter Summary or Recent Samples | Quantified-value mean/max and recent rows; missing/BDL values are not replaced with zero |
+| Show citizen observations | Expand Community layer | Approved public observations, separately labelled and privacy-reduced; not laboratory results |
+| Explore an assumed scenario | Methods and research → Research sandbox | Linked-plant research workspace with explicit unvalidated status |
+| Compare model runs | Research workspace → Compare scenarios | Compatible completed runs, chosen reference, saved input changes and output differences |
+| Review reports | Account access → Review reports, when authorized | Moderator workflow; not a public capability |
+| Read methods or get help | Documentation in the shared header | This manual, source evidence and release limitations |
+
+The laboratory panel scrolls independently on a desktop. On phones it takes focus as a labelled dialog; use Close or Escape to return to the plant list. Expanding/collapsing a section does not delete records or scenario inputs.
+
+## Interpret the evidence
+
+**Laboratory monitoring:** “latest” means latest available in the selected records. Dataset status is copied from the source and is not a new legal-compliance assessment. The trend connects individual sample observations; it is not a live sensor stream. Missing/BDL values appear as gaps. A detection threshold such as `&lt;2 mg/L` is neither zero nor a quantified concentration of two. Read [monitoring](/docs/guides/monitoring) and the [glossary](/docs/overview/glossary).
+
+**Community layer:** reports describe what a person observed. Approval means approved for public display, not laboratory verification. Locations are rounded and private notes/photos are excluded from the public projection. Read [community observations](/docs/guides/community-observations).
+
+**Research:** defaults are assumptions and monitoring is not automatically imported into a scenario. Weather/rainfall is saved as context only. Fixed-factor carbon estimates cannot measure the benefit of an aeration/maintenance intervention. A completed run means software execution succeeded, not that the model was scientifically validated. Read [scenarios](/docs/guides/scenarios), [parameters](/docs/science/parameters) and [scientific validation](/docs/science/validation).
+
+## Read saved results
+
+| Result | Meaning and limit |
+| --- | --- |
+| Run ID, model/version and artifact | Identity of the saved execution and its source artifact; not a quality score |
+| Saved run inputs | Immutable resolved assumptions for that run; later form edits do not change them |
+| Days within screening thresholds | Simulated days meeting the configured screens; not legal compliance |
+| Exceedance days | Simulated days outside those configured screens; not a measured incident count |
+| Capacity utilisation | Mean simulated flow divided by configured hydraulic capacity; not a measured equipment-efficiency score |
+| CH₄ / N₂O / total GHG intensity | Guideline-based illustrative accounting per cubic metre, using assumed/evidenced inputs and factors; not a complete measured inventory |
+| Difference (Δ) | Candidate minus the selected reference; positive is not automatically better |
+| Percentage points (pp) | Difference between percentage-valued results; distinct from relative percentage change |
+| Missing result (—) | Not available/quantifiable; never silently interpret it as zero |
+
+Use [comparison](/docs/guides/comparison) for compatibility requirements, zero-reference handling and a numerical example. Read [carbon accounting](/docs/science/carbon-accounting) for equations, factors, boundary and unresolved scientific issues. The model must not be used for plant control, regulatory compliance or certified emissions reporting.
+
+## Loading, empty and error states
+
+- Read attempts have a 15-second client deadline and the normal query configuration may retry once. A service error offers recovery rather than silently inventing data. Retry preserves the current laboratory filters.
+- A successful empty selection means no records match; an unavailable service is a different state. Map failure still leaves the plant list when the plant service is available.
+- Invalid checked scenario inputs reveal/focus the relevant field. Correct the value without recreating the draft.
+- Write attempts have a 120-second client deadline. A timeout may leave a completed server action: refresh and check status before submitting again. It does not cancel a server transaction or prove that no scenario/run was created.
+- Access failures require the configured identity service, approved invitation/capability and operator MFA. Do not attempt to fix permissions by changing scenario inputs.
+
+<SourceLinks paths={["apps/dashboard/src/pages/MapPage.tsx", "apps/dashboard/src/components/monitoring/StationDashboard.tsx", "apps/dashboard/src/components/results/ResultsPanel.tsx", "apps/dashboard/src/components/comparison/ComparisonView.tsx", "apps/dashboard/src/components/scenario/ScenarioPanel.tsx", "apps/dashboard/src/api/transport.ts", "apps/dashboard/src/main.tsx", "docs/product/dashboard-audit-resolution.md"]} />

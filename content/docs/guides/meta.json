@@ -1,8 +1,10 @@
 {
   "title": "Guides",
   "pages": [
+    "dashboard",
     "monitoring",
     "community-observations",
+    "app-gallery",
     "reporting",
     "mobile-map-and-account",
     "moderation",

@@ -1,7 +1,7 @@
 ---
 title: "Configure, run and inspect scenarios"
 description: "Use the research sandbox without confusing its assumptions with measurements."
-sourceRevision: 974b1b9c3024089200c5b77d57174ed1432d5fca
+sourceRevision: 200155ba9024326f8e9cf7dd56f7ba6a5205fe55
 lastVerified: 2026-10-19
 ---
 
@@ -21,6 +21,8 @@ Name the scenario, choose a UTC start date and a 30/90/180-day horizon, and revi
 Choose Run Simulation. The API saves resolved inputs, scenario/plant metadata, model version and source artifact before executing. Inspect run ID/status, simulated period, saved inputs and screening/GHG results. Editing the form afterward does not alter that run's snapshot or chart maintenance annotations.
 </Step><Step>
 ### Handle a failure
+
+If a checked input is invalid, validation opens its collapsed section, focuses the field and associates it with the announced error; the draft is retained. Correct the value and run again. API write attempts have a 120-second client deadline. A timeout does not prove the server rejected the action: refresh and check saved scenarios/run status before repeating it.
 
 A failed run has no fabricated KPI cards. Retry saved inputs creates another run using the recorded inputs and available model version. A late retry cannot replace a newer active selection. A chart-only failure keeps saved KPIs visible and offers Retry chart data.
 </Step></Steps>

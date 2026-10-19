@@ -27,3 +27,9 @@ test('rendered evidence must exist and belong to its page, including index alias
  assert.match(validateSourceLinks(pages,[],{'model.py':'blob'}).join(),/absent from coverage/);
  assert.throws(()=>parseDocument('<SourceLinks paths={dynamicPaths} />'));
 });
+
+test('local screenshots resolve to actual public assets and missing captures fail',()=>{
+ const pages=new Map([['guide',parseDocument('![Report screen](/images/app-preview/report.png)')]]);
+ assert.deepEqual(validateLinks(pages,new Set(['/images/app-preview/report.png'])),[]);
+ assert.match(validateLinks(pages,new Set()).join(),/report.png/);
+});
