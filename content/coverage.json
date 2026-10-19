@@ -453,5 +453,19 @@
       "apps/citizenflood/lib/services/report_repository.dart",
       "apps/citizenflood/lib/services/account_session.dart"
     ]
+  },
+  {
+    "id": "production-server",
+    "page": "operations/production-server",
+    "audience": "maintainer",
+    "status": "pending",
+    "evidence": [
+      "docs/operations/production-server-setup.md",
+      "services/api/Dockerfile",
+      "services/api/app/config.py",
+      "infra/staging/compose.yaml",
+      "infra/staging/identity/bootstrap.py",
+      "apps/dashboard/vercel.json"
+    ]
   }
 ]

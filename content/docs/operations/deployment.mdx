@@ -1,7 +1,7 @@
 ---
 title: "Deployment boundaries"
 description: "Build independently, route deliberately and qualify the intended environment."
-sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+sourceRevision: 974b1b9c3024089200c5b77d57174ed1432d5fca
 lastVerified: 2026-10-19
 ---
 
@@ -14,6 +14,8 @@ Deploy the reviewed API with migrated application PostgreSQL, OIDC identity and 
 </Tab><Tab value="Documentation">
 This separate repository builds with `npm ci` and `npm run build`; publish the `out` directory on a static host with directory-index support. It needs no platform credentials or API proxy. Deployment/publication must use an explicitly chosen target; building the manual does not change either existing Vercel project.
 </Tab></Tabs>
+
+Follow the [production server setup guide](/docs/operations/production-server) for the Linux/server checklist, actual settings, migration and acceptance sequence.
 
 ## Known hosting evidence
 
