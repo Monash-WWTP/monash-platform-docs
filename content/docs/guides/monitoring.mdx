@@ -1,9 +1,13 @@
 ---
 title: "Read laboratory monitoring"
 description: "Inspect dated records without turning missing or BDL values into zero."
-sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
+
+<Callout type="warn" title="Production data service is not deployed">The public dashboard is currently an interface preview. Plant and laboratory records require the successor API on the production server. A loading error is not evidence that no plants or samples exist.</Callout>
+
+For the complete control map, start with [Find your way around the dashboard](/docs/guides/dashboard).
 
 **Prerequisites:** an environment serving the versioned monitoring API. No scenario permission is needed to read the current public monitoring contract.
 
@@ -18,13 +22,13 @@ Read station code, sampling point, source year and latest available sample date.
 </Step><Step>
 ### Filter and inspect
 
-Choose a parameter beside the latest result. Open **Filter records** to choose year and dataset-reported status; the closed section still shows active filters. Open **Summary** for quantified/total counts and **Recent Samples** for individual rows. The trend remains visible. Mean/max exclude missing and BDL values; a measured numeric zero remains valid. A BDL result such as `&lt;2 mg/L` states a detection threshold, not a concentration of zero or exactly two.
+Choose a parameter beside the latest result. Open **Understand these measurements** for BOD/COD, TSS, nitrogen, pH, temperature, oil-and-grease, units and BDL definitions. Design capacity uses MLD (million litres per day), not a current flow reading. Open **Filter records** to choose year and dataset-reported status; the closed section still shows active filters. Open **Summary** for quantified/total counts and **Recent Samples** for individual rows. The trend remains visible, with vertical-axis units. Missing and BDL results appear as gaps; connecting lines link sampled observations and do not establish continuous monitoring. Mean/max exclude missing and BDL values; a measured numeric zero remains valid. A BDL result such as `&lt;2 mg/L` states a detection threshold, not a concentration of zero or exactly two.
 </Step></Steps>
 
 <Callout type="warn" title="Do not infer permits or influent loads">Dataset-reported “Comply” is retained from the source. No station-specific permit assessment is established. Effluent BOD/nitrogen cannot be substituted for the influent data required by GHG accounting.</Callout>
 
 ## Expected outcome and recovery
 
-You can identify the date/source and the usable observations behind a statistic. No matching samples is an empty selection; service failure is an unavailable state with Retry that retains filters. Open **Methods and research** for accounting limitations and the Research sandbox action. Research is available only when the sampling location has a linked treatment plant.
+You can identify the date/source and the usable observations behind a statistic. No matching samples is an empty selection; service failure is an unavailable state with Retry that retains filters. API read attempts time out after 15 seconds rather than waiting indefinitely; the application may make one automatic retry. Persistent failure needs service recovery, not a different filter. Open **Methods and research** for accounting limitations and the Research sandbox action. Research is available only when the sampling location has a linked treatment plant.
 
 <SourceLinks paths={["apps/dashboard/src/components/monitoring/StationDashboard.tsx", "apps/dashboard/src/components/monitoring/sampleSummary.ts", "services/api/app/routers/monitoring.py"]} />

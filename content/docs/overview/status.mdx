@@ -1,11 +1,11 @@
 ---
 title: "Current state and availability"
 description: "Separate implemented source, published artifacts and verified environment behavior."
-sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
 
-This manual documents source **8b2862b**, reviewed on **19 October 2026**. Hosting can change after that date. No table entry is a live uptime guarantee.
+This manual identifies its exact source baseline in each page’s metadata and implementation-evidence panel, reviewed on **19 October 2026**. Hosting can change after that date. No table entry is a live uptime guarantee.
 
 | Surface | What exists | What is still pending |
 |---|---|---|
@@ -17,9 +17,11 @@ This manual documents source **8b2862b**, reviewed on **19 October 2026**. Hosti
 
 <Callout type="warn" title="Do not treat account entry as an available public service">The public account pages disclose shared-account availability rather than collecting credentials. An operator needs an environment with configured identity, an invitation/capability and MFA.</Callout>
 
+<Callout type="warn" title="Public monitoring is awaiting its server">The successor API has not been deployed and has no approved production URL. The inherited legacy Render route does not serve the source dashboard’s versioned contract. Follow [server setup](/docs/operations/production-server) before changing routing.</Callout>
+
 ## Verification scope
 
-The merged implementation passed 34 frontend tests and 111 Python tests locally, with one legacy-source-checkout verification skipped. GitHub also passed API, dashboard, Android and inventory checks. These establish software checks, not successful production login, storage recovery or scientific validity.
+The original monitoring-first acceptance recorded 34 frontend tests and 111 Python tests locally, with one legacy-source-checkout verification skipped. The dashboard audit follow-up records 37 frontend tests, lint/build checks and synthetic browser verification. These are dated source checks; the associated PR and deployment status must be checked separately. These establish software checks, not successful production login, storage recovery or scientific validity.
 
 The last recorded staging inspection found private storage unavailable because its configuration mount referred to a former worktree. Current recovery ownership/targets, production routing and integrated acceptance remain open. See [release gates](/docs/operations/release-gates).
 

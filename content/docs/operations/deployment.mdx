@@ -1,7 +1,7 @@
 ---
 title: "Deployment boundaries"
 description: "Build independently, route deliberately and qualify the intended environment."
-sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
 
@@ -15,9 +15,11 @@ Deploy the reviewed API with migrated application PostgreSQL, OIDC identity and 
 This separate repository builds with `npm ci` and `npm run build`; publish the `out` directory on a static host with directory-index support. It needs no platform credentials or API proxy. Deployment/publication must use an explicitly chosen target; building the manual does not change either existing Vercel project.
 </Tab></Tabs>
 
+Follow the [production server setup guide](/docs/operations/production-server) for the Linux/server checklist, actual settings, migration and acceptance sequence.
+
 ## Known hosting evidence
 
-At merged platform commit 8b2862b, GitHub API/dashboard/Android/inventory checks passed. The `monash-water-platform` Vercel deployment succeeded. A separate `dashboard` project failed looking for repository-root `package.json`; earlier logs showed its root was not configured as `apps/dashboard`. These are dated observations, not live status checks.
+Historical hosting incidents are recorded in platform operations evidence. The previously misconfigured duplicate `dashboard` Vercel project was corrected; its older missing-package error is not a current failure. Successful static/preview deployments still do not establish an available successor API. Check the current PR and Vercel deployment for the exact release.
 
 ## Acceptance sequence
 

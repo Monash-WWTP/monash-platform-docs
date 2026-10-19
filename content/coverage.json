@@ -28,7 +28,8 @@
     "evidence": [
       "docs/operations/staging-acceptance-2026-10-18.md",
       "docs/operations/android-release-1.0.0.json",
-      "docs/science/VALIDATION.md"
+      "docs/science/VALIDATION.md",
+      "docs/product/dashboard-audit-resolution.md"
     ]
   },
   {
@@ -452,6 +453,50 @@
       "apps/citizenflood/lib/screens/profile_screen.dart",
       "apps/citizenflood/lib/services/report_repository.dart",
       "apps/citizenflood/lib/services/account_session.dart"
+    ]
+  },
+  {
+    "id": "production-server",
+    "page": "operations/production-server",
+    "audience": "maintainer",
+    "status": "pending",
+    "evidence": [
+      "docs/operations/production-server-setup.md",
+      "services/api/Dockerfile",
+      "services/api/app/config.py",
+      "infra/staging/compose.yaml",
+      "infra/staging/identity/bootstrap.py",
+      "apps/dashboard/vercel.json"
+    ]
+  },
+  {
+    "id": "dashboard-guide",
+    "page": "guides/dashboard",
+    "audience": "operator",
+    "status": "source",
+    "evidence": [
+      "apps/dashboard/src/pages/MapPage.tsx",
+      "apps/dashboard/src/components/monitoring/StationDashboard.tsx",
+      "apps/dashboard/src/components/results/ResultsPanel.tsx",
+      "apps/dashboard/src/components/comparison/ComparisonView.tsx",
+      "apps/dashboard/src/components/scenario/ScenarioPanel.tsx",
+      "apps/dashboard/src/api/transport.ts",
+      "apps/dashboard/src/main.tsx",
+      "docs/product/dashboard-audit-resolution.md"
+    ]
+  },
+  {
+    "id": "mobile-gallery",
+    "page": "guides/app-gallery",
+    "audience": "citizen",
+    "status": "verified-environment",
+    "evidence": [
+      "apps/citizenflood/lib/theme/app_theme.dart",
+      "apps/citizenflood/lib/screens/home_shell.dart",
+      "apps/citizenflood/lib/screens/category_screen.dart",
+      "apps/citizenflood/lib/screens/report_form_screen.dart",
+      "apps/citizenflood/lib/screens/map_screen.dart",
+      "apps/citizenflood/lib/screens/profile_screen.dart"
     ]
   }
 ]

@@ -18,7 +18,8 @@ for(const file of files.filter(f=>f.endsWith('.mdx'))){
 }
 // Fumadocs maps folder/index.mdx to the folder route.
 for(const [slug,doc]of [...pages])if(slug.endsWith('/index'))pages.set(slug.slice(0,-6),doc);
-errors.push(...validateLinks(pages));
+const assets=new Set((await filesIn('public')).map(file=>'/'+relative('public',file)));
+errors.push(...validateLinks(pages,assets));
 const coverage=JSON.parse(await readFile('content/coverage.json','utf8'));
 errors.push(...validateSourceLinks(pages,coverage,platform.files));
 errors.push(...validateCoverage(coverage,new Set(pages.keys()),new Set(Object.keys(platform.files))));

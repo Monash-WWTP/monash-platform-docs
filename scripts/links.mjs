@@ -15,10 +15,11 @@ export function parseDocument(body) {
  });
  return {links,anchors,sourcePaths};
 }
-export function validateLinks(pages){
+export function validateLinks(pages, assets = new Set()){
  const errors=[];
  for(const [page,data]of pages)for(const href of data.links){
   if(/^(https?:|mailto:)/.test(href)||href==='/')continue;
+  if(assets.has(href.split(/[?#]/)[0]))continue;
   if(!href.startsWith('/docs')&&!href.startsWith('#')){errors.push(`${page}: unsupported relative/local link ${href}`);continue;}
   const [url,fragment]=href.split('#');
   const target=url?url.replace(/^\/docs\/?/,'').replace(/\/$/,'')||'index':page;

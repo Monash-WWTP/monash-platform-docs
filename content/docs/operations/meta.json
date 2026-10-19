@@ -3,6 +3,7 @@
   "pages": [
     "configuration",
     "deployment",
+    "production-server",
     "readiness",
     "backup-and-restore",
     "migration-and-rollback",

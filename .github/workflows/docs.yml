@@ -7,10 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Read pinned platform revision
+        id: platform
+        run: python3 -c 'import json; print("revision=" + json.load(open("reference/platform.json"))["revision"])' >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
           repository: Monash-WWTP/monash-platform
-          ref: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+          ref: ${{ steps.platform.outputs.revision }}
           path: .platform-source
       - uses: astral-sh/setup-uv@v6
       - run: python3 scripts/check-source.py --source .platform-source

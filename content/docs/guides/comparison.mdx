@@ -1,7 +1,7 @@
 ---
 title: "Compare completed runs"
 description: "Choose a reference, verify compatibility and inspect immutable changes."
-sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
 
@@ -10,7 +10,7 @@ lastVerified: 2026-10-19
 <Steps><Step>
 ### Select completed runs
 
-Open Compare scenarios. The current UI lists each scenario's latest run; failed/in-progress runs are not selectable. Select2–4. If a previously selected run is no longer listed, clear the selection and choose current runs.
+Open Compare scenarios. The current UI lists each scenario's latest run; failed/in-progress runs are not selectable. Select 2–4. If a previously selected run is no longer listed, clear the selection and choose current runs.
 </Step><Step>
 ### Choose an explicit reference
 
@@ -22,12 +22,12 @@ Read run IDs, model versions, source artifact and dates. Compare saved input sna
 </Step><Step>
 ### Read differences and overlays
 
-Values are paired to time series by run ID, not array order. Absolute differences are candidate minus reference. Relative percentage is difference divided by the absolute reference; zero/missing references have no relative percentage. Screening percentages use percentage-point differences.
+Values are paired to time series by run ID, not array order. Absolute differences are candidate minus reference. Relative percentage is difference divided by the absolute reference; zero/missing references have no relative percentage. Screening percentages use percentage-point differences. The overlay uses distinct solid/dashed/dotted/custom dash patterns in the original green-led chart palette; the reference is thicker. Match each line to its scenario name and run ID in the legend. Similar or overlapping lines do not establish equivalent real-world performance.
 </Step></Steps>
 
 ## Worked synthetic differences
 
-A reference GHG estimate of0.20 and candidate0.25 kg CO₂-eq/m³ give +0.05 kg CO₂-eq/m³ and +25%. Screening values of50% and70% differ by20 percentage points, not a claimed20% process improvement. If the reference is zero, report only the absolute change.
+A reference GHG estimate of 0.20 and candidate 0.25 kg CO₂-eq/m³ give +0.05 kg CO₂-eq/m³ and +25%. Screening values of 50% and 70% differ by 20 percentage points, not a claimed 20% process improvement. If the reference is zero, report only the absolute change.
 
 ## Incompatibility and limits
 

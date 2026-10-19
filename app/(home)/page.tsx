@@ -8,7 +8,7 @@ import { Droplets, Microscope, Wrench, MapPinned, ArrowRight } from 'lucide-reac
 export default function HomePage() {
  return <div className="home-manual">
   <div className="home-opening"><div className="home-intro"><h1>Monash Water documentation</h1><p>Use CitizenFlood, inspect water monitoring and understand the research sandbox. Start with your role, follow a task, then inspect its methods.</p><Link className="home-start" href="/docs">Explore the manual <ArrowRight size={18}/></Link></div>
-  <figure className="home-landscape"><Image src="/images/river-landscape.webp" alt="A quiet river bordered by trees and a concrete embankment" width={1536} height={1024} priority unoptimized/><figcaption>Illustrative landscape · AI-generated</figcaption></figure></div>
+  <figure className="home-landscape"><Image src="/images/river-landscape.webp" alt="A quiet river bordered by trees and a concrete embankment" width={1536} height={1024} priority unoptimized/></figure></div>
   <Callout title="Know which version you are using">The published Android app uses its legacy backend. Current source uses the shared API; integrated production acceptance remains open. Simulations are illustrative and unvalidated. <Link href="/docs/overview/status">Read the current status.</Link></Callout>
   <section aria-labelledby="choose-path"><h2 id="choose-path">Choose your starting point</h2><Cards>
    <Card title="Citizens" href="/docs/get-started/citizens" icon={<Droplets/>}>Install CitizenFlood, understand observations and find the right reporting guide.</Card>
