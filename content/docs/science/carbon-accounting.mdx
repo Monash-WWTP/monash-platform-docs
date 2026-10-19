@@ -7,7 +7,7 @@ lastVerified: 2026-10-19
 
 ## Current implemented arithmetic
 
-Let B be assumed influent BOD₅ inmg/L, N be influent TKN inmgN/L, fCH4 inkgCH₄/kgBOD₅, fN2O inkgN₂O-N/kgN, and recovery terms rCH4/rN2O inkg gas/m³.
+Let B be assumed influent BOD₅ in mg/L, N be influent TKN in mg N/L, fCH4 in kg CH₄/kg BOD₅, fN2O in kg N₂O-N/kg N, and recovery terms rCH4/rN2O in kg gas/m³.
 
 ```text
 I_CH4 = (B × fCH4 × 10⁻³ − rCH4) × 28
@@ -16,30 +16,30 @@ I_total = I_CH4 + I_N2O                         [kg CO₂-eq/m³]
 E_daily = I_total × flow_MLD × 1,000            [kg CO₂-eq/day]
 ```
 
-mg/L tokg/m³ is10⁻³;44/28 converts N₂O-N to N₂O mass. The daily model applies the demand concentration multiplier to BOD/TKN before accounting. Factors and recovery do not depend on aeration or maintenance.
+mg/L to kg/m³ is 10⁻³; 44/28 converts N₂O-N to N₂O mass. The daily model applies the demand concentration multiplier to BOD/TKN before accounting. Factors and recovery do not depend on aeration or maintenance.
 
 ## Hand-checked synthetic example
 
-For B=250, N=40, generic factors0.0121/0.0093 and zero recovery:
+For B=250, N=40, generic factors 0.0121/0.0093 and zero recovery:
 
 - CH₄: `250 × .0121 × .001 × 28 = .0847 kg CO₂-eq/m³`.
 - N₂O: `40 × .0093 × (44/28) × .001 × 265 ≈ .154911 kg CO₂-eq/m³`.
-- Total: approximately`.239611 kg CO₂-eq/m³` before model demand/rounding effects.
+- Total: approximately `.239611 kg CO₂-eq/m³` before model demand/rounding effects.
 
 These are arithmetic examples, not measured plant intensities.
 
 ## Source and unresolved interpretation
 
-[CUWA/IWA2024 guideline](https://doi.org/10.2166/9781789064223), revised Eqs5.25/5.28 and Tables5.6/5.8, supports the generic integrated centralized-aerobic factors0.0121/0.0093 under its convention. GWP28/265 is that100-year convention, not a claim of the latest universal values.
+[CUWA/IWA 2024 guideline](https://doi.org/10.2166/9781789064223), revised Eqs. 5.25/5.28 and Tables 5.6/5.8, supports the generic integrated centralized-aerobic factors 0.0121/0.0093 under its convention. GWP 28/265 is that 100-year convention, not a claim of the latest universal values.
 
-The printed methane equation places recovery before a later10⁻³ while defining recovery inkg/m³. The helper subtracts after converting gross mass: unit-consistent, but not literal printed placement. Author/publisher clarification remains open. The nitrogen equation defines Kjeldahl input while appendix language refers to total nitrogen; preserve the explicit TKN assumption. Ammonia or final effluent cannot substitute silently.
+The printed methane equation places recovery before a later 10⁻³ while defining recovery in kg/m³. The helper subtracts after converting gross mass: unit-consistent, but not literal printed placement. Author/publisher clarification remains open. The nitrogen equation defines Kjeldahl input while appendix language refers to total nitrogen; preserve the explicit TKN assumption. Ammonia or final effluent cannot substitute silently.
 
 Recovery is **not clamped at zero**. Excessive assumed recovery can produce negative results; this behavior is not validation of a negative inventory. Establish plausible, evidenced boundaries before any inventory use.
 
 ## Factor provenance gaps
 
-SBR/AAO/AO/oxidation-ditch/aerobic-tank rows match the cited edition numerically, subject to process mapping. ANAMMOX methane`.02` and AGS methane`.0033` are unsupported by the cited methane table; their duplication of N₂O values is not evidence of correct methane factors. The audit did not inspect external live factor assignments.
+SBR/AAO/AO/oxidation-ditch/aerobic-tank rows match the cited edition numerically, subject to process mapping. ANAMMOX methane `.02` and AGS methane `.0033` are unsupported by the cited methane table; their duplication of N₂O values is not evidence of correct methane factors. The audit did not inspect external live factor assignments.
 
-This helper is a limited process accounting calculation, not a full carbon inventory. Do not mix its factors/boundaries with [IPCC2019 methods](https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/5_Volume5/19R_V5_6_Ch06_Wastewater.pdf) without an explicit methodological review.
+This helper is a limited process accounting calculation, not a full carbon inventory. Do not mix its factors/boundaries with [IPCC 2019 methods](https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/5_Volume5/19R_V5_6_Ch06_Wastewater.pdf) without an explicit methodological review.
 
 <SourceLinks paths={["packages/simulation/wwtp_sim/carbon_accounting.py", "packages/simulation/wwtp_sim/models/effluent_v1.py", "docs/science/SIMULATION_EVIDENCE_AUDIT.md"]} />

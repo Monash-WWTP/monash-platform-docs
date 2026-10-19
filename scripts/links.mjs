@@ -28,3 +28,15 @@ export function validateLinks(pages){
  }
  return errors;
 }
+
+export function validateSourceLinks(pages, coverage, inventory) {
+ const errors=[];
+ for(const [slug,doc] of pages){
+  const evidence=coverage.find(entry=>entry.page===slug||entry.page===`${slug}/index`)?.evidence??[];
+  for(const path of doc.sourcePaths??[]){
+   if(!Object.hasOwn(inventory,path))errors.push(`${slug}: unknown source path ${path}`);
+   if(!evidence.includes(path))errors.push(`${slug}: source path absent from coverage ${path}`);
+  }
+ }
+ return errors;
+}

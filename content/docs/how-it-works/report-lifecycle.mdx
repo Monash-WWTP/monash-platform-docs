@@ -8,7 +8,7 @@ lastVerified: 2026-10-19
 <Steps><Step>
 ### Validate and own the submission
 
-The server validates category/value/unit, timestamp and location. It associates the report with the authenticated citizen account; clients cannot choose an arbitrary owner. Idempotency is scoped to owner and key with a hash of canonical report content. The same content/key returns the existing result; conflicting content returns409.
+The server validates category/value/unit, timestamp and location. It associates the report with the authenticated citizen account; clients cannot choose an arbitrary owner. Idempotency is scoped to owner and key with a hash of canonical report content. The same content/key returns the existing result; conflicting content returns 409.
 </Step><Step>
 ### Store an optional private photo
 
@@ -16,7 +16,7 @@ The upload endpoint accepts nonempty JPEG/PNG/WebP up to10MiB and25 megapixels, 
 </Step><Step>
 ### Review a pending report
 
-A reviewer with MFA transitions pending to approved/rejected under a row lock and records an audit reason. Repeating a decision returns409. An owner sees their own history regardless of whether the report is public.
+A reviewer with MFA transitions pending to approved/rejected under a row lock and records an audit reason. Repeating a decision returns 409. An owner sees their own history regardless of whether the report is public.
 </Step><Step>
 ### Publish only an allowlisted view
 

@@ -2,6 +2,8 @@
 
 A separate Fumadocs manual for CitizenFlood, monitoring, research scenarios, the shared API and release operations. The documentation describes platform source revision **e6437c4**, while distinguishing published legacy clients and pending production/scientific acceptance.
 
+**[Read the public manual](https://monash-platform-docs.vercel.app)** · [Open the platform](https://monash-water-platform.vercel.app)
+
 ## Read locally
 
 Requires Node 22/npm. Python 3 is needed only for the optional static preview and source-verification helper.
@@ -18,7 +20,7 @@ npm run build
 npm start
 ```
 
-The static preview is http://127.0.0.1:3030. Host `out/` with directory-index support. This site needs no platform API, identity service or secrets. No hosting target is automatically configured.
+The static preview is http://127.0.0.1:3030. Host `out/` with directory-index support. This site needs no platform API, identity service or secrets. The separate Vercel project is `monash-platform-docs`, rooted at this repository. Production is https://monash-platform-docs.vercel.app; GitHub CI verifies changes independently of hosting. Unknown routes must return the generated 404 page.
 
 ## What is documented
 
