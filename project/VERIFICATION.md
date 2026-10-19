@@ -36,3 +36,11 @@ First GitHub run caught ESLint traversing the temporary evidence checkout. CI no
 The source baseline still matches platform origin/main e6437c4 at audit start. Corrected carbon-accounting unit/prose spacing and strengthened citation validation tests (7 now pass). Added a reciprocal Platform navigation link to the verified public landing page. The native troubleshooting Accordion was opened and its actual content/expanded state confirmed in the browser.
 
 User approved a separate Vercel docs deployment. A newly created `monash-platform-docs` project was discovered and reused; no second docs project is created. Node is pinned to 22.x to match CI. The earlier no-hosting scope is superseded by this explicit approval. Platform entry-point changes and README reconciliation are tracked separately in the platform repository.
+
+### Hosted acceptance and scenario example follow-up
+
+Public documentation: https://monash-platform-docs.vercel.app, production deployment ready after PR #1. All 76 routes returned 200, an unknown route returned 404, and the static search index parsed successfully. On HTTPS, the native copy button reported successful clipboard completion; mobile sidebar toggle/Enter and Ctrl+K/Escape search were checked. Reciprocal Platform link resolves to the verified public site. This supersedes the earlier HTTP-only clipboard/hosting limitations; it does not constitute a full accessibility audit.
+
+Reviewed synthetic examples now also cover scenario creation, run requests and two distinct comparison IDs. Six payloads are validated against the pinned backend models; IDs still require real, authorized and compatible completed runs in the target environment. An overlay regression test went red then green and verifies the raw contract object is not mutated.
+
+Platform PR #5 corrects the documentation entry points and current setup guidance. Its initial import-identity check correctly required the launcher's guidance-only adaptation to be recorded; the exact path is now documented and tests pass. The older duplicate Vercel dashboard project root was corrected from repository root to apps/dashboard, and its replacement preview deployment completed successfully.

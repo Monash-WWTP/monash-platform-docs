@@ -44,7 +44,7 @@ npm run build
 npm audit --audit-level=high
 ```
 
-`content/coverage.json` maps workflows to pages and evidence. `reference/platform.json` pins source file identities; `reference/openapi.json` is byte-identical to that platform revision. Pages carry source revision/review date and source evidence. Generated API files must not be edited by hand. The rendering overlay in `lib/documented-schema.mjs` supplies synthetic local examples; `reference/examples.json` report and moderation payloads are checked against the pinned backend validators in CI. Synthetic IDs do not represent existing database records.
+`content/coverage.json` maps workflows to pages and evidence. `reference/platform.json` pins source file identities; `reference/openapi.json` is byte-identical to that platform revision. Pages carry source revision/review date and source evidence. Generated API files must not be edited by hand. The rendering overlay in `lib/documented-schema.mjs` supplies synthetic local examples; `reference/examples.json` report, moderation, scenario, run and comparison payloads are checked against the pinned backend validators in CI. Synthetic IDs do not represent existing database records.
 
 To update the baseline deliberately:
 

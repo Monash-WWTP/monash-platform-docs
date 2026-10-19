@@ -40,7 +40,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       <DocsBody>
         <MDX
           components={getMDXComponents({
-            OpenAPIPage: async (props) => <><Callout title="Generated contract reference">Examples use a synthetic local server and are not executed. Some responses are untyped in the source schema; generated null/unknown samples are not observed responses. <a href={`${snapshot.repository}/blob/${snapshot.revision}/services/api/openapi.json`}>Inspect the pinned schema.</a></Callout><APIPage {...await openapi.preloadOpenAPIPage(page)} {...props} /></>,
+            OpenAPIPage: async (props) => <><Callout title="Generated contract reference">Examples use a synthetic local server and are not executed. Replace illustrative IDs with authorized records in your environment; comparison requires compatible completed runs. Some responses are untyped in the source schema; generated null/unknown samples are not observed responses. <a href={`${snapshot.repository}/blob/${snapshot.revision}/services/api/openapi.json`}>Inspect the pinned schema.</a></Callout><APIPage {...await openapi.preloadOpenAPIPage(page)} {...props} /></>,
             // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
