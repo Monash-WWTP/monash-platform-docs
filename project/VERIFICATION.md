@@ -28,3 +28,5 @@ This verifies documentation against source, not production readiness or scientif
 The preview uses HTTP: clipboard writes require a secure context and were not accepted here. Full keyboard/accessibility, accordion interaction, every mobile navigation path and host custom-404 routing were not exhaustively tested. The static 404 artifact builds; the selected host must route unknown paths correctly. No docs deployment was configured.
 
 Generated examples are illustrative, not observed outputs; only the three reviewed report/moderation payloads have domain-validator acceptance. Synthetic IDs do not establish valid database references. Untyped upstream responses remain untyped.
+
+First GitHub run caught ESLint traversing the temporary evidence checkout. CI now removes that disposable checkout after verification and ESLint explicitly excludes it.

@@ -16,6 +16,7 @@ jobs:
       - run: python3 scripts/check-source.py --source .platform-source
       - run: PYTHONPATH=services/api uv run --locked python "$GITHUB_WORKSPACE/scripts/check-examples.py"
         working-directory: .platform-source
+      - run: rm -rf .platform-source
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
