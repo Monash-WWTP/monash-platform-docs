@@ -10,9 +10,9 @@ lastVerified: 2026-10-19
 The bottom navigation has **Report**, **Map** and **Me**. The map title says “Live map”, but that label does not establish continuous measurements or a validated real-time plant feed.
 
 <Steps><Step>
-### Read your recent reports
+### Read public observations and your own recent reports
 
-Open Map in an authenticated shared-API environment. The repository requests your own `/api/v1/reports` history, not the public approved-community endpoint. Refresh requests the list again; do not treat an old displayed result as live sensor telemetry. Initial/empty/error states depend on the API response.
+Open Map in the shared-API source. The repository first loads approved `/api/v1/community/observations`; when signed in, it also loads your own `/api/v1/reports`. It merges records by ID, with your own record replacing its public version. Public locations are rounded; your own authorized records may include private details. Each request initially asks for up to 200 records, so this is not a complete paginated historical archive. Refresh reloads the list; displayed results are not live sensor telemetry.
 </Step><Step>
 ### Inspect a report detail
 
