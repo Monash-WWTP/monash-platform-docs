@@ -1,7 +1,7 @@
 ---
 title: "Build the Android source"
 description: "Compile a synthetic shared-API acceptance build without publishing it."
-sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
 lastVerified: 2026-10-19
 ---
 
@@ -40,6 +40,6 @@ Use the existing project signing identity, a larger versionCode, approved HTTPS 
 
 ## Expected outcome
 
-Analysis/tests pass and a nonempty debug APK exists. The current source uses API/OIDC; old README instructions mentioning Supabase keys or legacy RLS are historical and do not configure this source client.
+Analysis/tests pass and a nonempty debug APK exists. Use the API/OIDC configuration above. Supabase keys and legacy RLS do not configure this source client.
 
 <SourceLinks paths={["apps/citizenflood/lib/config/env.dart", "apps/citizenflood/staging-config.example.json", ".github/workflows/citizenflood.yml"]} />

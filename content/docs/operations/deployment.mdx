@@ -1,7 +1,7 @@
 ---
 title: "Deployment boundaries"
 description: "Build independently, route deliberately and qualify the intended environment."
-sourceRevision: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+sourceRevision: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
 lastVerified: 2026-10-19
 ---
 
@@ -17,7 +17,7 @@ This separate repository builds with `npm ci` and `npm run build`; publish the `
 
 ## Known hosting evidence
 
-At merged platform commit e6437c4, GitHub API/dashboard/Android/inventory checks passed. The `monash-water-platform` Vercel deployment succeeded. A separate `dashboard` project failed looking for repository-root `package.json`; earlier logs showed its root was not configured as `apps/dashboard`. These are dated observations, not live status checks.
+At merged platform commit 8b2862b, GitHub API/dashboard/Android/inventory checks passed. The `monash-water-platform` Vercel deployment succeeded. A separate `dashboard` project failed looking for repository-root `package.json`; earlier logs showed its root was not configured as `apps/dashboard`. These are dated observations, not live status checks.
 
 ## Acceptance sequence
 

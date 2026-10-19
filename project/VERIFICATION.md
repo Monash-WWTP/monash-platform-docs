@@ -44,3 +44,11 @@ Public documentation: https://monash-platform-docs.vercel.app, production deploy
 Reviewed synthetic examples now also cover scenario creation, run requests and two distinct comparison IDs. Six payloads are validated against the pinned backend models; IDs still require real, authorized and compatible completed runs in the target environment. An overlay regression test went red then green and verifies the raw contract object is not mutated.
 
 Platform PR #5 corrects the documentation entry points and current setup guidance. Its initial import-identity check correctly required the launcher's guidance-only adaptation to be recorded; the exact path is now documented and tests pass. The older duplicate Vercel dashboard project root was corrected from repository root to apps/dashboard, and its replacement preview deployment completed successfully.
+
+## Neutral interface refinement — current baseline 8b2862bb136295aaa514ddc280b1c07b12aa05f0
+
+The user requested neutral styling, removal of Platform source navigation, a landing image and progressive disclosure while preserving functionality. Platform PR #6 is merged; this manual now pins that implementation. API schema bytes and simulation semantics are unchanged. Guide text names the actual new monitoring, scenario and Android disclosure controls.
+
+Web chrome is neutral in light/dark themes; informational callouts are neutral while warnings retain meaning. Platform/Manual navigation and source evidence remain. Generated river imagery is visibly labelled; the full prompt and provenance are in public/images/README.md.
+
+Local verification: 8 docs tests, metadata/coverage/link/API-drift checks, typecheck, lint and static build. Platform checks: 34 dashboard tests, 14 Flutter tests, clean analyzer, 27 repository tests with one legacy-checkout skip, policy and 207 original-source checks. Browser fixtures confirmed sample rows and BDL context remain accessible, year filtering sends the correct request and remains visible after closing its disclosure, research controls remain mounted, and desktop/phone layouts do not overflow. Native report widgets were rendered with synthetic GPS at 390×844; this is not physical-device acceptance. No production data or identity/storage/scientific acceptance is claimed.
