@@ -61,3 +61,7 @@ Success means a new reader can identify the product's present state, select a ro
 - https://www.fumadocs.dev/docs/cli/create-fumadocs-app
 - https://www.fumadocs.dev/docs/deploying/static
 - https://www.fumadocs.dev/docs/integrations/openapi
+
+## User-approved refinement — 19 October 2026
+
+The user requested a neutral palette, removal of the Platform source navigation shortcut and a quieter interface with a landing image. This supersedes the original green accent and no-image direction. Retain native Fumadocs components, Platform/Manual navigation, search, light/dark support and collapsed implementation evidence. A labelled AI-generated river illustration adds visual context without implying a named site, monitoring measurement or scientific evidence. Full generation prompt and provenance: public/images/README.md.

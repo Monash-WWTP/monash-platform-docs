@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: Monash-WWTP/monash-platform
-          ref: e6437c4e2ceb8b800b482b5bbc3ccf417524ea3a
+          ref: 8b2862bb136295aaa514ddc280b1c07b12aa05f0
           path: .platform-source
       - uses: astral-sh/setup-uv@v6
       - run: python3 scripts/check-source.py --source .platform-source
