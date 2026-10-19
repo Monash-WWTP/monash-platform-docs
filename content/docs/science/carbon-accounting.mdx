@@ -5,9 +5,13 @@ sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
 lastVerified: 2026-10-19
 ---
 
-## Current implemented arithmetic
+<span id="current-implemented-arithmetic" />
 
-Let B be assumed influent BOD₅ in mg/L, N be influent TKN in mg N/L, fCH4 in kg CH₄/kg BOD₅, fN2O in kg N₂O-N/kg N, and recovery terms rCH4/rN2O in kg gas/m³.
+## How we calculate GHG estimates
+
+The run uses assumed **influent BOD₅ and TKN**, applies the scenario's demand concentration scaling, then calls two accounting helpers. Each helper multiplies the influent concentration by an emission factor, converts units, subtracts recovered gas and applies the chosen 100-year GWP. The daily flow converts the resulting intensity into a daily total.
+
+The accounting basis is the **CUWA 2024 guideline, revised Equations 5.25 and 5.28** [[1]](#references-and-their-role). Generic factors come from Tables 5.6 and 5.8 (printed pp. 52–55), subject to process applicability. The methane recovery placement and nitrogen terminology require the interpretation described below. This is a limited process estimate, not a complete or validated plant inventory.
 
 ### Concentration to greenhouse-gas intensity
 
@@ -29,7 +33,16 @@ $$
 
 The factors 28 and 265 convert gas mass to CO₂ equivalents under the cited 100-year GWP convention. Recovery is subtracted from gas mass before GWP conversion; the N₂O recovery term is already gas mass, so the 44/28 ratio applies only to the gross nitrogen-based emission term.
 
-### Daily and horizon totals
+Recovery is not clamped: excessive assumed recovery can produce negative estimates. Check the expanded source limitations before interpreting or reusing the calculation.
+
+## How the result is used
+
+Multiply each day's intensity (kg CO₂-eq/m³) by that day's flow (MLD) and 1,000 to obtain kg CO₂-eq/day; sum those daily values for the horizon total. The reported mean intensity is an arithmetic daily mean, not a flow-weighted mean. Factors and recovery do not vary with aeration or maintenance, so this implementation cannot demonstrate an emissions benefit from an aeration intervention.
+
+<Accordions>
+<Accordion title="Daily totals, aggregation and matching pseudocode">
+
+<h3 id="daily-and-horizon-totals">Daily and horizon totals</h3>
 
 For daily flow $Q_i$ in MLD and $n$ simulated days:
 
@@ -55,7 +68,12 @@ E_daily = I_total × flow_MLD × 1,000            [kg CO₂-eq/day]
 
 mg/L to kg/m³ is 10⁻³; 44/28 converts N₂O-N to N₂O mass. The daily model applies the demand concentration multiplier to BOD/TKN before accounting. Factors and recovery do not depend on aeration or maintenance.
 
-## Hand-checked synthetic example
+</Accordion>
+</Accordions>
+
+<span id="hand-checked-synthetic-example" />
+
+## Worked example
 
 For B=250, N=40, generic factors 0.0121/0.0093 and zero recovery:
 
@@ -65,18 +83,31 @@ For B=250, N=40, generic factors 0.0121/0.0093 and zero recovery:
 
 These are arithmetic examples, not measured plant intensities.
 
-## Source and unresolved interpretation
+<Accordions>
+<Accordion title="Source interpretation and factor limitations">
 
-[CUWA/IWA 2024 guideline](https://doi.org/10.2166/9781789064223), revised Eqs. 5.25/5.28 and Tables 5.6/5.8, supports the generic integrated centralized-aerobic factors 0.0121/0.0093 under its convention. GWP 28/265 is that 100-year convention, not a claim of the latest universal values.
+<h2 id="source-and-unresolved-interpretation">Source and unresolved interpretation</h2>
+
+The CUWA 2024 guideline [[1]](#references-and-their-role), revised Eqs. 5.25/5.28 and Tables 5.6/5.8, supports the generic integrated centralized-aerobic factors 0.0121/0.0093 under its convention. GWP 28/265 is that 100-year convention, not a claim of the latest universal values.
 
 The printed methane equation places recovery before a later 10⁻³ while defining recovery in kg/m³. The helper subtracts after converting gross mass: unit-consistent, but not literal printed placement. Author/publisher clarification remains open. The nitrogen equation defines Kjeldahl input while appendix language refers to total nitrogen; preserve the explicit TKN assumption. Ammonia or final effluent cannot substitute silently.
 
 Recovery is **not clamped at zero**. Excessive assumed recovery can produce negative results; this behavior is not validation of a negative inventory. Establish plausible, evidenced boundaries before any inventory use.
 
-## Factor provenance gaps
+<h2 id="factor-provenance-gaps">Factor provenance gaps</h2>
 
 SBR/AAO/AO/oxidation-ditch/aerobic-tank rows match the cited edition numerically, subject to process mapping. ANAMMOX methane `.02` and AGS methane `.0033` are unsupported by the cited methane table; their duplication of N₂O values is not evidence of correct methane factors. The audit did not inspect external live factor assignments.
 
 This helper is a limited process accounting calculation, not a full carbon inventory. Do not mix its factors/boundaries with [IPCC 2019 methods](https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/5_Volume5/19R_V5_6_Ch06_Wastewater.pdf) without an explicit methodological review.
+
+</Accordion>
+</Accordions>
+
+## References and their role
+
+1. **CUWA (2024), _Guidelines for Carbon Accounting and Emission Reduction in the Urban Water Sector_.** [Publisher / DOI](https://doi.org/10.2166/9781789064223). Revised Eqs. 5.25/5.28; Tables 5.6/5.8; Appendices B.6/B.7. Basis for the accounting convention and listed generic factors. The [preserved edition](https://github.com/Monash-WWTP/monash-platform/blob/3a26ee2cc3787fd73734fb097da8475d06918008/apps/dashboard/public/references/urban-water-carbon-accounting-guidelines.pdf) is the edition checked by the source audit; applicability and interpretation gaps remain as recorded above.
+2. **IPCC (2019), _2019 Refinement_, Volume 5, Chapter 6: Wastewater Treatment and Discharge.** [Chapter PDF](https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/5_Volume5/19R_V5_6_Ch06_Wastewater.pdf). Broader inventory-method context, including method selection, uncertainty and QA/QC; not a replacement citation for the CUWA factors used here.
+
+The implementation source below establishes what the software does. Neither reference validates the effluent heuristic or its scenario predictions.
 
 <SourceLinks paths={["packages/simulation/wwtp_sim/carbon_accounting.py", "packages/simulation/wwtp_sim/models/effluent_v1.py", "docs/science/SIMULATION_EVIDENCE_AUDIT.md"]} />
