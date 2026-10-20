@@ -1,0 +1,34 @@
+---
+title: "Administer the platform"
+description: "Manage application permissions and versioned operational settings."
+sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
+lastVerified: 2026-10-20
+---
+
+Open `/dashboard/admin` with a shared account that has `platform:admin` and an accepted MFA session. Every administration API read and write enforces both requirements. Browser changes also require CSRF protection.
+
+## Grant the first administrator
+
+The trusted server operator grants this capability using `scripts/administer_account.py` after verifying the account UUID. Follow the platform administration runbook; the browser cannot grant or revoke platform administration, including its own access. Keep deployment secrets and signing keys outside the dashboard.
+
+## Users
+
+Search registered native accounts and edit ordinary permissions: submit own reports, review reports, read monitoring data and run research scenarios. Provide a reason before saving. The server rejects self-edits and stale permissions, records the change and revokes the target's browser sessions. Invitations, MFA enrollment, password recovery and disabling accounts remain in the identity service. Revoking application permissions is not an identity-provider account deletion.
+
+## Plants and stations
+
+Create or edit a plant's location, capacity, equipment availability, screening limits and emission factors. Supply source references, applicability notes and a change reason. Save creates a new configuration revision; previous runs retain their snapshots. Existing settings without documented provenance remain unknown until reviewed. Supplied references are not independent validation.
+
+Screening accepts canonical mg/L units for BOD, COD, TSS, ammonia, nitrate and phosphorus, and NTU for turbidity. pH requires range semantics and is not offered as a single threshold. If BOD/COD/TSS settings are absent, the model retains its existing 50/200/100 mg/L fallback. New runs record those effective limits, units and fallback provenance. Removing a setting does not disable that screening.
+
+Omitted scenario availability inherits the plant equipment baseline; explicit scenario values override it. Existing dashboard drafts contain explicit scenario assumptions, so check them before running. A saved configuration change affects future runs, not existing result evidence.
+
+Station changes edit metadata only. The panel preserves historical samples and import metadata. A conflict asks you to reload instead of silently overwriting a newer edit. A failed save keeps the form values.
+
+## History and status
+
+History shows actor, time, reason and before/after values for administrative changes. Use the existing report moderation page for report decisions. Status reports sanitized dependency readiness and model identity; it does not expose credentials or establish release acceptance.
+
+Production server provisioning is pending. The checked-in deployment templates still require approved domains, pinned images, SMTP, private storage and environment acceptance. Model `effluent_v1` 1.4.1 remains illustrative and unvalidated. Physical-device, recovery and scientific acceptance need their own evidence.
+
+<SourceLinks paths={["docs/operations/platform-administration.md", "services/api/app/routers/admin.py", "services/api/app/services/admin.py", "services/api/app/admin_schemas.py", "apps/dashboard/src/pages/AdminPage.tsx", "infra/production/README.md"]} />

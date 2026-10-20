@@ -1,7 +1,7 @@
 ---
 title: "Configuration reference"
 description: "Public client configuration, private server settings and environment boundaries."
-sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
+sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
 lastVerified: 2026-10-19
 ---
 
@@ -21,7 +21,7 @@ Configuration is read by the platform service/client, not this static documentat
 
 ## Production constraints
 
-Production requires OIDC, secure sessions, a confidential web client secret, public HTTPS identity/web/callback URLs, explicit CORS origins and configured storage credentials. These validators reject obviously unsafe configuration; they do not prove DNS/TLS, cookie, callback, privacy or backup acceptance.
+Production requires a nonblank `IDENTITY_EVENT_SECRET` for revocation events, a shared browser/mobile issuer, OIDC, secure sessions, a confidential web client secret, public HTTPS identity/web/callback URLs, explicit CORS origins and configured storage credentials. These validators reject obviously unsafe configuration; they do not prove DNS/TLS, cookie, callback, privacy or backup acceptance.
 
 The API retains legacy Supabase settings for migration/claim compatibility. Their existence does not mean current client flows are configured through Supabase or email-only operator lists. Read actual capability checks before granting access.
 
