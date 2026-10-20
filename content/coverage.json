@@ -466,7 +466,9 @@
       "services/api/app/config.py",
       "infra/staging/compose.yaml",
       "infra/staging/identity/bootstrap.py",
-      "apps/dashboard/vercel.json"
+      "apps/dashboard/vercel.json",
+      "infra/production/README.md",
+      "infra/production/compose.yaml"
     ]
   },
   {
@@ -497,6 +499,20 @@
       "apps/citizenflood/lib/screens/report_form_screen.dart",
       "apps/citizenflood/lib/screens/map_screen.dart",
       "apps/citizenflood/lib/screens/profile_screen.dart"
+    ]
+  },
+  {
+    "id": "administration",
+    "page": "guides/administration",
+    "audience": "administrator",
+    "status": "source",
+    "evidence": [
+      "docs/operations/platform-administration.md",
+      "services/api/app/routers/admin.py",
+      "services/api/app/services/admin.py",
+      "services/api/app/admin_schemas.py",
+      "apps/dashboard/src/pages/AdminPage.tsx",
+      "infra/production/README.md"
     ]
   }
 ]

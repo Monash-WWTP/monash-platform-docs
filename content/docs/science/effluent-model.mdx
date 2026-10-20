@@ -1,13 +1,13 @@
 ---
 title: "Effluent model logic"
 description: "A deterministic stateful concentration surrogate with four substeps per day."
-sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
+sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
 lastVerified: 2026-10-19
 ---
 
 ## How we implement a run
 
-`effluent_v1` version 1.4.0 takes a scenario and returns one result per day for 30, 90 or 180 days. It is an illustrative heuristic: its treatment rules are our implementation assumptions, without supplied site calibration or equation-level study validation.
+`effluent_v1` version 1.4.1 takes a scenario and returns one result per day for 30, 90 or 180 days. It is an illustrative heuristic: its treatment rules are our implementation assumptions, without supplied site calibration or equation-level study validation.
 
 <Steps>
 <Step>
@@ -50,7 +50,7 @@ For comparison, [IWA's benchmarking framework](https://iwa-mia.org/benchmarking/
 
 <h2 id="reading-the-equations">Reading the equations</h2>
 
-These equations describe `effluent_v1` version 1.4.0 exactly as implemented. They explain a deterministic heuristic; mathematical notation does not establish calibration or predictive validity. Read the [parameter register](/docs/science/parameters) alongside the equations for coefficient provenance.
+These equations describe `effluent_v1` version 1.4.1 exactly as implemented. They explain a deterministic heuristic; mathematical notation does not establish calibration or predictive validity. Read the [parameter register](/docs/science/parameters) alongside the equations for coefficient provenance.
 
 | Symbol | Meaning | Unit / interpretation |
 |---|---|---|
@@ -67,7 +67,7 @@ Define $\operatorname{clip}(x,l,u)=\min(\max(x,l),u)$. Numerical constants below
 
 <h2 id="time-and-input-resolution">Time and input resolution</h2>
 
-Horizons are 30, 90 or 180 days, starting at the requested UTC date. Demand percentage takes precedence when supplied: `m = max(0, 1 + demand_change_pct/100)`. Otherwise the model uses a custom truthy multiplier or low/normal/high values 0.85/1/1.25.
+Horizons are 30, 90 or 180 days, starting at the requested UTC date. Demand percentage takes precedence when supplied: `m = max(0, 1 + demand_change_pct/100)`. Otherwise the model uses an explicitly supplied nonnegative multiplier (including zero) or low/normal/high values 0.85/1/1.25.
 
 The requested demand change $d$ is a percentage. When present it takes precedence over other demand settings:
 

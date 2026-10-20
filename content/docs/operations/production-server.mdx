@@ -1,7 +1,7 @@
 ---
 title: "Set up a production server"
 description: "Prepare a Linux server, identity, database, private photos and a verified Vercel cutover."
-sourceRevision: 3a26ee2cc3787fd73734fb097da8475d06918008
+sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
 lastVerified: 2026-10-19
 ---
 
@@ -67,7 +67,7 @@ Provision these application contracts in authentik, using `infra/staging/identit
 - `citizen-mobile`: public client with PKCE, no embedded secret, exact callback `au.edu.monash.citizenflood:/oauthredirect`. The current published APK remains legacy; qualify the next build separately.
 - Match the reference's global issuer and stable `user_uuid` subject, signing key, scope mappings, verified-email claim, operator MFA/AMR claim, registration and recovery flows. The API checks these claims; standard OAuth providers alone are insufficient.
 - Configure real enrollment email verification and recovery. Replace all localhost redirects. Configure the credential-reset event hook with the same `IDENTITY_EVENT_SECRET` as the API, the exact issuer and a reachable `/api/v1/identity/events` endpoint. Verify that password recovery revokes existing application sessions.
-- Determine issuer, discovery and JWKS URLs from the actual provider metadata. They must agree exactly; do not infer the issuer from an example hostname. If the mobile provider has a distinct issuer, set `OIDC_MOBILE_ISSUER` accordingly.
+- Determine issuer, discovery and JWKS URLs from the actual provider metadata. They must agree exactly; do not infer the issuer from an example hostname. Browser and mobile clients must share the exact trusted `OIDC_ISSUER`. Leave `OIDC_MOBILE_ISSUER` unset or identical; a distinct issuer is rejected.
 
 Store photos in a private S3-compatible bucket. Managed object storage is an option even when the API runs on this server. For on-server storage, provision a supported S3 service with persistent data and off-server backups; a single disk is not redundancy. Give the API only the bucket permissions required for head/list/read/write/delete operations. Keep storage credentials separate from backup/admin credentials. Test both allowed access and denial of anonymous reads. Set `STORAGE_REGION` to the service's real region; the source default `garage` is not universal.
 
@@ -75,7 +75,7 @@ Store photos in a private S3-compatible bucket. Managed object storage is an opt
 <Step>
 ### Configure the application database and API
 
-The following is a **minimal deployment example to review and save on the server**, not a committed or qualified production stack. Identity and S3 must already be reachable. Save it as `/srv/monash/compose.yaml`:
+The repository now provides `infra/production/compose.yaml`, Caddy configuration, an environment template and a deployment README. Review and pin the required images and supply approved services before use; the stack has not been deployed or operationally qualified. The following older API-only example explains the service boundaries; use the production template runbook for the integrated deployment. Identity and S3 must already be reachable. Save it as `/srv/monash/compose.yaml`:
 
 ```yaml
 name: monash-production
@@ -239,6 +239,6 @@ Record the release image digest, schema revision, frontend SHA, data reconciliat
 
 ## What to provide next
 
-Provide the server OS/IP, chosen API/account domains, website origin, SSH access method, SMTP choice and S3 choice. Keep passwords/private keys in your secret manager or server custody. With those available, the production-specific Compose/identity setup can be prepared and tested; this guide alone does not deploy anything or close P0.
+Provide the server OS/IP, chosen API/account domains, website origin, SSH access method, SMTP choice and S3 choice. Keep passwords/private keys in your secret manager or server custody. With those available, the checked-in production Compose/identity setup can be configured and tested; this guide alone does not deploy anything or close P0.
 
-<SourceLinks paths={["docs/operations/production-server-setup.md", "services/api/Dockerfile", "services/api/app/config.py", "infra/staging/compose.yaml", "infra/staging/identity/bootstrap.py", "apps/dashboard/vercel.json"]} />
+<SourceLinks paths={["docs/operations/production-server-setup.md", "infra/production/README.md", "infra/production/compose.yaml", "services/api/Dockerfile", "services/api/app/config.py", "infra/staging/compose.yaml", "infra/staging/identity/bootstrap.py", "apps/dashboard/vercel.json"]} />
