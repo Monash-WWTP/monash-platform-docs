@@ -1,34 +1,28 @@
 ---
 title: "Use the mobile map and account"
 description: "Navigate the current source client without confusing own history with public observations."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+lastVerified: 2026-10-22
 ---
 
-See the [current source interface gallery](/docs/guides/app-gallery) for actual Android screen captures and their environment.
+The current source opens on **Map**, with **My reports** and **Account** as the other navigation destinations. The [interface gallery](/docs/guides/app-gallery) preserves older captures; it does not illustrate the latest map-first layout.
 
-<Callout title="Current source workflow">This guide describes the shared-API source client. The signed public 1.0.0 app remains on its legacy backend; verify the actual release/environment before expecting this identity behavior.</Callout>
+## Map and own history
 
-The bottom navigation has **Report**, **Map** and **Me**. The map title says “Live map”, but that label does not establish continuous measurements or a validated real-time plant feed.
+The map combines approved v1 community records, supported v2 community observations and, when signed in, the owner's recent records. Records are merged by ID; the authorized own record replaces its public projection. Each initial request is bounded (normally 200 items), so the map is not a complete historical archive or live sensor feed.
 
-<Steps><Step>
-### Read public observations and your own recent reports
+Tap an observation for detail. Public positions are rounded; authorized own records may contain precise location, private notes and photos. **My reports** provides paginated owner history and review status. An owned flooding report can start a later **Update here** observation at the same point. A pending record visible to its owner is not public.
 
-Open Map in the shared-API source. The repository first loads approved `/api/v1/community/observations`; when signed in, it also loads your own `/api/v1/reports`. It merges records by ID, with your own record replacing its public version. Public locations are rounded; your own authorized records may include private details. Each request initially asks for up to 200 records, so this is not a complete paginated historical archive. Refresh reloads the list; displayed results are not live sensor telemetry.
-</Step><Step>
-### Inspect a report detail
+## Account settings
 
-Tap a map marker, or expand **Recent readings** and choose a row (up to 20 rows are displayed). The scrollable detail sheet shows category, reading/condition, local display time, optional note/photo and pending-review status. Photo content is fetched through authorized media access; unavailable media displays Photo unavailable. Your own pending/private content is not evidence it is publicly visible.
-</Step><Step>
-### Manage your session
+**Account** shows identity information and sign-in/out controls. Shared settings actions open the configured identity service for display name, email, password and session security. The API advertises only allowed flow URLs and only when `ACCOUNT_SETTINGS_ENABLED=true`; deployment must provision and test those flows first. The mobile client refreshes account proof when returning from settings and handles account changes without applying another user's stale response.
 
-Open Me. Sign in uses the configured external identity browser and shows the verified account email when available. A citizen account does not grant operator access. Sign out clears locally stored refresh/ID credentials and attempts provider end-session; broader revocation must be verified against the intended identity environment.
-</Step></Steps>
+A citizen account does not confer operator capability. Email verification, password recovery and security-change revocation depend on the configured identity environment. A settings link or local test does not prove real mail delivery.
 
-## Offline and service errors
+## Connectivity and privacy
 
-Use the map refresh/retry control after a transient failure. Refresh-token provider errors preserve the stored identity rather than erasing it automatically; reconnect or sign in again as instructed. The source does not establish an unlimited offline report queue, complete tile caching or background synchronization guarantee.
+Refresh or retry after transient failures. The source does not guarantee complete offline tile caching, a durable unlimited submission queue or background synchronization. Sign out clears local identity credentials and attempts provider end-session; broader revocation needs environment acceptance.
 
-Public approved observations are a different API projection with rounded locations and no private note/media. See [community observations](/docs/guides/community-observations). Account recovery/email verification depend on the identity provider and remain an integrated release gate, not a native-app password-reset screen supplied by this source.
+See [reporting](/docs/guides/reporting) for the observation protocol and [community observations](/docs/guides/community-observations) for public privacy boundaries.
 
-<SourceLinks paths={["apps/citizenflood/lib/screens/home_shell.dart", "apps/citizenflood/lib/screens/map_screen.dart", "apps/citizenflood/lib/screens/profile_screen.dart", "apps/citizenflood/lib/services/report_repository.dart", "apps/citizenflood/lib/services/account_session.dart"]} />
+<SourceLinks paths={["apps/citizenflood/lib/screens/home_shell.dart", "apps/citizenflood/lib/screens/map_screen.dart", "apps/citizenflood/lib/screens/my_reports_screen.dart", "apps/citizenflood/lib/screens/profile_screen.dart", "apps/citizenflood/lib/services/report_repository.dart", "apps/citizenflood/lib/services/account_session.dart", "services/api/app/routers/auth.py"]} />

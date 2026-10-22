@@ -1,28 +1,29 @@
 ---
 title: "Current state and availability"
 description: "Separate implemented source, published artifacts and verified environment behavior."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+lastVerified: 2026-10-22
 ---
 
-This manual identifies its exact source baseline in each page’s metadata and implementation-evidence panel, reviewed on **19 October 2026**. Hosting can change after that date. No table entry is a live uptime guarantee.
+This manual pins a platform source revision in each page's metadata. The 22 October 2026 preparation audit is the latest local evidence; older screenshots and acceptance reports retain their historical dates. No entry is a live uptime guarantee.
 
-| Surface | What exists | What is still pending |
+| Surface | Implemented source | Remaining acceptance |
 |---|---|---|
-| Web source | Monitoring-first UI, public routes, research sandbox and versioned API client | Intended production API routing and full integration acceptance |
-| Published CitizenFlood 1.0.0 | Signed legacy-backend APK, versionCode 2 | New shared-API signed release and physical-device upgrade acceptance |
-| Native source | OIDC/PKCE, shared API reporting and secure credential storage | Public shared identity, integrated photo/retry and signed-device qualification |
-| Shared backend | API-owned PostgreSQL, identity, media, moderation, monitoring, runs | Production infrastructure, recovery and cutover acceptance |
-| Scientific model | effluent_v1 1.4.1, deterministic illustrative outputs | Calibration, independent validation and uncertainty assessment |
+| Dashboard | Monitoring, scenarios, administration, moderation and operational response | Production same-origin API/identity cutover and integrated accessibility acceptance |
+| CitizenFlood | Map-first v2 observations, flooding follow-ups, owner history, shared settings and OIDC/PKCE | Signed shared-API release, physical-device install/upgrade and interruption testing |
+| Shared backend | API-owned databases, private media, permissions, runs and identity events | Production mail, identity/storage qualification, capacity and disaster recovery |
+| Scientific model | `effluent_v1` 1.4.1, deterministic illustrative outputs | Calibration, independent validation, uncertainty and separate decision-use authorization |
 
-<Callout type="warn" title="Do not treat account entry as an available public service">The public account pages disclose shared-account availability rather than collecting credentials. An operator needs an environment with configured identity, an invitation/capability and MFA.</Callout>
+The published legacy APK is a separate artifact. A newer source checkout does not switch that app's backend.
 
-<Callout type="warn" title="Public monitoring is awaiting its server">The successor API has not been deployed and has no approved production URL. The inherited legacy Render route does not serve the source dashboard’s versioned contract. Follow [server setup](/docs/operations/production-server) before changing routing.</Callout>
+## Latest local evidence
 
-## Verification scope
+The preparation audit records 243 Python tests passed with one optional legacy-source-checkout skip, 50 dashboard tests, 59 Flutter tests and clean analyzer/lint/build checks where supported. Migration/OpenAPI and repository/inventory checks passed. The research notebook executed against 154 public final-effluent samples. None of these results establishes scientific validity.
 
-The original monitoring-first acceptance recorded 34 frontend tests and 111 Python tests locally, with one legacy-source-checkout verification skipped. The dashboard audit follow-up records 37 frontend tests, lint/build checks and synthetic browser verification. These are dated source checks; the associated PR and deployment status must be checked separately. These establish software checks, not successful production login, storage recovery or scientific validity.
+Synthetic local staging on the new ARM64 server has working application/identity databases, private storage and API readiness. This is a new synthetic environment, not restoration of the former machine's private data. Public HTTPS health/placeholder routes are not a production API/account service, and further production rollout is paused. Real transactional email is not configured.
 
-The last recorded staging inspection found private storage unavailable because its configuration mount referred to a former worktree. Current recovery ownership/targets, production routing and integrated acceptance remain open. See [release gates](/docs/operations/release-gates).
+A local encrypted database restore reconciled 18 application and 230 identity tables. After an initial failure, investigation found and corrected a temporary-server readiness race in the restore helper; a regression and three real restores passed after the correction. The initial error did not expose enough diagnostics to prove its exact cause. The source bucket was empty. Off-server recovery, nonempty media restoration and actual identity sign-in after restoration remain open.
 
-<SourceLinks paths={["docs/operations/staging-acceptance-2026-10-18.md", "docs/operations/android-release-1.0.0.json", "docs/science/VALIDATION.md"]} />
+The standard Android AAPT2 binary cannot run on this ARM64 host. Flutter source checks passed, but APK qualification requires supported x86-64 CI/build hardware and physical devices. See [release gates](/docs/operations/release-gates).
+
+<SourceLinks paths={["docs/operations/production-readiness-2026-10-22.md", "docs/operations/toolchains.md", "docs/operations/android-release-1.0.0.json", "docs/science/VALIDATION.md"]} />

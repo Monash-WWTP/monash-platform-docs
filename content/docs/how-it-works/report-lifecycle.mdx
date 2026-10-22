@@ -1,18 +1,18 @@
 ---
 title: "Report and media lifecycle"
 description: "Ownership, idempotency, moderation and public privacy projections."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+lastVerified: 2026-10-22
 ---
 
 <Steps><Step>
 ### Validate and own the submission
 
-The server validates category/value/unit, timestamp and location. It associates the report with the authenticated citizen account; clients cannot choose an arbitrary owner. Idempotency is scoped to owner and key with a hash of canonical report content. The same content/key returns the existing result; conflicting content returns 409.
+The server validates protocol-specific observation fields, units, timestamp and location. V2 supports protocol revisions 1 and 2; v1 reports retain their legacy meaning. Revision 2 can link later owned flooding observations at the same selected point and record optional movement, level-change and photo-source context. It associates the report with the authenticated citizen account; clients cannot choose an arbitrary owner. Idempotency is scoped to owner and key with a hash of canonical report content. The same content/key returns the existing result; conflicting content returns 409.
 </Step><Step>
 ### Store an optional private photo
 
-The upload endpoint accepts nonempty JPEG/PNG/WebP up to10MiB and25 megapixels, verifies image content, stores a private object and records SHA-256, size and MIME. A separate HTTP-body limit is11MiB, including multipart overhead. The original bytes are retained; there is no claimed EXIF-stripping pipeline. Treat photos as potentially sensitive.
+The upload endpoint accepts nonempty JPEG/PNG/WebP up to 10 MiB and 25 megapixels, verifies image content, stores a private object and records SHA-256, size and MIME. A separate HTTP-body limit is 11 MiB, including multipart overhead. The original bytes are retained; there is no claimed EXIF-stripping pipeline. Treat photos as potentially sensitive.
 </Step><Step>
 ### Review a pending report
 
@@ -20,15 +20,19 @@ A reviewer with MFA transitions pending to approved/rejected under a row lock an
 </Step><Step>
 ### Publish only an allowlisted view
 
-Approved community output rounds coordinates to0.001 degree and excludes owner identity, private notes, precise original location and media paths. The public projection is a deliberate response contract, not a serialization of the private database record.
+Approved community output rounds coordinates to 0.001 degree and excludes owner identity, private notes, precise original location and media paths. The public projection is a deliberate response contract, not a serialization of the private database record.
 </Step></Steps>
 
 ## Media access and integrity
 
 Owners can retrieve their own photo. Authorized MFA reviewers can access media attached to a reviewable report; unrelated users get404. Download verifies byte size and SHA-256 before returning content with no-store headers. Storage failures return503 rather than falsely confirming a photo. Object and database persistence are coordinated with cleanup on database failure, but operational reconciliation remains necessary after exceptional failures.
 
+## Operational response is separate
+
+Authorized responders with MFA can acknowledge, assign, associate, inspect, act, close or reopen a report through a revision-checked event log. These actions do not automatically approve publication or validate measurements. See [operator response](/docs/guides/operator-response).
+
 ## Limits that remain operational decisions
 
 Retention/deletion policy, photo volume, concurrent upload controls, incident access and real-device interruption behavior need acceptance. The implemented byte/pixel limits are not proof of adequate rate limiting or storage capacity.
 
-<SourceLinks paths={["services/api/app/routers/reports.py", "services/api/app/reporting/schemas.py", "services/api/app/http/limits.py", "services/api/tests/test_media.py"]} />
+<SourceLinks paths={["services/api/app/routers/reports.py", "services/api/app/routers/observations.py", "services/api/app/services/operator_response.py", "services/api/app/reporting/schemas.py", "services/api/app/http/limits.py", "services/api/tests/test_media.py"]} />

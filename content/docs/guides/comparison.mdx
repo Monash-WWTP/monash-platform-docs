@@ -1,7 +1,7 @@
 ---
 title: "Compare completed runs"
 description: "Choose a reference, verify compatibility and inspect immutable changes."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
+sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
 lastVerified: 2026-10-19
 ---
 
@@ -31,6 +31,6 @@ A reference GHG estimate of 0.20 and candidate 0.25 kg CO₂-eq/m³ give +0.05 k
 
 ## Incompatibility and limits
 
-The API rejects duplicate, unfinished, cross-plant, model/artifact/date/series-incompatible requests. Old runs with unknown artifact identity require a new traceable run. Retry a transient failure; select genuinely compatible runs for a compatibility error. There is no automatic best-scenario ranking and no validated causal inference.
+The API rejects duplicate, unfinished, cross-plant, model/artifact/date/series-incompatible requests and malformed persisted result containers with structured 422 incompatibility errors. Old runs with unknown artifact identity require a new traceable run. Retry a transient failure; select genuinely compatible runs for a compatibility error. There is no automatic best-scenario ranking and no validated causal inference.
 
 <SourceLinks paths={["services/api/app/services/comparison.py", "apps/dashboard/src/components/comparison/ComparisonView.tsx", "apps/dashboard/src/components/comparison/comparisonModel.ts"]} />

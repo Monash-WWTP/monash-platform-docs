@@ -1,6 +1,6 @@
 # Monash Water documentation
 
-A separate Fumadocs manual for CitizenFlood, monitoring, research scenarios, the shared API and release operations. The documentation describes platform source revision **8b2862b**, while distinguishing published legacy clients and pending production/scientific acceptance.
+A separate Fumadocs manual for CitizenFlood, monitoring, research scenarios, the shared API and release operations. The documentation describes platform source revision **804e4f8**, while distinguishing published legacy clients and pending production/scientific acceptance.
 
 **[Read the public manual](https://monash-platform-docs.vercel.app)** · [Open the platform](https://monash-water-platform.vercel.app)
 
@@ -28,7 +28,7 @@ The static preview is http://127.0.0.1:3030. Host `out/` with directory-index su
 - Monitoring/BDL, community observations, reporting/photos, moderation, scenarios, explicit-reference comparisons and publishing.
 - Architecture, identity/capabilities/CSRF, private media lifecycle, migrations and run provenance.
 - Actual model equations, input/coefficient register, GHG arithmetic/source ambiguities and scientific-validation requirements.
-- All 34 checked-in OpenAPI operations, generated through native Fumadocs OpenAPI components with live execution disabled.
+- All checked-in OpenAPI operations, generated through native Fumadocs OpenAPI components with live execution disabled.
 - Configuration, deployment boundaries, readiness, backup/restore, incidents, release/rollback and open acceptance gates.
 
 The landing/manual use native Fumadocs HomeLayout, DocsLayout, Cards, Steps, Tabs, Callouts, Accordions, file trees, code blocks, search and table of contents.

@@ -1,11 +1,11 @@
 ---
 title: "Build the Android source"
 description: "Compile a synthetic shared-API acceptance build without publishing it."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+lastVerified: 2026-10-22
 ---
 
-**Prerequisites:** Flutter **3.44.7**, Android SDK, JDK **17** and the platform source checkout. No iOS scaffolding is supplied in the pinned import.
+**Prerequisites:** Flutter **3.44.7**, Android SDK, JDK **21** and the platform source checkout. No iOS scaffolding is supplied in the pinned import.
 
 <Steps><Step>
 ### Check and compile
@@ -37,6 +37,8 @@ Debug staging builds use synthetic configuration for compile/tests. They must no
 </Tab><Tab value="Public release">
 Use the existing project signing identity, a larger versionCode, approved HTTPS endpoints and physical-device fresh-install/upgrade testing. Follow [Android release](/docs/operations/android-release).
 </Tab></Tabs>
+
+On the audited Linux ARM64 server, Flutter analysis/tests run, but the standard Android AAPT2 binary fails with an executable-format error. Use the repository’s x86-64 CI or a supported Android build host for the APK; do not count a failed local build as acceptance.
 
 ## Expected outcome
 
