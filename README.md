@@ -1,6 +1,6 @@
 # Monash Water documentation
 
-A separate Fumadocs manual for CitizenFlood, monitoring, research scenarios, the shared API and release operations. The documentation describes platform source revision **804e4f8**, while distinguishing published legacy clients and pending production/scientific acceptance.
+A separate Fumadocs manual for CitizenFlood, monitoring, research scenarios, the shared API and release operations. The documentation describes platform source revision **383783d**, while distinguishing published legacy clients and pending production/scientific acceptance.
 
 **[Read the public manual](https://monash-platform-docs.vercel.app)** · [Open the platform](https://monash-water-platform.vercel.app)
 

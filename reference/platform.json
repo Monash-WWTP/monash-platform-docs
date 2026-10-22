@@ -1,6 +1,6 @@
 {
   "repository": "https://github.com/Monash-WWTP/monash-platform",
-  "revision": "804e4f83e0b1c742ea1a0453f04b05d63689b977",
+  "revision": "383783d6dcf8f5a66efe4c3e24fdf09201b2c599",
   "verifiedDate": "2026-10-22",
   "files": {
     ".dockerignore": "57ec16452cd445765001b000fd5fe0b2856961fe",
@@ -272,7 +272,7 @@
     "docs/operations/next-machine-handoff-2026-10-21.md": "8368de6b3886830af09c2421f7a6f94ae0162771",
     "docs/operations/operator-response.md": "bf9ee3642f138ad35f00d8bcc5eff31e6c095954",
     "docs/operations/platform-administration.md": "a5c3bd224e1401bcdba7db8a263e4e7ff5fba557",
-    "docs/operations/production-readiness-2026-10-22.md": "ebfd04e8ae36b69db8fb3fbae6dd5ff410c23a9d",
+    "docs/operations/production-readiness-2026-10-22.md": "cd13378284d8527daaab61e3f3bba33574b3be50",
     "docs/operations/production-server-setup.md": "30e9137008da4c59935a823d24f419a055dbae6b",
     "docs/operations/public-site.json": "045d504c93439173461148398feffd834795a6b7",
     "docs/operations/samsung-mobile-acceptance-2026-10-20.md": "ec4522c144f0891af14f15ff3c6e2a94399a6743",
@@ -373,7 +373,7 @@
     "scripts/smoke_public_portal.py": "6341916497d19f5e3d17a20cb2eff15992f0c992",
     "scripts/staging.py": "64ec6bf80a2ba9710c5889e4817bf4a9262e1798",
     "scripts/staging_api.py": "4a7942ffc1c3c07ee9e623ec1410411fd371cf0e",
-    "scripts/staging_backup.py": "3958b28bfde6fb2795bcfd2f235761f4ef1a93bf",
+    "scripts/staging_backup.py": "734ca5ebbe222f8cf8899224d67dd010e67b2ef3",
     "scripts/staging_identity_acceptance.py": "29f02fbac3ad5583c0a8f72ae4e7692827088f8d",
     "scripts/staging_operator_acceptance.py": "e58f2d4a6ca381da0ef7c3f4b131daa624466bee",
     "services/api/Dockerfile": "0dde7920a3d3fd199a2712ee65be13f305152871",
@@ -423,7 +423,7 @@
     "services/api/app/routers/operator_response.py": "80725624bcb99e55b2731a0ae6b89e8712444ae5",
     "services/api/app/routers/plants.py": "d7571f9ba74963c93ad1f28bb9dcd65df18f1ea0",
     "services/api/app/routers/readiness.py": "a3f9ee1278ec604e4dafb25bfe7181ed8b9c19ed",
-    "services/api/app/routers/reports.py": "1c54fe1b600722c09114656bbaa883f845569120",
+    "services/api/app/routers/reports.py": "cbc8aab188ae8c2c44635daf36c3b894dcbb0cdc",
     "services/api/app/routers/scenarios.py": "5f54aae8ae56cc8fdb6bcf71c28537bead32d844",
     "services/api/app/routers/simulations.py": "6824b856d2343f4b1e2e604f77d252f0a223ae73",
     "services/api/app/schemas.py": "a302c39afb310b4d904573088a7d24536f91ef2a",
@@ -447,7 +447,7 @@
     "services/api/tests/test_identity.py": "9616fa8ab7755a4ed55e5919530e9978ebdceabf",
     "services/api/tests/test_identity_upload_guards.py": "b11424560fd25724b2e6ebcd1a28f8adf54f1286",
     "services/api/tests/test_legacy_claim.py": "3abc3d0ebd60ed97aa2291a8863bec586dc41392",
-    "services/api/tests/test_media.py": "8f084a3822c15dd1297f67f5e858ba55eac23faf",
+    "services/api/tests/test_media.py": "7e45f1cd7d6c06f7301fdc7a636aaddacb34a508",
     "services/api/tests/test_migration.py": "286721a46bde746678cc73ec093dc3e6450f8b24",
     "services/api/tests/test_migration_scaffold.py": "ebcb41dc20e6c1ba545705ceaad5115e648fc432",
     "services/api/tests/test_observations.py": "5a178ff482b393f47c7e794768e8f5616db6862c",
@@ -472,7 +472,7 @@
     "tests/test_production_config.py": "e8cff54972b601f5aa85ff4725db233804bd3b9e",
     "tests/test_public_data.py": "766f6b5be522f54f7da357c51fe8c37b5ea9fb4c",
     "tests/test_repository_policy.py": "a0d2b869dff2bb16cee32488e918c36e89d7934b",
-    "tests/test_staging_backup.py": "cfe708c8a37e0b1c7f3547e026b062138c0d6d0e",
+    "tests/test_staging_backup.py": "f564034cc2d2c2b63d616fe21e4561a45bff03e2",
     "uv.lock": "b3dad2a34a96fc9b395e8dca3122aa6b1b57e71c"
   }
 }

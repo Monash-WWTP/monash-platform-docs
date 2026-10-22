@@ -1,7 +1,7 @@
 ---
 title: "Backup and restore"
 description: "Recovery needs custody, an owner, a target and measured evidence."
-sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
 lastVerified: 2026-10-19
 ---
 
@@ -41,6 +41,6 @@ The rehearsal uses temporary database containers and a separate temporary object
 Record artifact digest, source/target version, achieved data reconciliation, issuer/subject authorization checks, actual elapsed downtime/data loss, reviewer and remaining gaps. An empty-bucket local rehearsal is not proof of off-server production recovery.
 </Step></Steps>
 
-<Callout type="warn" title="No recovery guarantee is claimed">No production RPO/RTO or accountable owner has been confirmed. These command forms were checked against source; the 22 October local audit restored database manifests after correcting a temporary-server readiness race found while investigating an initial failure, with an empty photo bucket. Off-server and nonempty-media recovery remain unperformed. See [current status](/docs/overview/status).</Callout>
+<Callout type="warn" title="No recovery guarantee is claimed">No production RPO/RTO or accountable owner has been confirmed. These command forms were checked against source; the 22 October local audit restored database manifests after correcting a temporary-server readiness race found while investigating an initial failure, and subsequently restored a synthetic photo with matching hash and denied anonymous reads. Off-server, representative-volume and restored identity sign-in acceptance remain unperformed. See [current status](/docs/overview/status).</Callout>
 
 <SourceLinks paths={["scripts/staging_backup.py", "docs/operations/staging-acceptance-2026-10-18.md"]} />

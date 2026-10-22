@@ -1,7 +1,7 @@
 ---
 title: "Report and media lifecycle"
 description: "Ownership, idempotency, moderation and public privacy projections."
-sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
 lastVerified: 2026-10-22
 ---
 
@@ -25,7 +25,7 @@ Approved community output rounds coordinates to 0.001 degree and excludes owner 
 
 ## Media access and integrity
 
-Owners can retrieve their own photo. Authorized MFA reviewers can access media attached to a reviewable report; unrelated users get404. Download verifies byte size and SHA-256 before returning content with no-store headers. Storage failures return503 rather than falsely confirming a photo. Object and database persistence are coordinated with cleanup on database failure, but operational reconciliation remains necessary after exceptional failures.
+Owners can retrieve their own photo. Authorized MFA reviewers can access media attached to a reviewable report; unrelated users get404. Download verifies byte size and SHA-256 before returning content with no-store headers, and closes the storage response even when reading fails. Storage failures return503 rather than falsely confirming a photo. Object and database persistence are coordinated with cleanup on database failure, but operational reconciliation remains necessary after exceptional failures.
 
 ## Operational response is separate
 

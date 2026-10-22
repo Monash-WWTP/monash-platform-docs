@@ -1,11 +1,11 @@
 ---
 title: "What remains before full launch"
 description: "Use explicit acceptance evidence rather than treating a merged PR as a launch."
-sourceRevision: 804e4f83e0b1c742ea1a0453f04b05d63689b977
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
 lastVerified: 2026-10-22
 ---
 
-The [current status](/docs/overview/status) records the latest source checks. Production rollout remains paused; passing tests and a healthy synthetic stack do not close these gates.
+The [current status](/docs/overview/status) records the latest source checks. The release target is open public registration. Production rollout remains paused; passing tests and a healthy synthetic stack do not close these gates.
 
 | Gate | Required evidence |
 |---|---|
@@ -13,12 +13,14 @@ The [current status](/docs/overview/status) records the latest source checks. Pr
 | Domains and email | Approved stable API/account origins and real verified transactional delivery; project DNS/mail arrangements through Monash or an approved independent provider |
 | Identity and settings | Exact issuer/callbacks, verified enrollment, MFA, settings flows, real recovery and revocation acceptance |
 | Runtime and storage | Immutable scanned artifacts, private storage, least-privilege database roles, secrets, retention and tested abuse/capacity controls |
-| Recovery | Agreed RPO/RTO; encrypted off-server restore with nonempty media, row/hash/ownership reconciliation and restored sign-in; capture diagnostics on any recurring restore failure |
+| Recovery | Agreed RPO/RTO; encrypted off-server restore with representative nonempty media, row/hash/ownership reconciliation and restored sign-in; capture diagnostics on any recurring restore failure |
 | Integration | Both clients against the intended environment, including photo/retry, v1/v2 privacy/moderation, operational response conflicts, monitoring and scenarios |
 | Android and accessibility | Supported-host APK build, original signing identity, increased versionCode, physical install/upgrade and permission/network interruption tests; keyboard/screen-reader/large-text acceptance |
 | Operations | Measured peak load, tested redacted alerts to a named owner, backup-age monitoring and restart/reboot evidence |
 | Cutover and rollback | Website-origin proxy/cookies/CSRF, uncached API responses, data/access reconciliation and rollback preserving new writes |
 | Science | Research-only policy remains; calibration, held-out validation and uncertainty require independent scientific authorization |
+
+A local nonempty-object restore verified hashes and denied anonymous reads, but this tiny same-host fixture does not establish off-server recovery or restored sign-in.
 
 The former malformed-comparison-container defect is fixed: corrupt persisted results now return structured 422 incompatibility. Oversized requests retain correlation IDs, the production proxy covers v1/v2, and locked dependency advisories found in the audit were addressed. Large map/chart bundles remain a measured-performance follow-up.
 
