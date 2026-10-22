@@ -1,7 +1,7 @@
 ---
 title: "System architecture"
 description: "Independent clients, one successor application contract and explicit data boundaries."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
 lastVerified: 2026-10-19
 ---
 
@@ -10,7 +10,7 @@ lastVerified: 2026-10-19
 ```text
 Public browser ──► React/Vite portal + monitoring
 Operator browser ─► cookie session + CSRF ─┐
-CitizenFlood source ► OIDC/PKCE + bearer ──┼► FastAPI /api/v1 ► application PostgreSQL
+CitizenFlood source ► OIDC/PKCE + bearer ──┼► FastAPI /api/v1 + /api/v2 ► application PostgreSQL
 Identity provider ─► issuer/subject ───────┘        │
                                                   ├► private S3-compatible media
                                                   └► wwtp_sim ► immutable research run
@@ -20,7 +20,7 @@ Lab import ► dated samples (separate from reports and runs)
 
 The published legacy APK follows a different backend path; this diagram describes successor source. Deployment routing must be checked against the intended environment.
 
-<Files><Folder name="monash-platform" defaultOpen><Folder name="apps" defaultOpen><File name="dashboard — React/Vite public + operator UI"/><File name="citizenflood — Flutter Android source"/></Folder><Folder name="services/api" defaultOpen><File name="routers — versioned HTTP contracts"/><File name="db — application data and identity mapping"/><File name="services — simulation orchestration"/></Folder><Folder name="packages/simulation" defaultOpen><File name="wwtp_sim — deterministic model and accounting"/></Folder><File name="infra — disposable local and isolated staging"/><File name="legacy — historical inactive source"/></Folder></Files>
+<Files><Folder name="monash-platform" defaultOpen><Folder name="apps" defaultOpen><File name="dashboard — React/Vite public + operator UI"/><File name="citizenflood — Flutter Android source"/></Folder><Folder name="services/api" defaultOpen><File name="routers — versioned HTTP contracts"/><File name="db — application data and identity mapping"/><File name="services — simulation orchestration"/></Folder><Folder name="packages/simulation" defaultOpen><File name="wwtp_sim — deterministic model and accounting"/></Folder><File name="infra — local, staging and production preparation"/><File name="legacy — historical inactive source"/></Folder></Files>
 
 ## Why these boundaries exist
 

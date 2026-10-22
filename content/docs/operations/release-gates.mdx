@@ -1,33 +1,31 @@
 ---
 title: "What remains before full launch"
 description: "Use explicit acceptance evidence rather than treating a merged PR as a launch."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
+lastVerified: 2026-10-22
 ---
 
-## Implemented and checked in source
+The [current status](/docs/overview/status) records the latest source checks. The release target is open public registration. Production rollout remains paused; passing tests and a healthy synthetic stack do not close these gates.
 
-Monitoring-first navigation, missing/BDL handling, public availability copy, accessible mobile panels, removed3D twin, guarded comparisons, immutable provenance, retry/partial-outage behavior and configured-dependency readiness are implemented. The recorded local verification is34 frontend and111 Python passes with one original-legacy-checkout skip; GitHub also passed repository workflows.
+| Gate | Required evidence |
+|---|---|
+| Ownership | Deployment, recovery, incident and scientific-review owners; approved review responsibilities |
+| Domains and email | Approved stable API/account origins and real verified transactional delivery; project DNS/mail arrangements through Monash or an approved independent provider |
+| Identity and settings | Exact issuer/callbacks, verified enrollment, MFA, settings flows, real recovery and revocation acceptance |
+| Runtime and storage | Immutable scanned artifacts, private storage, least-privilege database roles, secrets, retention and tested abuse/capacity controls |
+| Recovery | Agreed RPO/RTO; encrypted off-server restore with representative nonempty media, row/hash/ownership reconciliation and restored sign-in; capture diagnostics on any recurring restore failure |
+| Integration | Both clients against the intended environment, including photo/retry, v1/v2 privacy/moderation, operational response conflicts, monitoring and scenarios |
+| Android and accessibility | Supported-host APK build, original signing identity, increased versionCode, physical install/upgrade and permission/network interruption tests; keyboard/screen-reader/large-text acceptance |
+| Operations | Measured peak load, tested redacted alerts to a named owner, backup-age monitoring and restart/reboot evidence |
+| Cutover and rollback | Website-origin proxy/cookies/CSRF, uncached API responses, data/access reconciliation and rollback preserving new writes |
+| Science | Research-only policy remains; calibration, held-out validation and uncertainty require independent scientific authorization |
 
-## Open acceptance gates
+A local nonempty-object restore verified hashes and denied anonymous reads, but this tiny same-host fixture does not establish off-server recovery or restored sign-in.
 
-| Priority | Gate | Required evidence |
-|---|---|---|
-| 1 | Storage recovery | Original Garage config/key custody restored; obsolete mount repaired; bucket permissions/upload/download verified |
-| 2 | Hosting and identity | Approved API/account origins, TLS/proxy/cookie/CSRF/callback checks; registration/email/recovery and invited operator MFA/revocation |
-| 3 | Recovery | Named owner, acceptable loss/downtime and encrypted off-server app/identity/object restore rehearsal |
-| 4 | Integration and migration | Real report/photo/retry/moderation/privacy, source export reconciliation and both clients against intended environment |
-| 5 | Capacity and operations | Peak concurrency/photo volume, measured limits, redacted alerts, notification owner and incident exercise |
-| 6 | Android | Original signing identity, increased code and physical install/upgrade/OIDC/offline/photo acceptance |
-| 7 | Scientific scope | Research-only policy retained; separate calibration/validation/uncertainty and scientific authorization before decision use |
-| 8 | Exact release | Immutable artifacts, migration/write procedure, rollback preserving new writes and observed acceptance window |
+The former malformed-comparison-container defect is fixed: corrupt persisted results now return structured 422 incompatibility. Oversized requests retain correlation IDs, the production proxy covers v1/v2, and locked dependency advisories found in the audit were addressed. Large map/chart bundles remain a measured-performance follow-up.
 
-A separate Vercel `dashboard` project has a recorded root-directory build configuration failure. The successful `monash-water-platform` deployment does not establish backend cutover acceptance.
+Useful next features are durable account-scoped offline drafts, opt-in status notifications, quality/duplicate review assistance, privacy-safe operational summaries and measured performance/accessibility improvements. Shared account settings, map-first reporting, flooding updates and operator response already exist; qualify them before expanding scope.
 
-One minor code hardening item remains: malformed persisted simulation series containers fail closed with a server error rather than a structured incompatibility response. Map/chart bundle-size and dependency-deprecation warnings are also recorded.
+Record owner, date/environment, exact artifact, steps/results, limitations and rollback point for each gate. The manual is evidence and procedure, not production approval.
 
-## Evidence format
-
-For each accepted gate, record owner, environment/date, exact revision/artifact, test steps/results, limitations and rollback point. Leave unperformed checks visibly pending. This manual supplies procedures and traceability, not approval to claim a complete production release.
-
-<SourceLinks paths={["docs/operations/staging-acceptance-2026-10-18.md", "docs/product/platform-resolution-checklist.md"]} />
+<SourceLinks paths={["docs/operations/production-readiness-2026-10-22.md", "docs/product/platform-resolution-checklist.md"]} />

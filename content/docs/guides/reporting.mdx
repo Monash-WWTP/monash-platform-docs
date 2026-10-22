@@ -1,45 +1,39 @@
 ---
 title: "Submit and retry reports"
 description: "Current shared-API source workflow for category, location and optional photos."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
+lastVerified: 2026-10-22
 ---
 
-See the [current source interface gallery](/docs/guides/app-gallery) for actual Android screen captures and their environment.
+<Callout type="warn" title="Source and release boundary">This describes the current shared-API client. The published legacy APK does not establish availability of these workflows. Use an accepted environment with verified identity and private storage.</Callout>
 
-<Callout type="warn" title="Environment boundary">This is the current source/shared-API flow. The published 1.0.0 APK uses its legacy backend. Test the shared flow only in an accepted environment with verified identity and private storage.</Callout>
+Start on **Map**, choose a point and report what you observed. A verified citizen account with `report:own` is required to submit. Review the location, observation time and content before sending.
 
-**Prerequisites:** verified citizen session with `report:own`, supported device permissions and a reachable API. A report requires a timezone-aware observation time, location and category-appropriate content.
+## Choose an observation
 
-<Steps><Step>
-### Choose a category
+| Type | Required context |
+|---|---|
+| Flooding | Whether water covers normally dry ground; affected surfaces when present |
+| Rain occurrence | Present, not observed or unsure; this is not rainfall depth |
+| Water appearance | Observed features, none observed or unsure; this is not a pollutant diagnosis |
+| Rainfall accumulation | Gauge identity/type, timezone-aware start/end interval, mm value or explicit trace/missing |
+| Water reading | Depth and surface reference, or instrument reading against an approved stage reference revision |
+| Temperature | Air/water, instrument, sample context and known/unknown calibration provenance |
 
-| Category | Required value | Unit |
-|---|---|---|
-| Rainfall | Nonnegative numeric reading | mm |
-| Water level | Nonnegative numeric reading | m |
-| Temperature | Finite numeric reading | °C |
-| Wastewater | Normal, warning or critical condition | No numeric reading/unit |
+Do not turn trace/missing rainfall into numerical zero or an unsure observation into absence. The client negotiates supported revisions of `citizen-observation` through `/api/v2/observation-protocols`.
 
-Do not swap a wastewater condition for a numerical measurement. Notes are optional and limited to 2,000 characters.
-</Step><Step>
-### Allow automatic location capture
+## Location, time and supporting details
 
-Allow location access. The form captures location automatically and offers Retry if capture fails; it does not show editable coordinates, accuracy or observation time. It timestamps the report when you submit, so this form does not support entering a retrospective observation time. Resolve permission denial or unavailable GPS before submission. The API separately bounds coordinates, requires a timezone and rejects times more than five minutes into the future.
-</Step><Step>
-### Attach a photo if appropriate
+Use current location or select a map point. GPS accuracy belongs to a current-location fix; a manually selected point must not imply measured accuracy. The observation form supports changing the observed time. The API requires a timezone and rejects times more than five minutes ahead; rainfall intervals cannot end after the observation.
 
-Expand **Photo and note** to use Camera or Gallery and add an optional note. Closing this section retains entered details; its subtitle identifies a photo or note that has been added. Uploads are private and owned by the reporting account; the report references the resulting media ID. A missing or another user's media ID is rejected. Avoid including unnecessary identifying information in photos or notes.
-</Step><Step>
-### Submit and inspect history
+An optional private photo can come from Camera or Gallery. Revision 2 records the picker source, which is not proof of the photo's capture time or authenticity. Notes are optional and limited to 2,000 characters. Photos remain private; public community output excludes photo paths and notes.
 
-The source client uses an idempotency key for retries. A lost response can be retried with the same key and identical payload; changing content while reusing the key returns 409. Confirm the report appears in your own history. It starts pending moderation, not public.
-</Step></Steps>
+For an owned flooding observation, **Update here** can link a later observation at the same selected point. Optional context includes water movement and level change relative to the earlier observation. Moving the point clears the link. A follow-up is a new observation, not an edit to historical evidence.
 
-## Recovery
+## Review, submit and retry
 
-For session expiry, sign in through the configured identity flow. For interrupted upload/submission, retry the same operation and confirm history before creating a new report. The server's idempotency contract does not establish unlimited offline queuing or automatic recovery after every app restart; real-device interruption acceptance remains open.
+Review the summary before sending. New submissions start pending moderation and appear in **My reports**. The client uses an idempotency key: identical content/key returns the existing submission; changed content with the same key returns 409. After a lost response, retry and check history before creating another report.
 
-Read [report lifecycle](/docs/how-it-works/report-lifecycle) for privacy and ownership details.
+The server contract does not guarantee an unlimited durable offline queue or recovery across every app restart. Real-device interruption acceptance remains a release gate. V1 rainfall/water-level/temperature/wastewater records remain legacy compatibility records and must not be relabelled as protocol-qualified v2 observations.
 
-<SourceLinks paths={["apps/citizenflood/lib/screens/report_form_screen.dart", "apps/citizenflood/lib/services/report_repository.dart", "services/api/app/reporting/schemas.py", "services/api/app/routers/reports.py"]} />
+<SourceLinks paths={["apps/citizenflood/lib/screens/observation_form_screen.dart", "apps/citizenflood/lib/services/report_repository.dart", "services/api/app/reporting/observations.py", "services/api/app/routers/observations.py"]} />

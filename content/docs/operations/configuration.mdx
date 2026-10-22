@@ -1,8 +1,8 @@
 ---
 title: "Configuration reference"
 description: "Public client configuration, private server settings and environment boundaries."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
-lastVerified: 2026-10-19
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
+lastVerified: 2026-10-22
 ---
 
 Configuration is read by the platform service/client, not this static documentation site. Use ignored environment files or the approved secret store. Never paste real secrets into MDX, Git, screenshots or browser-delivered configuration.
@@ -14,14 +14,16 @@ Configuration is read by the platform service/client, not this static documentat
 | Identity | `OIDC_ISSUER`, `OIDC_DISCOVERY_URL`, `OIDC_JWKS_URL` | Validated origins/issuer; do not silently substitute a different issuer |
 | Client identities | `OIDC_CLIENT_ID`, `OIDC_OPERATOR_CLIENT_ID`, `OIDC_MOBILE_CLIENT_ID` | Approved audiences/client IDs |
 | Browser callback | `OIDC_CALLBACK_URL`, `OIDC_CLIENT_SECRET` | Callback exactness; confidential secret stays server-side |
-| Identity events | `IDENTITY_EVENT_SECRET`, `OIDC_BACKCHANNEL_ORIGIN` | Private event proof and environment-specific internal routing |
+| Identity events | `IDENTITY_EVENT_SECRET`, `OIDC_BACKCHANNEL_ORIGIN` | Private event proof; optional production backchannel must be an HTTPS origin |
 | Private storage | `STORAGE_ENDPOINT`, `STORAGE_BUCKET`, `STORAGE_REGION`, `STORAGE_ACCESS_KEY`, `STORAGE_SECRET_KEY` | Private least-privilege object access; readiness needs bucket-head permission |
 | Web source | `VITE_API_BASE` | Optional public API origin override; same-origin `/api/v1` is default |
 | Android source | `API_BASE_URL`, `OIDC_ISSUER`, `OIDC_DISCOVERY_URL`, `OIDC_CLIENT_ID`, `LOCAL_STAGING` | Public build-time values; no client secret/service-role key |
 
+Account settings require `ACCOUNT_SETTINGS_ENABLED=true` and reviewed identity flows. Keep the flag false until those flows pass acceptance.
+
 ## Production constraints
 
-Production requires a nonblank `IDENTITY_EVENT_SECRET` for revocation events, a shared browser/mobile issuer, OIDC, secure sessions, a confidential web client secret, public HTTPS identity/web/callback URLs, explicit CORS origins and configured storage credentials. These validators reject obviously unsafe configuration; they do not prove DNS/TLS, cookie, callback, privacy or backup acceptance.
+Production requires a nonblank `IDENTITY_EVENT_SECRET` for revocation events, a shared browser/mobile issuer, OIDC, secure sessions, a confidential web client secret, public HTTPS identity/web/callback URLs, explicit HTTPS CORS origins without paths, a callback on the exact web origin, and HTTPS private storage with configured credentials. These validators reject obviously unsafe configuration; they do not prove DNS/TLS, cookie, callback, privacy or backup acceptance.
 
 The API retains legacy Supabase settings for migration/claim compatibility. Their existence does not mean current client flows are configured through Supabase or email-only operator lists. Read actual capability checks before granting access.
 

@@ -1,7 +1,7 @@
 ---
 title: "Interpret community observations"
 description: "Keep reported conditions separate from lab data and model outputs."
-sourceRevision: 64c91444a804202f5a524da203b3b2d800d582d1
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
 lastVerified: 2026-10-19
 ---
 
@@ -9,12 +9,12 @@ Open `/dashboard` and use **Approved community wastewater** to show or hide the 
 
 ## What the public projection includes
 
-The API allowlists category, condition/reading fields appropriate to the contract, rounded location and observation timestamps. It excludes private identity, free-text notes, exact original coordinates and media paths. Rounded map positions must not be used to identify the original reporting location.
+The v1 compatibility API allowlists category and condition/reading fields; v2 exposes protocol-qualified observation fields appropriate to its public contract, rounded location and observation timestamps. It excludes private identity, free-text notes, exact original coordinates and media paths. Rounded map positions must not be used to identify the original reporting location.
 
 <Steps><Step>
 ### Check provenance
 
-Read the reported condition and observation date. Normal/warning/critical describe the citizen's reported wastewater condition, not an automatically measured plant alert.
+Read the reported condition or observation type and date. V2 visual presence/appearance observations and instrument readings have different meaning and provenance. Normal/warning/critical describe the citizen's reported wastewater condition, not an automatically measured plant alert.
 </Step><Step>
 ### Handle absence correctly
 

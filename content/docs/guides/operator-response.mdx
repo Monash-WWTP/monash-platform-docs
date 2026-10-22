@@ -1,0 +1,16 @@
+---
+title: "Respond to citizen reports"
+description: "Track operational action separately from publication and scientific validation."
+sourceRevision: 383783d6dcf8f5a66efe4c3e24fdf09201b2c599
+lastVerified: 2026-10-22
+---
+
+A verified account needs `report:respond` and MFA to use `/dashboard/operations`. Review capability and scenario capability do not automatically grant operational response access.
+
+The queue supports unassigned, assigned, investigating and closed states. Open a report to inspect its private content and response history. Choose an eligible responder, associate an approved registry plant or station, record inspection evidence or action, and close with a disposition. Reopen when further work is needed.
+
+Each action requires a reason and the expected response revision. Inspection records a result (confirmed, not confirmed or unable to verify), a timezone-aware observation time and evidence/method note. Action and closure require a note. A concurrent update returns 409; reload and review the new history before retrying.
+
+The event log preserves who acted and the recorded reason/context. Operational closure does not approve a report for publication, certify a measurement or authorize model decision use. Keep sensitive details within authorized workflows.
+
+<SourceLinks paths={["apps/dashboard/src/pages/OperationsReportsPage.tsx", "services/api/app/routers/operator_response.py", "services/api/app/reporting/operator_response.py", "services/api/app/services/operator_response.py"]} />
